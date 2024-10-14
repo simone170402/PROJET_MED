@@ -9,11 +9,14 @@ import jakarta.persistence.ManyToMany;
 public class Administrateur extends Utilisateur {
     @ManyToMany
     private List<Centre> centres;
-    // Getters and setters
 
-    public void setId(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
+    // Getters and setters
+    public List<Centre> getCentres() {
+        return centres;
+    }
+
+    public void setCentres(List<Centre> centres) {
+        this.centres = centres;
     }
 }
 

@@ -1,36 +1,52 @@
 package org.example.Services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.example.Entities.Medecin;
-import org.example.Repositories.MedecinRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.Exceptions.MedecinNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MedecinService {
-    @Autowired
-    private MedecinRepository medecinRepository;
+    private Map<Long, Medecin> medecinMap = new HashMap<>();
+    private Long currentId = 1L;
 
-    public List<Medecin> getAllMedecins() {
-        return medecinRepository.findAll();
+    public Medecin findOneById(Long id) {
+        if (!medecinMap.containsKey(id)) {
+            throw new MedecinNotFoundException("Medecin with id " + id + " not found.");
+        }
+        return medecinMap.get(id);
     }
 
-    public Medecin getMedecinById(Long id) {
-        return medecinRepository.findById(id).orElse(null);
+    public List<Medecin> findAll() {
+        return new ArrayList<>(medecinMap.values());
     }
 
-    public Medecin createOrUpdateMedecin(Medecin medecin) {
-        return medecinRepository.save(medecin);
+    public Medecin save(Medecin medecin) {
+        medecin.setId(currentId);
+        medecinMap.put(currentId, medecin);
+        currentId++;
+        return medecin;
     }
 
-    public void deleteMedecin(Long id) {
-        medecinRepository.deleteById(id);
+    public Medecin update(Long id, Medecin medecin) {
+        if (!medecinMap.containsKey(id)) {
+            throw new MedecinNotFoundException("Medecin with id " + id + " not found.");
+        }
+        medecin.setId(id);
+        medecinMap.put(id, medecin);
+        return medecin;
     }
 
-    public List<Medecin> searchMedecinsByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchMedecinsByName'");
+    public void delete(Long id) {
+        if (!medecinMap.containsKey(id)) {
+            throw new MedecinNotFoundException("Medecin with id " + id + " not found.");
+        }
+        medecinMap.remove(id);
     }
 }
+
 
