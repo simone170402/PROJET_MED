@@ -1,36 +1,60 @@
 package org.example.Services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.example.Entities.Patient;
-import org.example.Repositories.PatientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.Exceptions.PatientNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PatientService {
-    @Autowired
-    private PatientRepository patientRepository;
+    private Map<Long, Patient> patientMap = new HashMap<>();
+    private Long currentId = 1L;
 
-    public List<Patient> getAllPatients() {
-        return patientRepository.findAll();
+    public Patient findOneById(Long id) {
+        if (!patientMap.containsKey(id)) {
+            throw new PatientNotFoundException("Patient with id " + id + " not found.");
+        }
+        return patientMap.get(id);
     }
 
-    public Patient getPatientById(Long id) {
-        return patientRepository.findById(id).orElse(null);
+    public List<Patient> findAll() {
+        return new ArrayList<>(patientMap.values());
     }
 
-    public Patient createOrUpdatePatient(Patient patient) {
-        return patientRepository.save(patient);
+    public Patient save(Patient patient) {
+        patient.setId(currentId);
+        patientMap.put(currentId, patient);
+        currentId++;
+        return patient;
     }
 
-    public void deletePatient(Long id) {
-        patientRepository.deleteById(id);
+    public Patient update(Long id, Patient patient) {
+        if (!patientMap.containsKey(id)) {
+            throw new PatientNotFoundException("Patient with id " + id + " not found.");
+        }
+        patient.setId(id);
+        patientMap.put(id, patient);
+        return patient;
     }
 
-    public List<Patient> searchPatientsByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchPatientsByName'");
+    public void delete(Long id) {
+        if (!patientMap.containsKey(id)) {
+            throw new PatientNotFoundException("Patient with id " + id + " not found.");
+        }
+        patientMap.remove(id);
+    }
+
+    public List<Patient> findByNameStartsWith(String name) {
+        List<Patient> patients = new ArrayList<>();
+        for (Patient patient : patientMap.values()) {
+            if (patient.getName().startsWith(name)) {
+                patients.add(patient);
+            }
+        }
+        return patients;
     }
 }
-

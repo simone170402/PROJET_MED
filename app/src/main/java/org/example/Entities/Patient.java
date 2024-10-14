@@ -25,4 +25,8 @@ public class Patient {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setId'");
     }
+    public String getName() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getName'");
+    }
 }

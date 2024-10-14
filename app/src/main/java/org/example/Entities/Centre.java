@@ -14,9 +14,8 @@ public class Centre {
     private String city;
     private String address;
     private String phoneNumber;
-    public void setId(Long id2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
+    public void setId(Long id) {
+        this.id = id;
     }
 
     // Getters and setters
