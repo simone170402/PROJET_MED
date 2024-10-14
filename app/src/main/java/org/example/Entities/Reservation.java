@@ -22,5 +22,13 @@ public class Reservation {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setId'");
     }
+    public void setPatient(Patient patient1) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPatient'");
+    }
+    public void setDate(Date date2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setDate'");
+    }
 }
 
