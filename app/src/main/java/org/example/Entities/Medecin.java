@@ -14,7 +14,7 @@ public class Medecin extends Utilisateur {
     private String email;
     @ManyToOne
     private Centre centre;
-    @OneToMany(mappedBy = "medecin")
+    @OneToMany
     private List<Patient> patients;
 
     // Getters and setters

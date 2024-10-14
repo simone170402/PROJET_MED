@@ -23,58 +23,5 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx, PatientService patientService, MedecinService medecinService, ReservationService reservationService) {
-        return args -> {
-            // Test PatientService
-            System.out.println("Testing PatientService:");
-            Patient patient1 = new Patient();
-            patient1.setName("John");
-            patient1.setName("Doe");
-            patient1.setEmail("john.doe@example.com");
-            patientService.save(patient1);
-
-            Patient patient2 = new Patient();
-            patient2.setName("Jane");
-            patient2.setName("Doe");
-            patient2.setEmail("jane.doe@example.com");
-            patientService.save(patient2);
-
-            System.out.println("Find all patients: " + patientService.findAll());
-            System.out.println("Find patient with ID 1: " + patientService.findOneById(1L));
-            System.out.println("Find patients with name starting with 'Ja': " + patientService.findByNameStartsWith("Ja"));
-            patientService.delete(2L);
-
-            // Test MedecinService
-            System.out.println("Testing MedecinService:");
-            Medecin medecin1 = new Medecin();
-            medecin1.setName("Dr. House");
-            medecinService.save(medecin1);
-
-            Medecin medecin2 = new Medecin();
-            medecin2.setName("Dr. Grey");
-            medecinService.save(medecin2);
-
-            System.out.println("Find all medecins: " + medecinService.findAll());
-            System.out.println("Find medecin with ID 1: " + medecinService.findOneById(1L));
-            medecinService.delete(2L);
-
-            // Test ReservationService
-            System.out.println("Testing ReservationService:");
-            Reservation reservation1 = new Reservation();
-            reservation1.setPatient(patient1);
-            reservation1.setDate(new Date());
-            reservationService.save(reservation1);
-
-            Reservation reservation2 = new Reservation();
-            reservation2.setPatient(patient2);
-            reservation2.setDate(new Date());
-            reservationService.save(reservation2);
-
-            System.out.println("Find all reservations: " + reservationService.findAll());
-            System.out.println("Find reservation with ID 1: " + reservationService.findOneById(1L));
-            reservationService.delete(2L);
-        };
-    }
 }
 

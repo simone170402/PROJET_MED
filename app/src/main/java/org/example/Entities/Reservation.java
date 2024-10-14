@@ -12,11 +12,12 @@ import jakarta.persistence.ManyToOne;
 public class Reservation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private boolean ReservationStatus;
     @ManyToOne
     private Patient patient;
     @ManyToOne
     private Centre centre;
-    private Date date;
+    private Date date_reservation;
 
     // Getters and setters
     public Long getId() {
@@ -35,6 +36,14 @@ public class Reservation {
         this.patient = patient;
     }
 
+    public boolean isReservationStatus() {
+        return ReservationStatus;
+    }
+
+    public void setReservationStatus(boolean reservationStatus) {
+        ReservationStatus = reservationStatus;
+    }
+
     public Centre getCentre() {
         return centre;
     }
@@ -44,11 +53,11 @@ public class Reservation {
     }
 
     public Date getDate() {
-        return date;
+        return date_reservation;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.date_reservation = date;
     }
 
 }
