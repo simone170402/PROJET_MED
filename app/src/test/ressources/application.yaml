@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/reservationVaccinationMain
+    url: jdbc:postgresql://localhost:5432/reservation_vaccination_main
     username: postgres
     password: Admin
   

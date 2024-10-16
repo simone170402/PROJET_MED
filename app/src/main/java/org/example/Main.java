@@ -3,19 +3,8 @@
  */
 package org.example;
 
-import java.util.Date;
-
-import org.example.Entities.Medecin;
-import org.example.Entities.Patient;
-import org.example.Entities.Reservation;
-import org.example.Services.MedecinService;
-import org.example.Services.PatientService;
-import org.example.Services.ReservationService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Main {
