@@ -1,0 +1,97 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e9ecef;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #2c3e50, #34495e, #5d6d7e);
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-left .logo {
+    height: 60px;
+}
+
+/* Conteneur centré pour le titre et la navigation */
+.header-center {
+    display: flex;
+    flex-direction: column; /* Met en colonne */
+    align-items: center; /* Centre le titre et le menu */
+    text-align: center; /* Centre le texte */
+}
+
+.header-center h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #e4b321;
+}
+
+.header-center nav {
+    margin-top: 70px;
+}
+
+.header-center nav a {
+    margin: 0 20px;
+    text-decoration: none;
+    color: #e4b321;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.header-center nav a:hover,
+.header-center nav a.active {
+    color: #fff;
+    border-bottom: 2px solid #ffc107;
+}
+
+/* Container for aligning the login button and user icon */
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+/* Login button styling */
+.login-button {
+    background-color: #343a40; /* Adjust background color as needed */
+    color: #ffffff;
+    padding: 10px 15px;
+    border-top-left-radius: 25px; /* Round left corner */
+    border-bottom-left-radius: 25px; /* Round left corner */
+    border-right: none; /* Remove right border to blend with icon */
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: 2px solid #fff !important; /* Set border property */
+}
+
+/* User icon styling */
+.user-icon {
+    font-size: 25px;
+    color: #ffc107; /* Adjust color if needed */
+    background-color: #343a40; /* Match background with the login button */
+    padding: 10px; /* Padding to align icon with button height */
+    border-top-right-radius: 25px; /* Round right corner */
+    border-bottom-right-radius: 25px; /* Round right corner */
+    border-left: none; /* Remove left border to blend with button */
+    margin-left: -5px; /* Overlap to create seamless effect */
+    border-right: 2px solid #ffffff !important; /* Set border property */
+}
+
+
+
+/* Hover effect for login button */
+.login-button:hover {
+    background-color: #2d4373; /* Slightly darker color on hover */
+}
+
+/* Hover effect for user icon */
+.user-icon:hover {
+    color: #ffffff;
+}

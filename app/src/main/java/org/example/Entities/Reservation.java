@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToOne;
 public class Reservation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean ReservationStatus;
+    private String ReservationStatus;
     @ManyToOne
     private Patient patient;
     @ManyToOne
@@ -36,11 +36,11 @@ public class Reservation {
         this.patient = patient;
     }
 
-    public boolean isReservationStatus() {
+    public String isReservationStatus() {
         return ReservationStatus;
     }
 
-    public void setReservationStatus(boolean reservationStatus) {
+    public void setReservationStatus(String reservationStatus) {
         ReservationStatus = reservationStatus;
     }
 

@@ -2,7 +2,6 @@ package org.example.Entities;
 
 import java.util.List;
 
-import org.checkerframework.checker.units.qual.g;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;

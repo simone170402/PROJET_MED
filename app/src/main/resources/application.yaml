@@ -1,10 +1,15 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/reservationVaccinationMain
+    url: jdbc:postgresql://localhost:5432/reservation_vaccination
     username: postgres
-    password: Admin
+    password: simone
   
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate.ddl-auto: create
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always

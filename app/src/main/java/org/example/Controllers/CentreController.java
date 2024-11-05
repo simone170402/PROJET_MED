@@ -45,5 +45,6 @@ public class CentreController {
     public void deleteCentre(@PathVariable Long id) {
         centreService.deleteCentre(id);
     }
+
 }
 

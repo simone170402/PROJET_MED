@@ -17,7 +17,7 @@ public class Patient {
     private String phoneNumber;
     private String email;
     private Date dateOfBirth;
-    private boolean vaccinationStatus;
+    private String vaccinationStatus;
     @ManyToOne
     private Centre centre;
 
@@ -70,11 +70,11 @@ public class Patient {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public boolean isVaccinationStatus() {
+    public String isVaccinationStatus() {
         return vaccinationStatus;
     }
 
-    public void setVaccinationStatus(boolean vaccinationStatus) {
+    public void setVaccinationStatus(String vaccinationStatus) {
         this.vaccinationStatus = vaccinationStatus;
     }
 

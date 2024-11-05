@@ -1,0 +1,188 @@
+/* Footer Container */
+.footer {
+    background: linear-gradient(135deg, #2c3e50, #34495e, #5d6d7e) !important;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 20px;
+}
+
+
+.footer-logo {
+    max-width: 150px;
+    filter: brightness(90%);
+    transition: filter 0.3s;
+}
+
+.footer-logo:hover {
+    filter: brightness(100%);
+}
+
+.footer-slogan {
+    font-style: italic;
+    color: #ffffffcc;
+    margin-top: 10px;
+}
+
+/* Style de la colonne de chaque section */
+.col-md-4 {
+    display: space-between;
+    flex-direction: column;
+}
+
+/* Style des titres dans le footer */
+.footer-heading {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    padding-left: 60px; /* Décale le titre pour l'aligner avec les points des liens */
+    margin: 0; /* Supprime les marges par défaut */
+    text-align: left;
+}
+
+/* Style des liens dans le footer */
+.footer-link {
+    margin-top: 20px;
+    color: #ffffffbb;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+    padding-left: 80px; /* Décalage pour aligner les liens avec le titre */
+    display: block; /* Chaque lien prend toute la largeur de la colonne */
+    text-align: left; /* Assure que le texte est justifié à gauche */
+}
+
+/* Point orange avant chaque lien */
+.footer-link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #ffc107;
+    border-radius: 50%;
+    margin-left: 60px;
+}
+
+.footer-link:hover {
+    color: #e4b321;
+    text-decoration: underline;
+}
+
+/* Styles pour l'intégration du champ de recherche et du bouton */
+.footer-search-group {
+    display: flex;
+    align-items: center;
+    max-width: 600px; /* Ajustez la largeur en fonction de votre besoin */
+}
+
+.footer-search {
+    border-top-left-radius: 20px; /* Coin gauche arrondi */
+    border-bottom-left-radius: 20px; /* Coin gauche arrondi */
+    border-right: none; /* Supprime la bordure entre les deux éléments */
+    background-color: transparent;
+}
+
+.search-btn {
+    border-top-right-radius: 20px; /* Coin droit arrondi */
+    border-bottom-right-radius: 20px; /* Coin droit arrondi */
+    border-left: none; /* Supprime la bordure entre les deux éléments */
+    color: #fff;
+    border-color: #ffffff;
+}
+
+.search-btn:hover {
+    background-color: #0077b5; /* Couleur de fond au survol */
+    color: #3b5998;
+}
+
+.footer-search::placeholder {
+    color: #ffffffcc; /* Ajustez la couleur du placeholder selon votre thème */
+}
+
+.footer-search,
+.search-btn {
+    height: 100%; /* Alignement vertical entre les deux éléments */
+}
+
+.btn-outline-light {
+    border-color: #ffffff !important;
+    color: #ffffff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-light:hover {
+    background-color: #ffffff !important;
+    color: #3b5998;
+}
+
+/* Specific Colors for Social Media Icons */
+.social-icons a {
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease !important;
+    color: #ffffff;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.social-icons a.facebook:hover {
+    background-color: #3b5998 !important;
+}
+
+.social-icons a.twitter:hover {
+    background-color: #1da1f2 !important;
+}
+
+.social-icons a.google:hover {
+    background-color: #db4437 !important;
+}
+
+.social-icons a.instagram:hover {
+    background-color: #e1306c !important;
+}
+
+.social-icons a.linkedin:hover {
+    background-color: #0077b5 !important;
+}
+
+.social-icons a.github:hover {
+    background-color: #333 !important;
+}
+.social-icons a.facebook {
+    background-color: #3b5998 !important;
+}
+
+.social-icons a.twitter {
+    background-color: #1da1f2 !important;
+}
+
+.social-icons a.google {
+    background-color: #db4437 !important;
+}
+
+.social-icons a.instagram {
+    background-color: #e1306c !important;
+}
+
+.social-icons a.linkedin {
+    background-color: #0077b5 !important;
+}
+
+.social-icons a.github {
+    background-color: #333 !important;
+}
+
+
+.footer-bottom {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    font-size: 0.9rem;
+    padding: 10px 0;
+}
