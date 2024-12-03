@@ -4,6 +4,9 @@
     color: #ffffff;
     font-family: 'Roboto', sans-serif;
     padding-top: 20px;
+    bottom: 0;
+    position: fixed;
+    width: 100%;  
 }
 
 
@@ -76,7 +79,8 @@
 .footer-search-group {
     display: flex;
     align-items: center;
-    max-width: 600px; /* Ajustez la largeur en fonction de votre besoin */
+    max-width: 800px; /* Ajustez la largeur en fonction de votre besoin */
+    width: 100%;
 }
 
 .footer-search {
@@ -185,4 +189,5 @@
     background-color: rgba(0, 0, 0, 0.2) !important;
     font-size: 0.9rem;
     padding: 10px 0;
+    
 }

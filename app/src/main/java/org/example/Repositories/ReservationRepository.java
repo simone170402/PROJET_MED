@@ -1,5 +1,6 @@
 package org.example.Repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.example.Entities.Reservation;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByPatientId(Long patientId);
     List<Reservation> findByCentreId(Long centreId);
-    List<Reservation> findByDateReservation(String dateReservation);
+    List<Reservation> findByDateReservation(Date dateReservation);
     List<Reservation> findByReservationStatus(String reservationStatus);
 }
 

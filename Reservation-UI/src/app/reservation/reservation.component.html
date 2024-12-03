@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <h1 class="mb-4 text-center">Réserver un créneau</h1>
+
+  <form (ngSubmit)="reserve()" class="needs-validation" novalidate>
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input [(ngModel)]="reservation.nom" name="nom" id="nom" class="form-control" placeholder="Nom" required />
+      <div class="invalid-feedback">Veuillez entrer votre nom.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="prenom">Prénom</label>
+      <input [(ngModel)]="reservation.prenom" name="prenom" id="prenom" class="form-control" placeholder="Prénom" required />
+      <div class="invalid-feedback">Veuillez entrer votre prénom.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input [(ngModel)]="reservation.email" name="email" id="email" class="form-control" placeholder="Email" required />
+      <div class="invalid-feedback">Veuillez entrer votre email.</div>
+    </div>
+
+    
+    <div class="form-group">
+      <label for="telephone">Téléphone</label>
+      <input [(ngModel)]="reservation.telephone" name="telephone" id="telephone" class="form-control" placeholder="Téléphone" required />
+      <div class="invalid-feedback">Veuillez entrer votre numéro de téléphone.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="dateNaissance">Date de naissance</label>
+      <input [(ngModel)]="reservation.dateNaissance" name="dateNaissance" id="dateNaissance" type="date" class="form-control" required />
+      <div class="invalid-feedback">Veuillez entrer votre date de naissance.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="date">Date</label>
+      <select [(ngModel)]="reservation.date" name="date" id="date" class="form-control" required>
+        <option *ngFor="let slot of agenda" [value]="slot.date">{{ slot.date }}</option>
+      </select>
+      <div class="invalid-feedback">Veuillez sélectionner une date.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">Réserver</button>
+  </form>
+</div>
+

@@ -1,0 +1,15 @@
+<div class="container">
+  <h1>Centres de vaccination</h1>
+
+  <div class="form-group">
+    <input [(ngModel)]="city" class="form-control" placeholder="Rechercher par ville" />
+    <button (click)="searchCentresByCity()" class="btn btn-primary">Rechercher</button>
+  </div>
+
+  <ul class="list-group">
+    <li *ngFor="let centre of filteredCentres" class="list-group-item">
+      <span>{{ centre.name }} - {{ centre.city }}</span>
+      <button (click)="chooseCentre(centre.id)" class="btn btn-success">Choisir</button>
+    </li>
+  </ul>
+</div>

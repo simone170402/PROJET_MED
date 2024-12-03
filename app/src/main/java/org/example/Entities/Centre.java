@@ -1,9 +1,12 @@
 package org.example.Entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Centre {
@@ -14,6 +17,9 @@ public class Centre {
     private String city;
     private String address;
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "centre", cascade = CascadeType.ALL)
+    private List<Medecin> medecins;
 
     public void setId(Long id) {
         this.id = id;
@@ -53,5 +59,14 @@ public class Centre {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<Medecin> getMedecins() {
+        return medecins;
+    }
+
+    
+    public void setMedecins(List<Medecin> medecins) {
+        this.medecins = medecins;
     }
 }

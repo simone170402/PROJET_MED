@@ -8,15 +8,6 @@ import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Administrateur extends Utilisateur {
-    private String role;
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     @ManyToMany
     private List<Centre> centres;

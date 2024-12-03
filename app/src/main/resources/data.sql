@@ -126,7 +126,172 @@ INSERT INTO utilisateur (id, name, surname, phone_number, email, password) VALUE
 (57, 'William', 'Gibson', '0634567894', 'william.gibson2@example.com', 'password125'),
 (58, 'Neal', 'Stephenson', '0645678905', 'neal.stephenson2@example.com', 'password126'),
 (59, 'Margaret', 'Atwood', '0656789016', 'margaret.atwood2@example.com', 'password127'),
-(60, 'Kurt', 'Vonnegut', '0667890127', 'kurt.vonnegut2@example.com', 'password128');
+(60, 'Kurt', 'Vonnegut', '0667890127', 'kurt.vonnegut2@example.com', 'password128'),
+(61, 'Medecin', 'One', '0612345673', 'medecin.one@example.com', 'password123'),
+(62, 'Medecin', 'Two', '0623456784', 'medecin.two@example.com', 'password123'),
+(63, 'Medecin', 'Three', '0634567895', 'medecin.three@example.com', 'password123'),
+(64, 'Medecin', 'Four', '0645678906', 'medecin.four@example.com', 'password123'),
+(65, 'Medecin', 'Five', '0656789017', 'medecin.five@example.com', 'password123'),
+(66, 'Medecin', 'Six', '0667890128', 'medecin.six@example.com', 'password123'),
+(67, 'Medecin', 'Seven', '0678901239', 'medecin.seven@example.com', 'password123'),
+(68, 'Medecin', 'Eight', '0689012340', 'medecin.eight@example.com', 'password123'),
+(69, 'Medecin', 'Nine', '0690123451', 'medecin.nine@example.com', 'password123'),
+(70, 'Medecin', 'Ten', '0612345674', 'medecin.ten@example.com', 'password123'),
+(71, 'Medecin', 'Eleven', '0623456785', 'medecin.eleven@example.com', 'password123'),
+(72, 'Medecin', 'Twelve', '0634567896', 'medecin.twelve@example.com', 'password123'),
+(73, 'Medecin', 'Thirteen', '0645678907', 'medecin.thirteen@example.com', 'password123'),
+(74, 'Medecin', 'Fourteen', '0656789018', 'medecin.fourteen@example.com', 'password123'),
+(75, 'Medecin', 'Fifteen', '0667890129', 'medecin.fifteen@example.com', 'password123'),
+(76, 'Medecin', 'Sixteen', '0678901240', 'medecin.sixteen@example.com', 'password123'),
+(77, 'Medecin', 'Seventeen', '0689012351', 'medecin.seventeen@example.com', 'password123'),
+(78, 'Medecin', 'Eighteen', '0690123462', 'medecin.eighteen@example.com', 'password123'),
+(79, 'Medecin', 'Nineteen', '0612345685', 'medecin.nineteen@example.com', 'password123'),
+(80, 'Medecin', 'Twenty', '0623456796', 'medecin.twenty@example.com', 'password123'),
+(81, 'Medecin', 'TwentyOne', '0634567907', 'medecin.twentyone@example.com', 'password123'),
+(82, 'Medecin', 'TwentyTwo', '0645678918', 'medecin.twentytwo@example.com', 'password123'),
+(83, 'Medecin', 'TwentyThree', '0656789029', 'medecin.twentythree@example.com', 'password123'),
+(84, 'Medecin', 'TwentyFour', '0667890130', 'medecin.twentyfour@example.com', 'password123'),
+(85, 'Medecin', 'TwentyFive', '0678901251', 'medecin.twentyfive@example.com', 'password123'),
+(86, 'Medecin', 'TwentySix', '0689012362', 'medecin.twentysix@example.com', 'password123'),
+(87, 'Medecin', 'TwentySeven', '0690123473', 'medecin.twentyseven@example.com', 'password123'),
+(88, 'Medecin', 'TwentyEight', '0612345696', 'medecin.twentyeight@example.com', 'password123'),
+(89, 'Medecin', 'TwentyNine', '0623456807', 'medecin.twentynine@example.com', 'password123'),
+(90, 'Medecin', 'Thirty', '0634567918', 'medecin.thirty@example.com', 'password123'),
+(91, 'Medecin', 'ThirtyOne', '0645678929', 'medecin.thirtyone@example.com', 'password123'),
+(92, 'Medecin', 'ThirtyTwo', '0656789030', 'medecin.thirtytwo@example.com', 'password123'),
+(93, 'Medecin', 'ThirtyThree', '0667890141', 'medecin.thirtythree@example.com', 'password123'),
+(94, 'Medecin', 'ThirtyFour', '0678901262', 'medecin.thirtyfour@example.com', 'password123'),
+(95, 'Medecin', 'ThirtyFive', '0689012373', 'medecin.thirtyfive@example.com', 'password123'),
+(96, 'Medecin', 'ThirtySix', '0690123484', 'medecin.thirtysix@example.com', 'password123'),
+(97, 'Medecin', 'ThirtySeven', '0612345707', 'medecin.thirtyseven@example.com', 'password123'),
+(98, 'Medecin', 'ThirtyEight', '0623456818', 'medecin.thirtyeight@example.com', 'password123'),
+(99, 'Medecin', 'ThirtyNine', '0634567929', 'medecin.thirtynine@example.com', 'password123'),
+(100, 'Medecin', 'Forty', '0645678930', 'medecin.forty@example.com', 'password123'),
+(101, 'Medecin', 'FortyOne', '0656789041', 'medecin.fortyone@example.com', 'password123'),
+(102, 'Medecin', 'FortyTwo', '0667890152', 'medecin.fortytwo@example.com', 'password123'),
+(103, 'Medecin', 'FortyThree', '0678901273', 'medecin.fortythree@example.com', 'password123'),
+(104, 'Medecin', 'FortyFour', '0689012384', 'medecin.fortyfour@example.com', 'password123'),
+(105, 'Medecin', 'FortyFive', '0690123495', 'medecin.fortyfive@example.com', 'password123'),
+(106, 'Medecin', 'FortySix', '0612345718', 'medecin.fortysix@example.com', 'password123'),
+(107, 'Medecin', 'FortySeven', '0623456829', 'medecin.fortyseven@example.com', 'password123'),
+(108, 'Medecin', 'FortyEight', '0634567930', 'medecin.fortyeight@example.com', 'password123'),
+(109, 'Medecin', 'FortyNine', '0645678941', 'medecin.fortynine@example.com', 'password123'),
+(110, 'Medecin', 'Fifty', '0656789052', 'medecin.fifty@example.com', 'password123'),
+(111, 'Medecin', 'FiftyOne', '0667890163', 'medecin.fiftyone@example.com', 'password123'),
+(112, 'Medecin', 'FiftyTwo', '0678901284', 'medecin.fiftytwo@example.com', 'password123'),
+(113, 'Medecin', 'FiftyThree', '0689012395', 'medecin.fiftythree@example.com', 'password123'),
+(114, 'Medecin', 'FiftyFour', '0690123506', 'medecin.fiftyfour@example.com', 'password123'),
+(115, 'Medecin', 'FiftyFive', '0612345729', 'medecin.fiftyfive@example.com', 'password123'),
+(116, 'Medecin', 'FiftySix', '0623456830', 'medecin.fiftysix@example.com', 'password123'),
+(117, 'Medecin', 'FiftySeven', '0634567941', 'medecin.fiftyseven@example.com', 'password123'),
+(118, 'Medecin', 'FiftyEight', '0645678952', 'medecin.fiftyeight@example.com', 'password123'),
+(119, 'Medecin', 'FiftyNine', '0656789063', 'medecin.fiftynine@example.com', 'password123'),
+(120, 'Medecin', 'Sixty', '0667890174', 'medecin.sixty@example.com', 'password123'),
+(121, 'Medecin', 'SixtyOne', '0678901295', 'medecin.sixtyone@example.com', 'password123'),
+(122, 'Medecin', 'SixtyTwo', '0689012406', 'medecin.sixtytwo@example.com', 'password123'),
+(123, 'Medecin', 'SixtyThree', '0690123517', 'medecin.sixtythree@example.com', 'password123'),
+(124, 'Medecin', 'SixtyFour', '0612345730', 'medecin.sixtyfour@example.com', 'password123'),
+(125, 'Medecin', 'SixtyFive', '0623456841', 'medecin.sixtyfive@example.com', 'password123'),
+(126, 'Medecin', 'SixtySix', '0634567952', 'medecin.sixtysix@example.com', 'password123'),
+(127, 'Medecin', 'SixtySeven', '0645678963', 'medecin.sixtyseven@example.com', 'password123'),
+(128, 'Medecin', 'SixtyEight', '0656789074', 'medecin.sixtyeight@example.com', 'password123'),
+(129, 'Medecin', 'SixtyNine', '0667890185', 'medecin.sixtynine@example.com', 'password123'),
+(130, 'Medecin', 'Seventy', '0678901306', 'medecin.seventy@example.com', 'password123'),
+(131, 'Medecin', 'SeventyOne', '0689012417', 'medecin.seventyone@example.com', 'password123'),
+(132, 'Medecin', 'SeventyTwo', '0690123528', 'medecin.seventytwo@example.com', 'password123'),
+(133, 'Medecin', 'SeventyThree', '0612345741', 'medecin.seventythree@example.com', 'password123'),
+(134, 'Medecin', 'SeventyFour', '0623456852', 'medecin.seventyfour@example.com', 'password123'),
+(135, 'Medecin', 'SeventyFive', '0634567963', 'medecin.seventyfive@example.com', 'password123'),
+(136, 'Medecin', 'SeventySix', '0645678974', 'medecin.seventysix@example.com', 'password123'),
+(137, 'Medecin', 'SeventySeven', '0656789085', 'medecin.seventyseven@example.com', 'password123'),
+(138, 'Medecin', 'SeventyEight', '0667890196', 'medecin.seventyeight@example.com', 'password123'),
+(139, 'Medecin', 'SeventyNine', '0678901317', 'medecin.seventynine@example.com', 'password123'),
+(140, 'Medecin', 'Eighty', '0689012428', 'medecin.eighty@example.com', 'password123'),
+(141, 'Medecin', 'EightyOne', '0690123539', 'medecin.eightyone@example.com', 'password123'),
+(142, 'Medecin', 'EightyTwo', '0612345752', 'medecin.eightytwo@example.com', 'password123'),
+(143, 'Medecin', 'EightyThree', '0623456863', 'medecin.eightythree@example.com', 'password123'),
+(144, 'Medecin', 'EightyFour', '0634567974', 'medecin.eightyfour@example.com', 'password123'),
+(145, 'Medecin', 'EightyFive', '0645678985', 'medecin.eightyfive@example.com', 'password123'),
+(146, 'Medecin', 'EightySix', '0656789096', 'medecin.eightysix@example.com', 'password123'),
+(147, 'Medecin', 'EightySeven', '0667890207', 'medecin.eightyseven@example.com', 'password123'),
+(148, 'Medecin', 'EightyEight', '0678901328', 'medecin.eightyeight@example.com', 'password123'),
+(149, 'Medecin', 'EightyNine', '0689012439', 'medecin.eightynine@example.com', 'password123'),
+(150, 'Medecin', 'Ninety', '0690123540', 'medecin.ninety@example.com', 'password123'),
+(151, 'Medecin', 'NinetyOne', '0612345763', 'medecin.ninetyone@example.com', 'password123'),
+(152, 'Medecin', 'NinetyTwo', '0623456874', 'medecin.ninetytwo@example.com', 'password123'),
+(153, 'Medecin', 'NinetyThree', '0634567985', 'medecin.ninetythree@example.com', 'password123'),
+(154, 'Medecin', 'NinetyFour', '0645678996', 'medecin.ninetyfour@example.com', 'password123'),
+(155, 'Medecin', 'NinetyFive', '0656789107', 'medecin.ninetyfive@example.com', 'password123'),
+(156, 'Medecin', 'NinetySix', '0667890218', 'medecin.ninetysix@example.com', 'password123'),
+(157, 'Medecin', 'NinetySeven', '0678901339', 'medecin.ninetyseven@example.com', 'password123'),
+(158, 'Medecin', 'NinetyEight', '0689012440', 'medecin.ninetyeight@example.com', 'password123'),
+(159, 'Medecin', 'NinetyNine', '0690123551', 'medecin.ninetynine@example.com', 'password123'),
+(160, 'Medecin', 'OneHundred', '0612345774', 'medecin.onehundred@example.com', 'password123'),
+(161, 'Medecin', 'OneHundredOne', '0623456885', 'medecin.onehundredone@example.com', 'password123'),
+(162, 'Medecin', 'OneHundredTwo', '0634567996', 'medecin.onehundredtwo@example.com', 'password123'),
+(163, 'Medecin', 'OneHundredThree', '0645679007', 'medecin.onehundredthree@example.com', 'password123'),
+(164, 'Medecin', 'OneHundredFour', '0656789118', 'medecin.onehundredfour@example.com', 'password123'),
+(165, 'Medecin', 'OneHundredFive', '0667890229', 'medecin.onehundredfive@example.com', 'password123'),
+(166, 'Medecin', 'OneHundredSix', '0678901340', 'medecin.onehundredsix@example.com', 'password123'), 
+(167, 'Medecin', 'OneHundredSixtySeven', '0612345785', 'medecin.onehundredsixtyseven@example.com', 'password123'),
+(168, 'Medecin', 'OneHundredSixtyEight', '0623456896', 'medecin.onehundredsixtyeight@example.com', 'password123'),
+(169, 'Medecin', 'OneHundredSixtyNine', '0634568007', 'medecin.onehundredsixtynine@example.com', 'password123'),
+(170, 'Medecin', 'OneHundredSeventy', '0645679118', 'medecin.onehundredseventy@example.com', 'password123'),
+(171, 'Medecin', 'OneHundredSeventyOne', '0656789229', 'medecin.onehundredseventyone@example.com', 'password123'),
+(172, 'Medecin', 'OneHundredSeventyTwo', '0667890330', 'medecin.onehundredseventytwo@example.com', 'password123'),
+(173, 'Medecin', 'OneHundredSeventyThree', '0678901441', 'medecin.onehundredseventythree@example.com', 'password123'),
+(174, 'Medecin', 'OneHundredSeventyFour', '0689012552', 'medecin.onehundredseventyfour@example.com', 'password123'),
+(175, 'Medecin', 'OneHundredSeventyFive', '0690123663', 'medecin.onehundredseventyfive@example.com', 'password123'),
+(176, 'Medecin', 'OneHundredSeventySix', '0612345776', 'medecin.onehundredseventysix@example.com', 'password123'),
+(177, 'Medecin', 'OneHundredSeventySeven', '0623456887', 'medecin.onehundredseventyseven@example.com', 'password123'),
+(178, 'Medecin', 'OneHundredSeventyEight', '0634567998', 'medecin.onehundredseventyeight@example.com', 'password123'),
+(179, 'Medecin', 'OneHundredSeventyNine', '0645679009', 'medecin.onehundredseventynine@example.com', 'password123'),
+(180, 'Medecin', 'OneHundredEighty', '0656789110', 'medecin.onehundredeighty@example.com', 'password123'),
+(181, 'Medecin', 'OneHundredEightyOne', '0667890221', 'medecin.onehundredeightyone@example.com', 'password123'),
+(182, 'Medecin', 'OneHundredEightyTwo', '0678901332', 'medecin.onehundredeightytwo@example.com', 'password123'),
+(183, 'Medecin', 'OneHundredEightyThree', '0689012443', 'medecin.onehundredeightythree@example.com', 'password123'),
+(184, 'Medecin', 'OneHundredEightyFour', '0690123554', 'medecin.onehundredeightyfour@example.com', 'password123'),
+(185, 'Medecin', 'OneHundredEightyFive', '0612345665', 'medecin.onehundredeightyfive@example.com', 'password123'),
+(186, 'Medecin', 'OneHundredEightySix', '0623456776', 'medecin.onehundredeightysix@example.com', 'password123'),
+(187, 'Medecin', 'OneHundredEightySeven', '0634567887', 'medecin.onehundredeightyseven@example.com', 'password123'),
+(188, 'Medecin', 'OneHundredEightyEight', '0645678998', 'medecin.onehundredeightyeight@example.com', 'password123'),
+(189, 'Medecin', 'OneHundredEightyNine', '0656789009', 'medecin.onehundredeightynine@example.com', 'password123'),
+(190, 'Medecin', 'OneHundredNinety', '0667890110', 'medecin.onehundredninety@example.com', 'password123'),
+(191, 'Medecin', 'OneHundredNinetyOne', '0678901221', 'medecin.onehundredninetyone@example.com', 'password123'),
+(192, 'Medecin', 'OneHundredNinetyTwo', '0689012332', 'medecin.onehundredninetytwo@example.com', 'password123'),
+(193, 'Medecin', 'OneHundredNinetyThree', '0690123443', 'medecin.onehundredninetythree@example.com', 'password123'),
+(194, 'Medecin', 'OneHundredNinetyFour', '0612345554', 'medecin.onehundredninetyfour@example.com', 'password123'),
+(195, 'Medecin', 'OneHundredNinetyFive', '0623456665', 'medecin.onehundredninetyfive@example.com', 'password123'),
+(196, 'Medecin', 'OneHundredNinetySix', '0634567776', 'medecin.onehundredninetysix@example.com', 'password123'),
+(197, 'Medecin', 'OneHundredNinetySeven', '0645678887', 'medecin.onehundredninetyseven@example.com', 'password123'),
+(198, 'Medecin', 'OneHundredNinetyEight', '0656789998', 'medecin.onehundredninetyeight@example.com', 'password123'),
+(199, 'Medecin', 'OneHundredNinetyNine', '0667890009', 'medecin.onehundredninetynine@example.com', 'password123'),
+(200, 'Medecin', 'TwoHundred', '0678901110', 'medecin.twohundred@example.com', 'password123'),
+(201, 'Medecin', 'TwoHundredOne', '0689012221', 'medecin.twohundredone@example.com', 'password123'),
+(202, 'Medecin', 'TwoHundredTwo', '0690123332', 'medecin.twohundredtwo@example.com', 'password123'),
+(203, 'Medecin', 'TwoHundredThree', '0612344443', 'medecin.twohundredthree@example.com', 'password123'),
+(204, 'Medecin', 'TwoHundredFour', '0623455554', 'medecin.twohundredfour@example.com', 'password123'),
+(205, 'Medecin', 'TwoHundredFive', '0634566665', 'medecin.twohundredfive@example.com', 'password123'),
+(206, 'Medecin', 'TwoHundredSix', '0645677776', 'medecin.twohundredsix@example.com', 'password123'),
+(207, 'Medecin', 'TwoHundredSeven', '0656788887', 'medecin.twohundredseven@example.com', 'password123'),
+(208, 'Medecin', 'TwoHundredEight', '0667899998', 'medecin.twohundredeight@example.com', 'password123'),
+(209, 'Medecin', 'TwoHundredNine', '0678900009', 'medecin.twohundrednine@example.com', 'password123'),
+(210, 'Medecin', 'TwoHundredTen', '0689011110', 'medecin.twohundredten@example.com', 'password123'),
+(211, 'Medecin', 'TwoHundredEleven', '0690122221', 'medecin.twohundredeleven@example.com', 'password123'),
+(212, 'Medecin', 'TwoHundredTwelve', '0612343332', 'medecin.twohundredtwelve@example.com', 'password123'),
+(213, 'Medecin', 'TwoHundredThirteen', '0623454443', 'medecin.twohundredthirteen@example.com', 'password123'),
+(214, 'Medecin', 'TwoHundredFourteen', '0634565554', 'medecin.twohundredfourteen@example.com', 'password123'),
+(215, 'Medecin', 'TwoHundredFifteen', '0645676665', 'medecin.twohundredfifteen@example.com', 'password123'),
+(216, 'Medecin', 'TwoHundredSixteen', '0656787776', 'medecin.twohundredsixteen@example.com', 'password123'),
+(217, 'Medecin', 'TwoHundredSeventeen', '0667898887', 'medecin.twohundredseventeen@example.com', 'password123'),
+(218, 'Medecin', 'TwoHundredEighteen', '0678909998', 'medecin.twohundredeighteen@example.com', 'password123'),
+(219, 'Medecin', 'TwoHundredNineteen', '0689010009', 'medecin.twohundrednineteen@example.com', 'password123'),
+(220, 'Medecin', 'TwoHundredTwenty', '0690121110', 'medecin.twohundredtwenty@example.com', 'password123'),
+(221, 'Medecin', 'TwoHundredTwentyOne', '0612342221', 'medecin.twohundredtwentyone@example.com', 'password123'),
+(222, 'Medecin', 'TwoHundredTwentyTwo', '0623453332', 'medecin.twohundredtwentytwo@example.com', 'password123'),
+(223, 'Medecin', 'TwoHundredTwentyThree', '0634564443', 'medecin.twohundredtwentythree@example.com', 'password123'),
+(224, 'Medecin', 'TwoHundredTwentyFour', '0645675554', 'medecin.twohundredtwentyfour@example.com', 'password123'),
+(225, 'Medecin', 'TwoHundredTwentyFive', '0656786665', 'medecin.twohundredtwentyfive@example.com', 'password123');
 
 
 -- Ajoutez plus de médecins similaires jusqu'à 25 médecins
@@ -159,3 +324,421 @@ INSERT INTO reservation (patient_id, centre_id, date_reservation, reservation_st
 (24, 24, '2024-12-18', 'CONFIRMED'),
 (25, 25, '2024-11-23', 'PENDING'); 
 -- Continuez jusqu'à 50 réservations avec des dates, centres et statuts variés
+
+-- Insertion de médecins fictifs
+INSERT INTO medecin (id,centre_id) VALUES 
+(1,   1),
+(2,   1),
+(3,   1),
+(4,   1),
+(5,   1),
+(6,   2),
+(7,   2),
+(8,   2),
+(9,   2),
+(10,  2),
+(11,  3),
+(12,  3),
+(13,  3),
+(14,  3),
+(15,  3),
+(16,  4),
+(17,  4),
+(18,  4),
+(19,  4),
+(20,  4),
+(21,  5),
+(22,  5),
+(23,  5),
+(24,  5),
+(25,  5),
+(26,  6),
+(27,  6),
+(28,  6),
+(29,  6),
+(30,  6),
+(31,  7),
+(32,  7),
+(33,  7),
+(34,  7),
+(35,  7),
+(36,  8),
+(37,  8),
+(38,  8),
+(39,  8),
+(40,  8),
+(41,  9),
+(42,  9),
+(43,  9),
+(44,  9),
+(45,  9),
+(46,  10),
+(47,  10),
+(48,  10),
+(49,  10),
+(50,  10),
+(51,  11),
+(52,  11),
+(53,  11),
+(54,  11),
+(55,  11),
+(56,  12),
+(57,  12),
+(58,  12),
+(59,  12),
+(60,  12),
+(61,  13),
+(62,  13),
+(63,  13),
+(64,  13),
+(65,  13),
+(66,  14),
+(67,  14),
+(68,  14),
+(69,  14),
+(70,  14),
+(71,  15),
+(72,  15),
+(73,  15),
+(74,  15),
+(75,  15),
+(76,  16),
+(77,  16),
+(78,  16),
+(79,  16),
+(80,  16),
+(81,  17),
+(82,  17),
+(83,  17),
+(84,  17),
+(85,  17),
+(86,  18),
+(87,  18),
+(88,  18),
+(89,  18),
+(90,  18),
+(91,  19),
+(92,  19),
+(93,  19),
+(94,  19),
+(95,  19),
+(96,  20),
+(97,  20),
+(98,  20),
+(99,  20),
+(100, 20),
+(101, 21),
+(102, 21),
+(103, 21),
+(104, 21),
+(105, 21),
+(106, 22),
+(107, 22),
+(108, 22),
+(109, 22),
+(110, 22),
+(111, 23),
+(112, 23),
+(113, 23),
+(114, 23),
+(115, 23),
+(116, 24),
+(117, 24),
+(118, 24),
+(119, 24),
+(120, 24),
+(121, 25),
+(122, 25),
+(123, 25),
+(124, 25),
+(125, 25),
+(126, 26),
+(127, 26),
+(128, 26),
+(129, 26),
+(130, 26),
+(131, 27),
+(132, 27),
+(133, 27),
+(134, 27),
+(135, 27),
+(136, 28),
+(137, 28),
+(138, 28),
+(139, 28),
+(140, 28),
+(141, 29),
+(142, 29),
+(143, 29),
+(144, 29),
+(145, 29),
+(146, 30),
+(147, 30),
+(148, 30),
+(149, 30),
+(150, 30),
+(151, 31),
+(152, 31),
+(153, 31),
+(154, 31),
+(155, 31),
+(156, 32),
+(157, 32),
+(158, 32),
+(159, 32),
+(160, 32),
+(161, 33),
+(162, 33),
+(163, 33),
+(164, 33),
+(165, 33);
+
+
+-- Ajoutez plus de médecins similaires jusqu'à 25 médecins
+-- Insertion de rôles pour les utilisateurs
+INSERT INTO role (id, name) VALUES 
+(1, 'ADMINISTRATEUR'),
+(2, 'MEDECIN'),
+(3, 'PATIENT');
+
+-- Association des utilisateurs avec leurs rôles
+INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES 
+(1, 2), -- Jean Dupont est un médecin
+(2, 2), -- Marie Curie est un médecin
+(3, 2), -- Albert Einstein est un médecin
+(4, 2), -- Isaac Newton est un médecin
+(5, 2), -- Galileo Galilei est un médecin
+(6, 2), -- Charles Darwin est un médecin
+(7, 2), -- Nikola Tesla est un médecin
+(8, 2), -- Leonardo da Vinci est un médecin
+(9, 2), -- Thomas Edison est un médecin
+(10, 2), -- Alexander Graham Bell est un médecin
+(11, 2), -- Marie Lavoisier est un administrateur
+(12, 2), -- Louis Pasteur est un administrateur
+(13, 1), -- Gregor Mendel est un administrateur
+(14, 1), -- James Watson est un administrateur
+(15, 1), -- Francis Crick est un administrateur
+(16, 1), -- Rosalind Franklin est un administrateur
+(17, 1), -- Ada Lovelace est un administrateur
+(18, 1), -- Alan Turing est un administrateur
+(19, 1), -- Grace Hopper est un administrateur
+(20, 1), -- Katherine Johnson est un administrateur
+(21, 1), -- Dorothy Vaughan est un administrateur
+(22, 1), -- Mary Jackson est un administrateur
+(23, 1), -- Carl Sagan est un administrateur
+(24, 1), -- Neil Armstrong est un administrateur
+(25, 1), -- Buzz Aldrin est un administrateur
+(26, 1), -- Yuri Gagarin est un administrateur
+(27, 1), -- Sally Ride est un administrateur
+(28, 1), -- Mae Jemison est un administrateur
+(29, 1), -- Valentina Tereshkova est un administrateur
+(30, 1), -- Chris Hadfield est un administrateur
+(31, 3), -- Isaac Asimov est un patient
+(32, 3), -- Arthur Clarke est un patient
+(33, 3), -- H.G. Wells est un patient
+(34, 3), -- Jules Verne est un patient
+(35, 3), -- Philip Dick est un patient
+(36, 3), -- Ray Bradbury est un patient
+(37, 3), -- Robert Heinlein est un patient
+(38, 3), -- Frank Herbert est un patient
+(39, 3), -- Ursula Le Guin est un patient
+(40, 3), -- William Gibson est un patient
+(41, 3), -- Neal Stephenson est un patient
+(42, 3), -- Margaret Atwood est un patient
+(43, 3), -- Kurt Vonnegut est un patient
+(44, 3), -- Aldous Huxley est un patient
+(45, 3), -- George Orwell est un patient
+(46, 3), -- Douglas Adams est un patient
+(47, 3), -- Terry Pratchett est un patient
+(48, 3), -- Isaac Asimov est un patient
+(49, 3), -- Arthur Clarke est un patient
+(50, 3), -- H.G. Wells est un patient
+(51, 3), -- Jules Verne est un patient
+(52, 3), -- Philip Dick est un patient
+(53, 3), -- Ray Bradbury est un patient
+(54, 3), -- Robert Heinlein est un patient
+(55, 3), -- Frank Herbert est un patient
+(56, 3), -- Ursula Le Guin est un patient
+(57, 3), -- William Gibson est un patient
+(58, 3), -- Neal Stephenson est un patient
+(59, 3), -- Margaret Atwood est un patient
+(60, 3), -- Kurt Vonnegut est un patient;
+(61, 2), -- Medecin One est un médecin
+(62, 2), -- Medecin Two est un médecin
+(63, 2), -- Medecin Three est un médecin
+(64, 2), -- Medecin Four est un médecin
+(65, 2), -- Medecin Five est un médecin
+(66, 2), -- Medecin Six est un médecin
+(67, 2), -- Medecin Seven est un médecin
+(68, 2), -- Medecin Eight est un médecin
+(69, 2), -- Medecin Nine est un médecin
+(70, 2), -- Medecin Ten est un médecin
+(71, 2), -- Medecin Eleven est un médecin
+(72, 2), -- Medecin Twelve est un médecin
+(73, 2), -- Medecin Thirteen est un médecin
+(74, 2), -- Medecin Fourteen est un médecin
+(75, 2), -- Medecin Fifteen est un médecin
+(76, 2), -- Medecin Sixteen est un médecin
+(77, 2), -- Medecin Seventeen est un médecin
+(78, 2), -- Medecin Eighteen est un médecin
+(79, 2), -- Medecin Nineteen est un médecin
+(80, 2), -- Medecin Twenty est un médecin
+(81, 2), -- Medecin TwentyOne est un médecin
+(82, 2), -- Medecin TwentyTwo est un médecin
+(83, 2), -- Medecin TwentyThree est un médecin
+(84, 2), -- Medecin TwentyFour est un médecin
+(85, 2), -- Medecin TwentyFive est un médecin
+(86, 2), -- Medecin TwentySix est un médecin
+(87, 2), -- Medecin TwentySeven est un médecin
+(88, 2), -- Medecin TwentyEight est un médecin
+(89, 2), -- Medecin TwentyNine est un médecin
+(90, 2), -- Medecin Thirty est un médecin
+(91, 2), -- Medecin ThirtyOne est un médecin
+(92, 2), -- Medecin ThirtyTwo est un médecin
+(93, 2), -- Medecin ThirtyThree est un médecin
+(94, 2), -- Medecin ThirtyFour est un médecin
+(95, 2),
+(96, 2),
+(97, 2),
+(98, 2),
+(99, 2),
+(100, 2),
+(101, 2),
+(102, 2),
+(103, 2),
+(104, 2),
+(105, 2),
+(106, 2),
+(107, 2),
+(108, 2),
+(109, 2),
+(110, 2),
+(111, 2),
+(112, 2),
+(113, 2),
+(114, 2),
+(115, 2),
+(116, 2),
+(117, 2),
+(118, 2),
+(119, 2),
+(120, 2),
+(121, 2),
+(122, 2),
+(123, 2),
+(124, 2),
+(125, 2),
+(126, 2),
+(127, 2),
+(128, 2),
+(129, 2),
+(130, 2),
+(131, 2),
+(132, 2),
+(133, 2),
+(134, 2),
+(135, 2),
+(136, 2),
+(137, 2),
+(138, 2),
+(139, 2),
+(140, 2),
+(141, 2),
+(142, 2),
+(143, 2),
+(144, 2),
+(145, 2),
+(146, 2),
+(147, 2),
+(148, 2),
+(149, 2),
+(150, 2),
+(151, 2),
+(152, 2),
+(153, 2),
+(154, 2),
+(155, 2),
+(156, 2),
+(157, 2),
+(158, 2),
+(159, 2),
+(160, 2),
+(161, 2),
+(162, 2),
+(163, 2),
+(164, 2),
+(165, 2),
+(166, 2),
+(167, 2),
+(168, 2),
+(169, 2),
+(170, 2),
+(171, 2),
+(172, 2),
+(173, 2),
+(174, 2),
+(175, 2),
+(176, 2),
+(177, 2),
+(178, 2),
+(179, 2),
+(180, 2),
+(181, 2),
+(182, 2),
+(183, 2),
+(184, 2),
+(185, 2),
+(186, 2),
+(187, 2),
+(188, 2),
+(189, 2),
+(190, 2),
+(191, 2),
+(192, 2),
+(193, 2),
+(194, 2),
+(195, 2),
+(196, 2),
+(197, 2),
+(198, 2),
+(199, 2),
+(200, 2),
+(201, 2),
+(202, 2),
+(203, 2),
+(204, 2),
+(205, 2),
+(206, 2),
+(207, 2),
+(208, 2),
+(209, 2),
+(210, 2),
+(211, 2),
+(212, 2),
+(213, 2),
+(214, 2),
+(215, 2),
+(216, 2),
+(217, 2),
+(218, 2),
+(219, 2),
+(220, 2),
+(221, 2),
+(222, 2),
+(223, 2),
+(224, 2),
+(225, 2);
+-- Update the roles for the first 165 users to be doctors
+UPDATE utilisateur_role SET role_id = 2 WHERE utilisateur_id <= 165;
+
+-- Update the roles for the remaining users to be administrators
+-- Update the roles for the first 165 users to be doctors
+UPDATE utilisateur_role SET role_id = 2 WHERE utilisateur_id <= 165;
+
+-- Update the roles for the next 27 users to be patients
+UPDATE utilisateur_role SET role_id = 3 WHERE utilisateur_id > 165 AND utilisateur_id <= 192;
+
+-- Update the roles for the remaining 33 users to be administrators
+UPDATE utilisateur_role SET role_id = 1 WHERE utilisateur_id > 192;
+
+

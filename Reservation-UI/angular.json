@@ -74,7 +74,8 @@
               "buildTarget": "Reservation-UI:build:production"
             },
             "development": {
-              "buildTarget": "Reservation-UI:build:development"
+              "buildTarget": "Reservation-UI:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

@@ -55,35 +55,30 @@ body {
 .header-right {
     display: flex;
     align-items: center;
+    border: 1px solid #fff; /* Bordure pour tout le conteneur */
+    border-radius: 25px; /* Coins arrondis du conteneur */
+    overflow: hidden; /* Cache les bords superflus */
 }
 
 /* Login button styling */
 .login-button {
-    background-color: #343a40; /* Adjust background color as needed */
+    background-color: #343a40;
     color: #ffffff;
     padding: 10px 15px;
-    border-top-left-radius: 25px; /* Round left corner */
-    border-bottom-left-radius: 25px; /* Round left corner */
-    border-right: none; /* Remove right border to blend with icon */
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s;
-    border: 2px solid #fff !important; /* Set border property */
+    border: none; /* Retire les bordures */
 }
 
 /* User icon styling */
 .user-icon {
-    font-size: 25px;
-    color: #ffc107; /* Adjust color if needed */
-    background-color: #343a40; /* Match background with the login button */
-    padding: 10px; /* Padding to align icon with button height */
-    border-top-right-radius: 25px; /* Round right corner */
-    border-bottom-right-radius: 25px; /* Round right corner */
-    border-left: none; /* Remove left border to blend with button */
-    margin-left: -5px; /* Overlap to create seamless effect */
-    border-right: 2px solid #ffffff !important; /* Set border property */
+    font-size: 24px;
+    color: #ffc107;
+    background-color: #343a40;
+    padding: 10px;
+    border: none; /* Retire les bordures */
 }
-
 
 
 /* Hover effect for login button */

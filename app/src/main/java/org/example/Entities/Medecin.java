@@ -2,7 +2,10 @@ package org.example.Entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -13,6 +16,8 @@ public class Medecin extends Utilisateur {
     private String phoneNumber;
     private String email;
     @ManyToOne
+    @JoinColumn(name = "centre_id")
+    @JsonIgnore
     private Centre centre;
     @OneToMany
     private List<Patient> patients;
