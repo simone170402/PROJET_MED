@@ -4,11 +4,10 @@
     color: #ffffff;
     font-family: 'Roboto', sans-serif;
     padding-top: 20px;
-    bottom: 0;
-    position: fixed;
-    width: 100%;  
+    padding-bottom: 0;
+    width: 100%;
+    position: relative;
 }
-
 
 .footer-logo {
     max-width: 150px;

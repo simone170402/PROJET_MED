@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 import { AccueilComponent } from './accueil/accueil.component';
 import path from 'path';
 import { ReservationComponent } from './reservation/reservation.component';
-import { BookingComponent } from './booking/booking.component';
 import { CentresComponent } from './centres/centres.component';
 import { MedecinsComponent } from './medecins/medecins.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { AgendaComponent } from './agenda/agenda.component';
 
 export const routes: Routes = [
     { path: 'reservation', component: ReservationComponent },
@@ -15,5 +15,6 @@ export const routes: Routes = [
     { path: 'medecins', component: MedecinsComponent },
     { path: 'medecins/:centreId', component: MedecinsComponent },
     { path: 'reservation/:medecinId', component: ReservationComponent },
-    { path: 'confirmation', component: ConfirmationComponent }
+    { path: 'confirmation', component: ConfirmationComponent },
+    { path: 'agenda', component: AgendaComponent }
 ];

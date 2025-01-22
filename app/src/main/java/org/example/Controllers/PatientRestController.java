@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,43 +23,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @RequestMapping("/api/patients")
 public class PatientRestController {
+
     @Autowired
     private PatientService patientService;
 
-    @GetMapping("/patients")
-    public List<Patient> getAllPatients(@RequestParam(required = false) String name) {
-        if (name != null) {
-            return patientService.findByNameStartsWith(name);
-        }
-        return patientService.findAll();
+    @GetMapping
+    public List<Patient> getAllPatients() {
+        return patientService.getAllPatients();
     }
 
-    @GetMapping("/patient/{id}")
+    // Obtenir un patient par son ID
+    @GetMapping("/{id}")
     public Patient getPatientById(@PathVariable Long id) {
         return patientService.findOneById(id);
     }
 
-    @PostMapping("/patients")
-    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
     public Patient createPatient(@RequestBody Patient patient) {
-        return patientService.save(patient);
+        return patientService.savePatient(patient);
     }
 
-    @PutMapping("/patient/{id}")
+    // Mettre à jour un patient
+    @PutMapping("/{id}")
     public Patient updatePatient(@PathVariable Long id, @RequestBody Patient patient) {
         return patientService.update(id, patient);
     }
 
-    @DeleteMapping("/patient/{id}")
+    // Supprimer un patient
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePatient(@PathVariable Long id) {
         patientService.delete(id);
     }
 
+    // Gérer les exceptions pour les patients non trouvés
     @ExceptionHandler(PatientNotFoundException.class)
     public ResponseEntity<String> handle(PatientNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
+
 
 

@@ -1,0 +1,16 @@
+/* Appliquez un style aux événements */
+.fc-event {
+  border: 1px solid #fff !important;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Couleur d'arrière-plan des jours */
+.fc-daygrid-day {
+  background: #f4f6f9;
+}
+
+/* Texte de l'entête */
+.fc-toolbar-title {
+  font-size: 1.5rem;
+  color: #2c3e50;
+}

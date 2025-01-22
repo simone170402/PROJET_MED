@@ -16,8 +16,10 @@ public class Patient {
     private String surname;
     private String phoneNumber;
     private String email;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private String vaccinationStatus;
+    private String adresse;
+
     @ManyToOne
     private Centre centre;
 
@@ -62,11 +64,11 @@ public class Patient {
         this.email = email;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -85,4 +87,13 @@ public class Patient {
     public void setCentre(Centre centre) {
         this.centre = centre;
     }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
 }

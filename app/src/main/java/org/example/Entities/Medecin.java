@@ -5,24 +5,42 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class Medecin extends Utilisateur {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
     private String surname;
     private String phoneNumber;
     private String email;
+
     @ManyToOne
     @JoinColumn(name = "centre_id")
     @JsonIgnore
     private Centre centre;
+
     @OneToMany
     private List<Patient> patients;
 
+
     // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -72,4 +90,3 @@ public class Medecin extends Utilisateur {
     }
 
 }
-

@@ -32,7 +32,17 @@ INSERT INTO centre (id, name, city, address, phone_number) VALUES
 (30, 'Hôpital Saint-Jacques', 'Nantes', '85 Rue Saint-Jacques', '0253444444'),
 (31, 'Centre Hospitalier de Clermont-Ferrand', 'Clermont-Ferrand', '58 Rue Montalembert', '0473737373'),
 (32, 'Hôpital Saint-Jean', 'Angers', '4 Rue Larrey', '0241222323'),
-(33, 'Centre Hospitalier de Dijon', 'Dijon', '14 Rue Paul Gaffarel', '0380666666');
+(33, 'Centre Hospitalier de Dijon', 'Dijon', '14 Rue Paul Gaffarel', '0380666666'),
+(34, 'Centre Hospitalier de Saint-Étienne', 'Saint-Étienne', '44 Rue Pointe Cadet', '0477910000'),
+(35, 'Centre Hospitalier de Reims', 'Reims', '45 Rue Cognacq-Jay', '0326780000'),
+(36, 'Centre Hospitalier de Metz', 'Metz', '1 Rue des Frères Lacretelle', '0387750000'),
+(37, 'Centre Hospitalier de Tours', 'Tours', '2 Boulevard Tonnellé', '0247380000'),
+(38, 'Centre Hospitalier de Limoges', 'Limoges', '12 Boulevard de Fleurus', '0555380000'),
+(39, 'Centre Hospitalier de Amiens', 'Amiens', 'Place Victor Pauchet', '0322780000'),
+(40, 'Centre Hospitalier de Caen', 'Caen', 'Avenue de la Côte de Nacre', '0231060000'),
+(41, 'Centre Hospitalier de Poitiers', 'Poitiers', '2 Rue de la Milétrie', '0549490000'),
+(42, 'Centre Hospitalier de Besançon', 'Besançon', '3 Boulevard Fleming', '0381660000'),
+(43, 'Centre Hospitalier de Saint-Denis', 'Saint-Denis', '14 Rue du Général Leclerc', '0148320000');
 -- 10 entrées ajoutées, continuez avec plus de centres fictifs similaires jusqu'à 25
 
 -- Insertion de patients fictifs
@@ -61,7 +71,25 @@ INSERT INTO patient (name, surname, phone_number, email, date_of_birth, centre_i
 ('Tom', 'Bernard', '0657283948', 'tom.bernard@example.com', '1985-01-19', 22, 'NOT_VACCINATED'),
 ('Clara', 'Dupont', '0628394755', 'clara.dupont@example.com', '1990-05-27', 23, 'VACCINATED'),
 ('Paul', 'Roux', '0672938478', 'paul.roux@example.com', '1986-11-14', 24, 'NOT_VACCINATED'),
-('Emma', 'Moreau', '0639184755', 'emma.moreau@example.com', '1993-03-03', 25, 'VACCINATED'); 
+('Emma', 'Moreau', '0639184755', 'emma.moreau@example.com', '1993-03-03', 25, 'VACCINATED'),
+('Hugo', 'Petit', '0657283949', 'hugo.petit@example.com', '1988-07-07', 26, 'NOT_VACCINATED'),
+('Pauline', 'Girard', '0628394756', 'pauline.girard@example.com', '1990-04-12', 27, 'VACCINATED'),
+('Julien', 'Blanc', '0657283950', 'julien.blanc@example.com', '1988-05-23', 28, 'NOT_VACCINATED'),
+('Claire', 'Fontaine', '0639184756', 'claire.fontaine@example.com', '1992-06-14', 29, 'VACCINATED'),
+('Benoit', 'Dupuis', '0672938480', 'benoit.dupuis@example.com', '1985-07-25', 30, 'NOT_VACCINATED'),
+('Amandine', 'Lemoine', '0628394757', 'amandine.lemoine@example.com', '1993-08-16', 31, 'VACCINATED'),
+('Guillaume', 'Renaud', '0657283951', 'guillaume.renaud@example.com', '1987-09-27', 32, 'NOT_VACCINATED'),
+('Isabelle', 'Gauthier', '0639184757', 'isabelle.gauthier@example.com', '1991-10-18', 33, 'VACCINATED'),
+('Damien', 'Perrin', '0672938481', 'damien.perrin@example.com', '1986-11-29', 1, 'NOT_VACCINATED'),
+('Sabrina', 'Leroy', '0628394758', 'sabrina.leroy@example.com', '1994-12-10', 2, 'VACCINATED'),
+('Vincent', 'Moreau', '0657283952', 'vincent.moreau@example.com', '1989-01-21', 3, 'NOT_VACCINATED'),
+('Nathalie', 'Rousseau', '0639184758', 'nathalie.rousseau@example.com', '1990-02-01', 4, 'VACCINATED'),
+('Laurent', 'Bertrand', '0672938482', 'laurent.bertrand@example.com', '1988-03-12', 5, 'NOT_VACCINATED'),
+('Sandrine', 'Fournier', '0628394759', 'sandrine.fournier@example.com', '1992-04-23', 6, 'VACCINATED'),
+('Olivier', 'Girard', '0657283953', 'olivier.girard@example.com', '1985-05-04', 7, 'NOT_VACCINATED'),
+('Celine', 'Dupont', '0639184759', 'celine.dupont@example.com', '1993-06-15', 8, 'VACCINATED'),
+('Sebastien', 'Lemoine', '0672938483', 'sebastien.lemoine@example.com', '1987-07-26', 9, 'NOT_VACCINATED'),
+('Stephanie', 'Renaud', '0628394760', 'stephanie.renaud@example.com', '1991-08-06', 10, 'VACCINATED');
 
 -- Ajoutez plus de patients similaires jusqu'à 25 patients
 
@@ -293,37 +321,6 @@ INSERT INTO utilisateur (id, name, surname, phone_number, email, password) VALUE
 (224, 'Medecin', 'TwoHundredTwentyFour', '0645675554', 'medecin.twohundredtwentyfour@example.com', 'password123'),
 (225, 'Medecin', 'TwoHundredTwentyFive', '0656786665', 'medecin.twohundredtwentyfive@example.com', 'password123');
 
-
--- Ajoutez plus de médecins similaires jusqu'à 25 médecins
-
--- Insertion de réservations fictives pour les patients
-INSERT INTO reservation (patient_id, centre_id, date_reservation, reservation_status) VALUES 
-(1, 1, '2024-10-30', 'PENDING'),
-(2, 2, '2024-11-15', 'CONFIRMED'),
-(3, 3, '2024-10-25', 'PENDING'),
-(4, 4, '2024-11-02', 'CANCELED'),
-(5, 5, '2024-12-05', 'CONFIRMED'),
-(6, 6, '2024-11-18', 'PENDING'),
-(7, 7, '2024-12-22', 'CONFIRMED'),
-(8, 8, '2024-10-28', 'PENDING'),
-(9, 9, '2024-11-30', 'CONFIRMED'),
-(10, 10, '2024-11-20', 'CANCELED'),
-(11, 11, '2024-12-10', 'PENDING'),
-(12, 12, '2024-11-05', 'CONFIRMED'),
-(13, 13, '2024-12-15', 'PENDING'),
-(14, 14, '2024-10-31', 'CONFIRMED'),
-(15, 15, '2024-11-25', 'PENDING'),
-(16, 16, '2024-12-01', 'CONFIRMED'),
-(17, 17, '2024-11-12', 'PENDING'),
-(18, 18, '2024-12-20', 'CONFIRMED'),
-(19, 19, '2024-11-28', 'PENDING'),
-(20, 20, '2024-12-08', 'CONFIRMED'),
-(21, 21, '2024-11-17', 'PENDING'),
-(22, 22, '2024-12-03', 'CONFIRMED'),
-(23, 23, '2024-11-08', 'PENDING'),
-(24, 24, '2024-12-18', 'CONFIRMED'),
-(25, 25, '2024-11-23', 'PENDING'); 
--- Continuez jusqu'à 50 réservations avec des dates, centres et statuts variés
 
 -- Insertion de médecins fictifs
 INSERT INTO medecin (id,centre_id) VALUES 
@@ -741,4 +738,48 @@ UPDATE utilisateur_role SET role_id = 3 WHERE utilisateur_id > 165 AND utilisate
 -- Update the roles for the remaining 33 users to be administrators
 UPDATE utilisateur_role SET role_id = 1 WHERE utilisateur_id > 192;
 
-
+-- Insertion de réservations fictives pour les patients 
+INSERT INTO reservation (patient_id, centre_id, date_reservation, reservation_status, medecin_id, datestart, dateend, title) VALUES 
+(1, 1, '2024-10-30', 'Disponible', 1, '2024-10-30 09:00:00', '2024-10-30 09:30:00', 'Consultation'),
+(2, 2, '2024-11-15', 'Disponible', 2, '2024-11-15 10:00:00', '2024-11-15 10:30:00', 'Vaccination'),
+(3, 3, '2024-10-25', 'Disponible', 3, '2024-10-25 11:00:00', '2024-10-25 11:30:00', 'Check-up'),
+(4, 4, '2024-11-02', 'Disponible', 4, '2024-11-02 12:00:00', '2024-11-02 12:30:00', 'Consultation'),
+(5, 5, '2024-12-05', 'CONFIRMED', 5, '2024-12-05 13:00:00', '2024-12-05 13:30:00', 'Vaccination'),
+(6, 6, '2024-11-18', 'PENDING', 6, '2024-11-18 14:00:00', '2024-11-18 14:30:00', 'Check-up'),
+(7, 7, '2024-12-22', 'CONFIRMED', 7, '2024-12-22 15:00:00', '2024-12-22 15:30:00', 'Consultation'),
+(8, 8, '2024-10-28', 'Disponible', 8, '2024-10-28 16:00:00', '2024-10-28 16:30:00', 'Vaccination'),
+(9, 9, '2024-11-30', 'CONFIRMED', 9, '2024-11-30 17:00:00', '2024-11-30 17:30:00', 'Check-up'),
+(10, 10, '2024-11-20', 'CANCELED', 10, '2024-11-20 18:00:00', '2024-11-20 18:30:00', 'Consultation'),
+(11, 11, '2024-12-10', 'PENDING', 11, '2024-12-10 09:00:00', '2024-12-10 09:30:00', 'Vaccination'),
+(12, 12, '2024-11-05', 'CONFIRMED', 12, '2024-11-05 10:00:00', '2024-11-05 10:30:00', 'Check-up'),
+(13, 13, '2024-12-15', 'PENDING', 13, '2024-12-15 11:00:00', '2024-12-15 11:30:00', 'Consultation'),
+(14, 14, '2024-10-31', 'CONFIRMED', 14, '2024-10-31 12:00:00', '2024-10-31 12:30:00', 'Vaccination'),
+(15, 15, '2024-11-25', 'PENDING', 15, '2024-11-25 13:00:00', '2024-11-25 13:30:00', 'Check-up'),
+(16, 16, '2024-12-01', 'CONFIRMED', 16, '2024-12-01 14:00:00', '2024-12-01 14:30:00', 'Consultation'),
+(17, 17, '2024-11-12', 'PENDING', 17, '2024-11-12 15:00:00', '2024-11-12 15:30:00', 'Vaccination'),
+(18, 18, '2024-12-20', 'CONFIRMED', 18, '2024-12-20 16:00:00', '2024-12-20 16:30:00', 'Check-up'),
+(19, 19, '2024-11-28', 'PENDING', 19, '2024-11-28 17:00:00', '2024-11-28 17:30:00', 'Consultation'),
+(20, 20, '2024-12-08', 'CONFIRMED', 20, '2024-12-08 18:00:00', '2024-12-08 18:30:00', 'Vaccination'),
+(21, 21, '2024-11-17', 'PENDING', 21, '2024-11-17 09:00:00', '2024-11-17 09:30:00', 'Check-up'),
+(22, 22, '2024-12-03', 'CONFIRMED', 22, '2024-12-03 10:00:00', '2024-12-03 10:30:00', 'Consultation'),
+(23, 23, '2024-11-08', 'PENDING', 23, '2024-11-08 11:00:00', '2024-11-08 11:30:00', 'Vaccination'),
+(24, 24, '2024-12-18', 'CONFIRMED', 24, '2024-12-18 12:00:00', '2024-12-18 12:30:00', 'Check-up'),
+(25, 25, '2024-11-23', 'PENDING', 25, '2024-11-23 13:00:00', '2024-11-23 13:30:00', 'Consultation'),
+(26, 26, '2024-12-13', 'CONFIRMED', 26, '2024-12-13 14:00:00', '2024-12-13 14:30:00', 'Vaccination'),
+(27, 27, '2024-11-03', 'PENDING', 27, '2024-11-03 15:00:00', '2024-11-03 15:30:00', 'Check-up'),
+(28, 28, '2024-12-23', 'CONFIRMED', 28, '2024-12-23 16:00:00', '2024-12-23 16:30:00', 'Consultation'),
+(29, 29, '2024-11-13', 'PENDING', 29, '2024-11-13 17:00:00', '2024-11-13 17:30:00', 'Vaccination'),
+(30, 30, '2024-12-21', 'CONFIRMED', 30, '2024-12-21 18:00:00', '2024-12-21 18:30:00', 'Check-up'),
+(31, 31, '2024-11-29', 'PENDING', 31, '2024-11-29 09:00:00', '2024-11-29 09:30:00', 'Consultation'),
+(32, 32, '2024-12-09', 'CONFIRMED', 32, '2024-12-09 10:00:00', '2024-12-09 10:30:00', 'Vaccination'),
+(33, 33, '2024-11-14', 'PENDING', 33, '2024-11-14 11:00:00', '2024-11-14 11:30:00', 'Check-up'),
+(34, 34, '2024-12-19', 'CONFIRMED', 34, '2024-12-19 12:00:00', '2024-12-19 12:30:00', 'Consultation'),
+(35, 35, '2024-11-24', 'PENDING', 35, '2024-11-24 13:00:00', '2024-11-24 13:30:00', 'Vaccination'),
+(36, 36, '2024-12-14', 'CONFIRMED', 36, '2024-12-14 14:00:00', '2024-12-14 14:30:00', 'Check-up'),
+(37, 37, '2024-11-04', 'PENDING', 37, '2024-11-04 15:00:00', '2024-11-04 15:30:00', 'Consultation'),
+(38, 38, '2024-12-24', 'CONFIRMED', 38, '2024-12-24 16:00:00', '2024-12-24 16:30:00', 'Vaccination'),
+(39, 39, '2024-11-16', 'PENDING', 39, '2024-11-16 17:00:00', '2024-11-16 17:30:00', 'Check-up'),
+(40, 40, '2024-12-06', 'CONFIRMED', 40, '2024-12-06 18:00:00', '2024-12-06 18:30:00', 'Consultation'),
+(41, 41, '2024-11-26', 'PENDING', 41, '2024-11-26 09:00:00', '2024-11-26 09:30:00', 'Vaccination'),
+(42, 42, '2024-12-16', 'CONFIRMED', 42, '2024-12-16 10:00:00', '2024-12-16 10:30:00', 'Check-up'),
+(43, 43, '2024-11-01', 'PENDING', 43, '2024-11-01 11:00:00', '2024-11-01 11:30:00', 'Consultation');

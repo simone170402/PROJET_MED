@@ -18,11 +18,11 @@ export class BookingService {
     return this.http.get(`${this.apiUrl}/centres/${centreId}/medecins`);
   }
 
-  getAgenda(medecinId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/medecins/${medecinId}/agenda`);
+  getAgenda(medecinId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/reservations/medecin/${medecinId}`);
   }
 
-  createReservation(reservation: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reservations`, reservation);
+  createReservation(reservationData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/reservations`, reservationData);
   }
 }

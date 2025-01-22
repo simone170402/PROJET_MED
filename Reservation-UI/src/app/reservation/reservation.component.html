@@ -1,47 +1,184 @@
 <div class="container mt-4">
-  <h1 class="mb-4 text-center">Réserver un créneau</h1>
+  <h1 class="mb-4 text-center">Prise de rendez-vous</h1>
+  <p class="text-center">
+    Remplissez ce formulaire pour prendre rendez-vous avec votre médecin traitant.
+  </p>
 
-  <form (ngSubmit)="reserve()" class="needs-validation" novalidate>
-    <div class="form-group">
-      <label for="nom">Nom</label>
-      <input [(ngModel)]="reservation.nom" name="nom" id="nom" class="form-control" placeholder="Nom" required />
-      <div class="invalid-feedback">Veuillez entrer votre nom.</div>
+  <form #rdvForm="ngForm" class="needs-validation" novalidate>
+    <!-- Nom complet -->
+    <div class="form-group mb-3">
+      <label for="name">Nom *</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        class="form-control"
+        placeholder="Nom"
+        [(ngModel)]="patient.name"
+        required
+        [class.is-invalid]="!patient.name && formSubmitted"
+      />
+      <div *ngIf="!patient.name && formSubmitted" class="invalid-feedback">
+        Veuillez entrer votre nom.
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="prenom">Prénom</label>
-      <input [(ngModel)]="reservation.prenom" name="prenom" id="prenom" class="form-control" placeholder="Prénom" required />
-      <div class="invalid-feedback">Veuillez entrer votre prénom.</div>
+    <div class="form-group mb-3">
+      <label for="surname">Prénom *</label>
+      <input
+        type="text"
+        id="surname"
+        name="surname"
+        class="form-control"
+        placeholder="Prénom"
+        [(ngModel)]="patient.surname"
+        required
+        [class.is-invalid]="!patient.surname && formSubmitted"
+      />
+      <div *ngIf="!patient.surname && formSubmitted" class="invalid-feedback">
+        Veuillez entrer votre prénom.
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input [(ngModel)]="reservation.email" name="email" id="email" class="form-control" placeholder="Email" required />
-      <div class="invalid-feedback">Veuillez entrer votre email.</div>
+    <!-- Téléphone -->
+    <div class="form-group mb-3">
+      <label for="phoneNumber">Téléphone *</label>
+      <input
+        type="text"
+        id="phoneNumber"
+        name="phoneNumber"
+        class="form-control"
+        placeholder="Numéro de téléphone"
+        [(ngModel)]="patient.phoneNumber"
+        required
+        [class.is-invalid]="!patient.phoneNumber && formSubmitted"
+      />
+      <div *ngIf="!patient.phoneNumber && formSubmitted" class="invalid-feedback">
+        Veuillez entrer votre numéro de téléphone.
+      </div>
     </div>
 
-    
-    <div class="form-group">
-      <label for="telephone">Téléphone</label>
-      <input [(ngModel)]="reservation.telephone" name="telephone" id="telephone" class="form-control" placeholder="Téléphone" required />
-      <div class="invalid-feedback">Veuillez entrer votre numéro de téléphone.</div>
+    <!-- Email -->
+    <div class="form-group mb-3">
+      <label for="email">Email *</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        placeholder="Adresse email"
+        [(ngModel)]="patient.email"
+        required
+        [class.is-invalid]="!patient.email && formSubmitted"
+      />
+      <div *ngIf="!patient.email && formSubmitted" class="invalid-feedback">
+        Veuillez entrer une adresse email valide.
+      </div>
+    </div>
+    <!-- Date de naissance -->
+    <div class="form-group mb-3">
+      <label for="dateOfBirth">Date de naissance *</label>
+      <input
+        type="date"
+        id="dateOfBirth"
+        name="dateOfBirth"
+        class="form-control"
+        [(ngModel)]="patient.dateOfBirth"
+        required
+        [class.is-invalid]="formSubmitted&& !patient.dateOfBirth"
+      />
+      <div *ngIf="formSubmitted && !patient.dateOfBirth" class="invalid-feedback">
+        Veuillez sélectionner votre date de naissance.
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="dateNaissance">Date de naissance</label>
-      <input [(ngModel)]="reservation.dateNaissance" name="dateNaissance" id="dateNaissance" type="date" class="form-control" required />
-      <div class="invalid-feedback">Veuillez entrer votre date de naissance.</div>
+    <!-- Adresse -->
+    <div class="form-group mb-3">
+      <label for="adresse">Adresse *</label>
+      <input
+        type="text"
+        id="adresse"
+        name="adresse"
+        class="form-control"
+        placeholder="Adresse"
+        [(ngModel)]="patient.adresse"
+        required
+        [class.is-invalid]="formSubmitted && !patient.adresse"
+      />
+      <div *ngIf="formSubmitted && !patient.adresse" class="invalid-feedback">
+        Veuillez entrer votre adresse.
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="date">Date</label>
-      <select [(ngModel)]="reservation.date" name="date" id="date" class="form-control" required>
-        <option *ngFor="let slot of agenda" [value]="slot.date">{{ slot.date }}</option>
-      </select>
-      <div class="invalid-feedback">Veuillez sélectionner une date.</div>
+
+    <!-- Date du rendez-vous -->
+    <div class="form-group mb-3">
+      <label for="dateReservation">Date du rendez-vous *</label>
+      <input
+        type="date"
+        id="dateReservation"
+        name="dateReservation"
+        class="form-control"
+        [(ngModel)]="reservation.dateReservation"
+        required
+        [class.is-invalid]="!reservation.dateReservation && formSubmitted"
+      />
+      <div *ngIf="!reservation.dateReservation && formSubmitted" class="invalid-feedback">
+        Veuillez sélectionner une date de rendez-vous.
+      </div>
     </div>
 
-    <button type="submit" class="btn btn-primary btn-block">Réserver</button>
+    <!-- Heure de début et de fin -->
+    <div class="form-group mb-3">
+      <label for="datestart">Heure de début *</label>
+      <input
+        type="time"
+        id="datestart"
+        name="datestart"
+        class="form-control"
+        [(ngModel)]="reservation.datestart"
+        required
+        [class.is-invalid]="!reservation.datestart && formSubmitted"
+      />
+      <div *ngIf="!reservation.datestart && formSubmitted" class="invalid-feedback">
+        Veuillez sélectionner une heure de début.
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="dateend">Heure de fin *</label>
+      <input
+        type="time"
+        id="dateend"
+        name="dateend"
+        class="form-control"
+        [(ngModel)]="reservation.dateend"
+        required
+        [class.is-invalid]="!reservation.dateend && formSubmitted"
+      />
+      <div *ngIf="!reservation.dateend && formSubmitted" class="invalid-feedback">
+        Veuillez sélectionner une heure de fin.
+      </div>
+    </div>
+
+    <!-- Spécialité -->
+    <div class="form-group mb-3">
+      <label for="title">Motif du rendez-vous *</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        class="form-control"
+        placeholder="Motif"
+        [(ngModel)]="reservation.title"
+        required
+        [class.is-invalid]="formSubmitted && !reservation.title"
+      />
+      <div *ngIf="formSubmitted && !reservation.title" class="invalid-feedback">
+        Veuillez indiquer le motif du rendez-vous.
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary btn-block" (click)="handleReservation()">Prendre un rendez-vous</button>
   </form>
 </div>
-

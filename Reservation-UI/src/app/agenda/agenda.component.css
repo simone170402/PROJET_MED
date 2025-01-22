@@ -1,0 +1,15 @@
+.full-calendar {
+  width: 100%;
+  margin: auto;
+}
+
+.full-calendar .fc {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.fc-daygrid-event {
+  color: #fff;
+  border-radius: 5px;
+  padding: 2px;
+}

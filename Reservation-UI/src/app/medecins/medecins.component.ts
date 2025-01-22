@@ -38,8 +38,10 @@ export class MedecinsComponent implements OnInit {
   }
 
   chooseMedecin(medecinId: number) {
-    this.router.navigate(['/reservation'], { queryParams: { medecinId: medecinId } });
+    this.router.navigate(['/reservation'], { queryParams: { medecinId: medecinId,centreId: this.centreId  } });
   }
+  
+
 
   // Charger les médecins par centre
   loadMedecinsByCentre(): void {

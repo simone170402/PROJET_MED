@@ -1,92 +1,76 @@
 package org.example.Services;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-
+import org.example.Entities.Patient;
 import org.example.Entities.Reservation;
 import org.example.Exceptions.ReservationNotFoundException;
+import org.example.Repositories.ReservationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.example.Repositories.PatientRepository;
+import java.util.Date;
 
 @Service
 public class ReservationService {
-    private Map<Long, Reservation> reservationMap = new HashMap<>();
-    private Long currentId = 1L;
+    @Autowired
+    private ReservationRepository reservationRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
 
     public Reservation findOneById(Long id) {
-        if (!reservationMap.containsKey(id)) {
-            throw new ReservationNotFoundException("Reservation with id " + id + " not found.");
-        }
-        return reservationMap.get(id);
+        return reservationRepository.findById(id)
+            .orElseThrow(() -> new ReservationNotFoundException("Reservation with id " + id + " not found."));
     }
 
     public List<Reservation> findAll() {
-        return new ArrayList<>(reservationMap.values());
+        return reservationRepository.findAll();
     }
 
     public Reservation save(Reservation reservation) {
-        reservation.setId(currentId);
-        reservationMap.put(currentId, reservation);
-        currentId++;
-        return reservation;
+        return reservationRepository.save(reservation);
     }
 
     public Reservation update(Long id, Reservation reservation) {
-        if (!reservationMap.containsKey(id)) {
+        if (!reservationRepository.existsById(id)) {
             throw new ReservationNotFoundException("Reservation with id " + id + " not found.");
         }
         reservation.setId(id);
-        reservationMap.put(id, reservation);
-        return reservation;
+        return reservationRepository.save(reservation);
     }
 
     public void delete(Long id) {
-        if (!reservationMap.containsKey(id)) {
+        if (!reservationRepository.existsById(id)) {
             throw new ReservationNotFoundException("Reservation with id " + id + " not found.");
         }
-        reservationMap.remove(id);
+        reservationRepository.deleteById(id);
     }
 
-    public List<Reservation> findByPatientId(Long patientId) {
-        List<Reservation> reservations = new ArrayList<>();
-        for (Reservation reservation : reservationMap.values()) {
-            if (reservation.getPatient().getId().equals(patientId)) {
-                reservations.add(reservation);
-            }
-        }
-        return reservations;
+    public List<Reservation> getCreneauxByMedecin(Long medecinId) {
+        return reservationRepository.findByMedecinId(medecinId);
     }
 
-    public List<Reservation> findByCentreId(Long centreId) {
-        List<Reservation> reservations = new ArrayList<>();
-        for (Reservation reservation : reservationMap.values()) {
-            if (reservation.getCentre().getId().equals(centreId)) {
-                reservations.add(reservation);
-            }
-        }
-        return reservations;
+    public List<Reservation> getAvailableCreneauxByMedecin(Long medecinId) {
+        return reservationRepository.findByMedecinIdAndReservationStatus(medecinId, "Disponible");
     }
 
-    @SuppressWarnings("unlikely-arg-type")
-    public List<Reservation> findByDateReservation(String dateReservation) {
-        List<Reservation> reservations = new ArrayList<>();
-        for (Reservation reservation : reservationMap.values()) {
-            if (reservation.getDate().equals(dateReservation)) {
-                reservations.add(reservation);
-            }
+    public Reservation reserveCreneau(Reservation reservationData, Patient patientData) {
+        // Save or retrieve the patient
+        Patient patient = patientRepository.findByEmail(patientData.getEmail())
+                .orElseGet(() -> patientRepository.save(patientData));
+    
+        // Check if the slot is available
+        if (!"Disponible".equals(reservationData.getReservationStatus())) {
+            throw new RuntimeException("Créneau déjà réservé.");
         }
-        return reservations;
+    
+        // Link the patient to the reservation
+        reservationData.setPatient(patient);
+        reservationData.setReservationStatus("Réservé");
+    
+        // Save and return the reservation
+        return reservationRepository.save(reservationData);
     }
-
-    public List<Reservation> findByReservationStatus(String reservationStatus) {
-        List<Reservation> reservations = new ArrayList<>();
-        for (Reservation reservation : reservationMap.values()) {
-            if (reservation.isReservationStatus().equals(reservationStatus)) {
-                reservations.add(reservation);
-            }
-        }
-        return reservations;
-    }
+    
 }

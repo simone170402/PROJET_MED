@@ -1,5 +1,7 @@
 <div class="container">
   <h1>Centres de vaccination</h1>
+  <p class="slogan">Protégez-vous et protégez les autres. Trouvez un centre de vaccination près de chez vous.</p>
+  <p class="description">Utilisez notre outil de recherche pour trouver les centres de vaccination disponibles dans votre ville. Cliquez sur "Choisir" pour sélectionner un centre et prendre rendez-vous.</p>
 
   <div class="form-group">
     <input [(ngModel)]="city" class="form-control" placeholder="Rechercher par ville" />
@@ -12,4 +14,10 @@
       <button (click)="chooseCentre(centre.id)" class="btn btn-success">Choisir</button>
     </li>
   </ul>
+
+  <div class="additional-info">
+    <h2>Pourquoi se faire vacciner ?</h2>
+    <p>La vaccination est l'un des moyens les plus efficaces de protéger votre santé et celle de votre communauté. En vous faisant vacciner, vous contribuez à réduire la propagation des maladies et à protéger les personnes vulnérables.</p>
+    <img src="assets/vaccination.jpg" alt="Vaccination" class="img-fluid">
+  </div>
 </div>

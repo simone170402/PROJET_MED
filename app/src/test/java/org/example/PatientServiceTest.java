@@ -39,7 +39,7 @@ public class PatientServiceTest {
         patient2.setName("Jane");
         patientService.save(patient2);
 
-        assertEquals(2, patientService.findAll().size(), "There should be two patients");
+        assertEquals(2, patientService.getAllPatients().size(), "There should be two patients");
     }
 
     @Test

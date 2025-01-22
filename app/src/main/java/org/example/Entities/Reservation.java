@@ -2,33 +2,38 @@ package org.example.Entities;
 
 import java.util.Date;
 
-import org.checkerframework.checker.units.qual.m;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Reservation {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String reservationStatus;
-    @ManyToOne
-    private Patient patient;
+
+    @Column(nullable = false)
+    private String reservationStatus = "Disponible"; // Par défaut, les créneaux sont libres.
+
     @ManyToOne
     private Centre centre;
 
-    @Column(name = "date_reservation")
-    private Date dateReservation;
-    private Date Datestart;
-    private Date Dateend;   
-    private String title;
-
     @ManyToOne
-    private Medecin doctor;
+    private Medecin medecin;
+
+    @OneToOne
+    private Patient patient;
+
+    @Column(name = "date_reservation")
+    private String dateReservation;
+
+    private String datestart;
+    private String dateend;
+    private String title;
 
     // Getters and setters
     public Long getId() {
@@ -47,12 +52,12 @@ public class Reservation {
         this.patient = patient;
     }
 
-    public String isReservationStatus() {
+    public String getReservationStatus() {
         return reservationStatus;
     }
 
-    public void setReservationStatus(String ReservationStatus) {
-        reservationStatus = ReservationStatus;
+    public void setReservationStatus(String reservationStatus) {
+        this.reservationStatus = reservationStatus;
     }
 
     public Centre getCentre() {
@@ -63,28 +68,28 @@ public class Reservation {
         this.centre = centre;
     }
 
-    public Date getDate() {
+    public String getDateReservation() {
         return dateReservation;
     }
 
-    public void setDate(Date date) {
-        this.dateReservation = date;
+    public void setDateReservation(String dateReservation) {
+        this.dateReservation = dateReservation;
     }
 
-    public Date getDatestart() {
-        return Datestart;
+    public String getDatestart() {
+        return datestart;
     }
 
-    public void setDatestart(Date datestart) {
-        Datestart = datestart;
+    public void setDatestart(String datestart) {
+        this.datestart = datestart;
     }
 
-    public Date getDateend() {
-        return Dateend;
+    public String getDateend() {
+        return dateend;
     }
 
-    public void setDateend(Date dateend) {
-        Dateend = dateend;
+    public void setDateend(String dateend) {
+        this.dateend = dateend;
     }
 
     public String getTitle() {
@@ -95,13 +100,14 @@ public class Reservation {
         this.title = title;
     }
 
-    public Medecin getDoctor() {
-        return doctor;
+    public Medecin getMedecin() {
+        return medecin;
     }
 
-    public void setDoctor(Medecin doctor) {
-        this.doctor = doctor;
+    public void setMedecin(Medecin medecin) {
+        this.medecin = medecin;
     }
+
+
 
 }
-

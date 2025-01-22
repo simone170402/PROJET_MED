@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.example.Entities.Medecin;
-import org.example.Entities.Utilisateur;
-import org.example.Entities.UtilisateurRole;
 import org.example.Exceptions.MedecinNotFoundException;
 import org.example.Services.MedecinService;
 import org.springframework.beans.factory.annotation.Autowired;
