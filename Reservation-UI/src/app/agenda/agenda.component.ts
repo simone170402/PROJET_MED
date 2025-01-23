@@ -6,6 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarOptions } from '@fullcalendar/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-agenda',
@@ -14,7 +15,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     FullCalendarModule
   ],
   templateUrl: './agenda.component.html',
-  styleUrls: ['./agenda.component.css']
+  styleUrls: ['./agenda.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AgendaComponent implements OnInit {
   calendarOptions: CalendarOptions = {
@@ -27,6 +29,7 @@ export class AgendaComponent implements OnInit {
     },
     height: 'auto',
     events: [], // Dynamically populated
+    eventClassNames: this.getEventClassNames.bind(this)
   };
 
   constructor(
@@ -49,14 +52,19 @@ export class AgendaComponent implements OnInit {
   loadReservations(): void {
     this.agendaService.getAgenda(1).subscribe(
       (data) => {
-        const events = data.map((reservation: any) => ({
-          id: reservation.id.toString(),
-          title: reservation.title,
-          start: reservation.datestart,
-          end: reservation.dateend,
-          backgroundColor: reservation.reservationStatus === 'Réservé' ? 'red' : 'green',
-        }));
-
+        const events = data.map((reservation: any, index: number) => {
+          const className = `reservation-color-${(index % 8) + 1}`; // Ensure class starts from 1
+          console.log(`Reservation ID: ${reservation.id}, Class Name: ${className}`);
+  
+          return {
+            id: reservation.id.toString(),
+            title: reservation.title,
+            start: reservation.datestart,
+            end: reservation.dateend,
+            classNames: [className], // Assign a valid class
+          };
+        });
+  
         // Update the calendar's events
         this.calendarOptions.events = events;
       },
@@ -64,5 +72,9 @@ export class AgendaComponent implements OnInit {
         console.error('Error loading reservations:', error);
       }
     );
+  }  
+
+  getEventClassNames(arg: any): string[] {
+    return arg.event.classNames;
   }
 }

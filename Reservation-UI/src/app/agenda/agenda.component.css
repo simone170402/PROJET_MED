@@ -1,15 +1,89 @@
-.full-calendar {
-  width: 100%;
-  margin: auto;
+.full-calendar .fc {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  background-color: #f8f9fa; /* Subtle background color */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for better appearance */
 }
 
-.full-calendar .fc {
-  font-family: Arial, sans-serif;
-  font-size: 14px;
+.fc-toolbar {
+  background-color: #007bff; /* Toolbar background */
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+  padding: 10px;
 }
+
+.fc-toolbar-title {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.fc-button {
+  background-color: #fff;
+  border: none;
+  color: #007bff;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.fc-button:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
 
 .fc-daygrid-event {
   color: #fff;
   border-radius: 5px;
-  padding: 2px;
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.fc-daygrid-event:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+  z-index: 10;
+  position: relative;
+}
+
+.fc-event:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+}
+
+.reservation-color-1 {
+  background-color: #f94144; /* Red */
+}
+
+.reservation-color-2 {
+  background-color: #f3722c; /* Orange */
+}
+
+.reservation-color-3 {
+  background-color: #f9c74f; /* Yellow */
+}
+
+.reservation-color-4 {
+  background-color: #90be6d; /* Green */
+}
+
+.reservation-color-5 {
+  background-color: #43aa8b; /* Teal */
+}
+
+.reservation-color-6 {
+  background-color: #577590; /* Blue */
+}
+
+.reservation-color-7 {
+  background-color: #9d4edd; /* Purple */
+}
+
+.reservation-color-8 {
+  background-color: #8e44ad; /* Violet */
 }

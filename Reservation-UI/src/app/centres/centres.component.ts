@@ -46,10 +46,13 @@ export class CentresComponent implements OnInit {
     if (this.city.trim() === '') {
       this.getAllCentres(); // Charge tous les centres
     } else {
-      this.centreService.getCentresByCity(this.city).subscribe(
+      const searchCity = this.capitalizeFirstLetter(this.city.trim());
+      this.centreService.getAllCentres().subscribe(
         (data) => {
-          this.centres = data;
-          this.filteredCentres = data;
+          // Filtrer les centres en comparant avec la ville formatée
+          this.filteredCentres = data.filter((centre: any) =>
+            centre.city.startsWith(searchCity)
+          );
         },
         (error) => {
           console.error('Erreur lors de la recherche des centres par ville', error);
@@ -58,6 +61,12 @@ export class CentresComponent implements OnInit {
       );
     }
   }
+  
+  // Méthode pour mettre en majuscule la première lettre d'une chaîne
+  capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+  
   
   
 }
