@@ -33,6 +33,7 @@ export class ReservationComponent implements OnInit {
     title: '',
   };
 
+  availableStartTimes: string[] = []; // Créneaux disponibles pour l'heure de début
   centreId: number | null = null;
   medecinId: number | null = null;
 
@@ -47,7 +48,42 @@ export class ReservationComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.centreId = params['centreId'];
       this.medecinId = params['medecinId'];
+      this.generateAvailableStartTimes();
     });
+  }
+
+  generateAvailableStartTimes(): void {
+    const startHour = 8; // Début des créneaux
+    const endHour = 18; // Fin des créneaux
+    const intervalMinutes = 30; // Intervalle entre les créneaux
+
+    for (let hour = startHour; hour < endHour; hour++) {
+      this.availableStartTimes.push(this.formatTime(hour, 0));
+      this.availableStartTimes.push(this.formatTime(hour, intervalMinutes));
+    }
+  }
+
+  formatTime(hour: number, minute: number): string {
+    // Formate l'heure en "HH:mm"
+    const h = hour.toString().padStart(2, '0');
+    const m = minute.toString().padStart(2, '0');
+    return `${h}:${m}`;
+  }
+
+  updateEndTime(): void {
+    if (!this.reservation.datestart) {
+      return;
+    }
+
+    const [hour, minute] = this.reservation.datestart.split(':').map(Number); // Extrait l'heure et les minutes
+    const date = new Date();
+    date.setHours(hour);
+    date.setMinutes(minute + 30); // Ajoute 30 minutes
+
+    const endHour = date.getHours().toString().padStart(2, '0');
+    const endMinute = date.getMinutes().toString().padStart(2, '0');
+
+    this.reservation.dateend = `${endHour}:${endMinute}`; // Met à jour l'heure de fin
   }
 
   handleReservation(): void {

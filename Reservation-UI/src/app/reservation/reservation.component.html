@@ -128,38 +128,44 @@
       </div>
     </div>
 
-    <!-- Heure de début et de fin -->
+    <!-- Heure de début -->
     <div class="form-group mb-3">
       <label for="datestart">Heure de début *</label>
-      <input
-        type="time"
+      <select
         id="datestart"
         name="datestart"
         class="form-control"
         [(ngModel)]="reservation.datestart"
+        (change)="updateEndTime()"
         required
         [class.is-invalid]="!reservation.datestart && formSubmitted"
-      />
+      >
+        <!-- Propositions des créneaux de début -->
+        <option *ngFor="let time of availableStartTimes" [value]="time">{{ time }}</option>
+      </select>
       <div *ngIf="!reservation.datestart && formSubmitted" class="invalid-feedback">
         Veuillez sélectionner une heure de début.
       </div>
     </div>
 
+    <!-- Heure de fin (automatique) -->
     <div class="form-group mb-3">
       <label for="dateend">Heure de fin *</label>
       <input
-        type="time"
+        type="text"
         id="dateend"
         name="dateend"
         class="form-control"
         [(ngModel)]="reservation.dateend"
+        readonly
         required
         [class.is-invalid]="!reservation.dateend && formSubmitted"
       />
       <div *ngIf="!reservation.dateend && formSubmitted" class="invalid-feedback">
-        Veuillez sélectionner une heure de fin.
+        L'heure de fin est obligatoire.
       </div>
     </div>
+
 
     <!-- Spécialité -->
     <div class="form-group mb-3">
