@@ -3,3 +3,4 @@
 .yaml
 # Ignore Gradle build output directory
 build
+./app/bin
