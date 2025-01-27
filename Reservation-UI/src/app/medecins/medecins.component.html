@@ -1,5 +1,10 @@
 <div class="container mt-4">
-  <h1 class="mb-4 text-center">Médecins du centre sélectionné</h1>
+  <div class="header">
+    <h1 class="mb-4 text-center">{{ isAdminMode ? 'Gestion des Médecins' : 'Médecins du centre sélectionné' }}</h1>
+    <button *ngIf="isAdminMode" class="btn btn-primary" (click)="addMedecin()">
+      Ajouter un médecin
+    </button>
+  </div>
 
   <div *ngIf="errorMessage" class="alert alert-danger">
     <p>{{ errorMessage }}</p>
@@ -8,7 +13,23 @@
   <ul *ngIf="medecins.length > 0" class="list-group">
     <li *ngFor="let medecin of medecins" class="list-group-item d-flex justify-content-between align-items-center">
       <span><strong>{{ medecin.name }} {{ medecin.surname }}</strong> - Téléphone : {{ medecin.phoneNumber }}</span>
-      <button (click)="chooseMedecin(medecin.id)" class="btn btn-success">Choisir</button>
+      
+      <div class="actions">
+        <!-- Actions administrateur -->
+        <ng-container *ngIf="isAdminMode">
+          <button class="btn btn-warning" (click)="editMedecin(medecin.id)">
+            Modifier
+          </button>
+          <button class="btn btn-danger" (click)="deleteMedecin(medecin.id)">
+            Supprimer
+          </button>
+        </ng-container>
+        
+        <!-- Action utilisateur -->
+        <button *ngIf="!isAdminMode" class="btn btn-success" (click)="chooseMedecin(medecin.id)">
+          Choisir
+        </button>
+      </div>
     </li>
   </ul>
 
