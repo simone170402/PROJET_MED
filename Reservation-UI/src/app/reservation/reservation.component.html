@@ -1,47 +1,157 @@
-<div class="container mt-4">
-  <h1 class="mb-4 text-center">Réserver un créneau</h1>
-
-  <form (ngSubmit)="reserve()" class="needs-validation" novalidate>
-    <div class="form-group">
-      <label for="nom">Nom</label>
-      <input [(ngModel)]="reservation.nom" name="nom" id="nom" class="form-control" placeholder="Nom" required />
-      <div class="invalid-feedback">Veuillez entrer votre nom.</div>
-    </div>
-
-    <div class="form-group">
-      <label for="prenom">Prénom</label>
-      <input [(ngModel)]="reservation.prenom" name="prenom" id="prenom" class="form-control" placeholder="Prénom" required />
-      <div class="invalid-feedback">Veuillez entrer votre prénom.</div>
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input [(ngModel)]="reservation.email" name="email" id="email" class="form-control" placeholder="Email" required />
-      <div class="invalid-feedback">Veuillez entrer votre email.</div>
-    </div>
-
+<div class="container">
+  <div class="header">
+    <h2>{{ isAdminMode ? 'Gestion des Rendez-vous' : 'Prise de Rendez-vous' }}</h2>
     
-    <div class="form-group">
-      <label for="telephone">Téléphone</label>
-      <input [(ngModel)]="reservation.telephone" name="telephone" id="telephone" class="form-control" placeholder="Téléphone" required />
-      <div class="invalid-feedback">Veuillez entrer votre numéro de téléphone.</div>
+    <div class="date-filter">
+      <label for="date">Date :</label>
+      <input 
+        type="date" 
+        id="date"
+        [(ngModel)]="selectedDate"
+        (change)="onDateChange()"
+        class="form-control"
+      >
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="dateNaissance">Date de naissance</label>
-      <input [(ngModel)]="reservation.dateNaissance" name="dateNaissance" id="dateNaissance" type="date" class="form-control" required />
-      <div class="invalid-feedback">Veuillez entrer votre date de naissance.</div>
-    </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
 
-    <div class="form-group">
-      <label for="date">Date</label>
-      <select [(ngModel)]="reservation.date" name="date" id="date" class="form-control" required>
-        <option *ngFor="let slot of agenda" [value]="slot.date">{{ slot.date }}</option>
-      </select>
-      <div class="invalid-feedback">Veuillez sélectionner une date.</div>
-    </div>
+  <!-- Vue admin -->
+  <div *ngIf="isAdminMode" class="reservations-list">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Heure</th>
+          <th>Patient</th>
+          <th>Médecin</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations">
+          <td>{{ reservation.date | date }}</td>
+          <td>{{ reservation.heure }}</td>
+          <td>{{ reservation.patient.nom }} {{ reservation.patient.prenom }}</td>
+          <td>Dr. {{ reservation.medecin.nom }}</td>
+          <td>
+            <span [class]="'status-' + reservation.statut.toLowerCase()">
+              {{ reservation.statut }}
+            </span>
+          </td>
+          <td class="actions">
+            <button 
+              *ngIf="reservation.statut === 'EN_ATTENTE'"
+              class="btn btn-success btn-sm"
+              (click)="approuverReservation(reservation.id)"
+            >
+              Approuver
+            </button>
+            <button 
+              *ngIf="reservation.statut === 'EN_ATTENTE'"
+              class="btn btn-danger btn-sm"
+              (click)="refuserReservation(reservation.id)"
+            >
+              Refuser
+            </button>
+            <button 
+              *ngIf="reservation.statut === 'APPROUVE'"
+              class="btn btn-warning btn-sm"
+              (click)="annulerReservation(reservation.id)"
+            >
+              Annuler
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-    <button type="submit" class="btn btn-primary btn-block">Réserver</button>
-  </form>
+  <!-- Vue utilisateur -->
+  <div *ngIf="!isAdminMode" class="reservation-form">
+    <form (ngSubmit)="reserve()" #reservationForm="ngForm">
+      <div class="form-group">
+        <label for="nom">Nom :</label>
+        <input 
+          type="text" 
+          id="nom"
+          name="nom"
+          [(ngModel)]="reservation.nom"
+          required
+          class="form-control"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="prenom">Prénom :</label>
+        <input 
+          type="text" 
+          id="prenom"
+          name="prenom"
+          [(ngModel)]="reservation.prenom"
+          required
+          class="form-control"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input 
+          type="email" 
+          id="email"
+          name="email"
+          [(ngModel)]="reservation.email"
+          required
+          class="form-control"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="telephone">Téléphone :</label>
+        <input 
+          type="text" 
+          id="telephone"
+          name="telephone"
+          [(ngModel)]="reservation.telephone"
+          required
+          class="form-control"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="dateNaissance">Date de naissance :</label>
+        <input 
+          type="date" 
+          id="dateNaissance"
+          name="dateNaissance"
+          [(ngModel)]="reservation.dateNaissance"
+          required
+          class="form-control"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date et heure :</label>
+        <select 
+          id="date"
+          name="date"
+          [(ngModel)]="reservation.date"
+          required
+          class="form-control"
+        >
+          <option value="">Sélectionnez une date</option>
+          <option *ngFor="let slot of agenda" [value]="slot.date">
+            {{ slot.date | date }} à {{ slot.heure }}
+          </option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!reservationForm.form.valid">
+        Réserver
+      </button>
+    </form>
+  </div>
 </div>
-

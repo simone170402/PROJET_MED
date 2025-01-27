@@ -39,13 +39,13 @@
     color: #ffffff;
     text-transform: uppercase;
     padding-left: 60px; /* Décale le titre pour l'aligner avec les points des liens */
-    margin: 0; /* Supprime les marges par défaut */
+    margin: 0rem; /* Supprime les marges par défaut */
     text-align: left;
 }
 
 /* Style des liens dans le footer */
 .footer-link {
-    margin-top: 20px;
+    margin-top: 0px;
     color: #ffffffbb;
     text-decoration: none;
     font-weight: 500;
