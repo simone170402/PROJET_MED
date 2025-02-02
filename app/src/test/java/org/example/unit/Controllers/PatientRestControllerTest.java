@@ -1,6 +1,8 @@
-package org.example.Controllers;
+package org.example.unit.Controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.example.Controllers.PatientRestController;
 import org.example.Entities.Patient;
 import org.example.Exceptions.PatientNotFoundException;
 import org.example.Services.PatientService;

@@ -1,5 +1,6 @@
-package org.example.Controllers;
+package org.example.unit.Controllers;
 
+import org.example.Controllers.MedecinRestController;
 import org.example.Entities.Centre;
 import org.example.Entities.Medecin;
 import org.example.Services.MedecinService;
