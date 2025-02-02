@@ -54,13 +54,20 @@ class PatientRestControllerTest {
         patient.setEmail("john.doe@example.com");
     }
 
+    /**
+     * Teste la méthode getAllPatients de PatientRestController.
+     * Vérifie que tous les patients peuvent être retournés.
+     */
     @Test
     void getAllPatients_ShouldReturnListOfPatients() throws Exception {
+        // given
         List<Patient> patients = Arrays.asList(patient, new Patient());
         when(patientService.getAllPatients()).thenReturn(patients);
 
+        // when
         mockMvc.perform(get("/api/patients")
                 .contentType(MediaType.APPLICATION_JSON))
+                // then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -69,12 +76,19 @@ class PatientRestControllerTest {
                 .andExpect(jsonPath("$[0].email", is("john.doe@example.com")));
     }
 
+    /**
+     * Teste la méthode getPatientById de PatientRestController.
+     * Vérifie qu'un patient peut être retourné par son ID.
+     */
     @Test
     void getPatientById_ShouldReturnPatient() throws Exception {
+        // given
         when(patientService.findOneById(1L)).thenReturn(patient);
 
+        // when
         mockMvc.perform(get("/api/patients/1")
                 .contentType(MediaType.APPLICATION_JSON))
+                // then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Doe")))
@@ -82,22 +96,36 @@ class PatientRestControllerTest {
                 .andExpect(jsonPath("$.email", is("john.doe@example.com")));
     }
 
+    /**
+     * Teste la méthode getPatientById de PatientRestController.
+     * Vérifie qu'une réponse 404 est retournée lorsqu'un patient n'est pas trouvé.
+     */
     @Test
     void getPatientById_ShouldReturn404_WhenPatientNotFound() throws Exception {
+        // given
         when(patientService.findOneById(99L)).thenThrow(new PatientNotFoundException("Patient not found"));
 
+        // when
         mockMvc.perform(get("/api/patients/99")
                 .contentType(MediaType.APPLICATION_JSON))
+                // then
                 .andExpect(status().isNotFound());
     }
 
+    /**
+     * Teste la méthode createPatient de PatientRestController.
+     * Vérifie qu'un patient peut être créé.
+     */
     @Test
     void createPatient_ShouldReturnCreatedPatient() throws Exception {
+        // given
         when(patientService.savePatient(any(Patient.class))).thenReturn(patient);
 
+        // when
         mockMvc.perform(post("/api/patients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(patient)))
+                // then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Doe")))
@@ -105,13 +133,20 @@ class PatientRestControllerTest {
                 .andExpect(jsonPath("$.email", is("john.doe@example.com")));
     }
 
+    /**
+     * Teste la méthode updatePatient de PatientRestController.
+     * Vérifie qu'un patient peut être mis à jour.
+     */
     @Test
     void updatePatient_ShouldReturnUpdatedPatient() throws Exception {
+        // given
         when(patientService.update(anyLong(), any(Patient.class))).thenReturn(patient);
 
+        // when
         mockMvc.perform(put("/api/patients/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(patient)))
+                // then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Doe")))
@@ -119,14 +154,21 @@ class PatientRestControllerTest {
                 .andExpect(jsonPath("$.email", is("john.doe@example.com")));
     }
 
+    /**
+     * Teste la méthode updatePatient de PatientRestController.
+     * Vérifie qu'une réponse 404 est retournée lorsqu'un patient n'est pas trouvé.
+     */
     @Test
     void updatePatient_ShouldReturn404_WhenPatientNotFound() throws Exception {
+        // given
         when(patientService.update(anyLong(), any(Patient.class)))
                 .thenThrow(new PatientNotFoundException("Patient not found"));
 
+        // when
         mockMvc.perform(put("/api/patients/99")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(patient)))
+                // then
                 .andExpect(status().isNotFound());
     }
 }

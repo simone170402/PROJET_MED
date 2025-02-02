@@ -1,10 +1,8 @@
 package org.example.unit.Controllers;
 
 import org.example.Controllers.MedecinRestController;
-import org.example.Entities.Centre;
-import org.example.Entities.Medecin;
-import org.example.Services.MedecinService;
 import org.example.Repositories.MedecinRepository;
+import org.example.Services.MedecinService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +16,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -46,16 +43,23 @@ class MedecinRestControllerTest {
                 .build();
     }
 
+    /**
+     * Teste la méthode getMedecinsByCentre de MedecinRestController.
+     * Vérifie que les médecins peuvent être trouvés par l'ID du centre.
+     */
     @Test
     void getMedecinsByCentre_ShouldReturnMedecins() throws Exception {
+        // given
         Object[] medecinData1 = {1L, "Dupont", "Jean", "0123456789", 1L, "Centre A"};
         Object[] medecinData2 = {2L, "Martin", "Pierre", "9876543210", 1L, "Centre A"};
         List<Object[]> medecinsList = Arrays.asList(medecinData1, medecinData2);
 
         when(medecinRepository.findMedecinsByCentreId(anyLong())).thenReturn(medecinsList);
 
+        // when
         mockMvc.perform(get("/api/medecins/centre/1")
                 .contentType(MediaType.APPLICATION_JSON))
+                // then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id").value(1))
@@ -68,24 +72,37 @@ class MedecinRestControllerTest {
                 .andExpect(jsonPath("$[1].name").value("Martin"));
     }
 
+    /**
+     * Teste la méthode getMedecinsByCentre de MedecinRestController.
+     * Vérifie qu'une liste vide est retournée lorsqu'aucun médecin n'est trouvé.
+     */
     @Test
     void getMedecinsByCentre_ShouldReturnEmptyList_WhenNoDoctorsFound() throws Exception {
+        // given
         when(medecinRepository.findMedecinsByCentreId(anyLong())).thenReturn(Arrays.asList());
 
+        // when
         mockMvc.perform(get("/api/medecins/centre/1")
                 .contentType(MediaType.APPLICATION_JSON))
+                // then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
 
-    // Test pour la gestion des exceptions
+    /**
+     * Teste la gestion des exceptions dans MedecinRestController.
+     * Vérifie qu'une réponse 404 est retournée lorsqu'un centre n'est pas trouvé.
+     */
     @Test
     void handleMedecinNotFoundException_ShouldReturnNotFound() throws Exception {
+        // given
         when(medecinRepository.findMedecinsByCentreId(99L))
                 .thenThrow(new RuntimeException("Centre not found"));
 
+        // when
         mockMvc.perform(get("/api/medecins/centre/99")
                 .contentType(MediaType.APPLICATION_JSON))
+                // then
                 .andExpect(status().isNotFound());
     }
 }
