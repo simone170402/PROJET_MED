@@ -1,48 +1,66 @@
 package org.example.integration;
 
 import org.example.Entities.Medecin;
-import org.example.Services.MedecinService;
-import org.example.Repositories.MedecinRepository;
 import org.example.Exceptions.MedecinNotFoundException;
-
-import java.util.List;
-
-import org.assertj.core.api.Assertions;
+import org.example.Entities.Centre;
+import org.example.Services.MedecinService;
+import org.example.Services.CentreService;
+import org.example.Repositories.MedecinRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.List;
 
 @SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
 class MedecinIntegrationTest {
     
     @Autowired
-    MedecinService medecinService;
+    private MedecinService medecinService;
     
     @Autowired
-    MedecinRepository medecinRepository;
+    private CentreService centreService;
     
+    @Autowired
+    private MedecinRepository medecinRepository;
+
     /**
-     * Teste la méthode save et findOneById de MedecinService.
-     * Vérifie qu'un médecin peut être sauvegardé et récupéré par son ID.
+     * Teste l'intégration d'un médecin avec un centre.
+     * Vérifie qu'un médecin peut être sauvegardé et récupéré par son centre.
      */
     @Test
-    public void testSaveAndRetrieveMedecin() {
+    public void testMedecinIntegrationWithCentre() {
         // given
+        Centre centre = new Centre();
+        centre.setName("Hôpital Central");
+        Centre savedCentre = centreService.createOrUpdateCentre(centre);
+
         Medecin medecin = new Medecin();
         medecin.setName("Dr. House");
         medecin.setSurname("Gregory");
+        medecin.setCentre(savedCentre);
         
         // when
         Medecin savedMedecin = medecinService.save(medecin);
         
         // then
-        Medecin retrievedMedecin = medecinService.findOneById(savedMedecin.getId());
-        Assertions.assertThat(retrievedMedecin.getName()).isEqualTo("Dr. House");
-        Assertions.assertThat(retrievedMedecin.getSurname()).isEqualTo("Gregory");
+        assertThat(savedMedecin.getCentre().getName()).isEqualTo("Hôpital Central");
+        List<Medecin> medecinsByCentre = medecinService.getMedecinsByCentre(savedCentre.getId());
+        assertThat(medecinsByCentre)
+            .hasSize(1)
+            .extracting("name")
+            .contains("Dr. House");
     }
 
     /**
-     * Teste la méthode findAll de MedecinService.
+     * Teste la récupération de tous les médecins.
      * Vérifie que tous les médecins peuvent être trouvés.
      */
     @Test
@@ -62,12 +80,12 @@ class MedecinIntegrationTest {
         List<Medecin> medecins = medecinService.findAll();
 
         // then
-        Assertions.assertThat(medecins).hasSize(2);
-        Assertions.assertThat(medecins).extracting(Medecin::getName).contains("Dr. House", "Dr. Wilson");
+        assertThat(medecins).hasSize(2);
+        assertThat(medecins).extracting(Medecin::getName).contains("Dr. House", "Dr. Wilson");
     }
 
     /**
-     * Teste la méthode update de MedecinService.
+     * Teste la mise à jour d'un médecin.
      * Vérifie qu'un médecin peut être mis à jour.
      */
     @Test
@@ -84,11 +102,11 @@ class MedecinIntegrationTest {
 
         // then
         Medecin retrievedMedecin = medecinService.findOneById(updatedMedecin.getId());
-        Assertions.assertThat(retrievedMedecin.getName()).isEqualTo("Dr. House Updated");
+        assertThat(retrievedMedecin.getName()).isEqualTo("Dr. House Updated");
     }
 
     /**
-     * Teste la méthode delete de MedecinService.
+     * Teste la suppression d'un médecin.
      * Vérifie qu'un médecin peut être supprimé.
      */
     @Test
@@ -103,7 +121,7 @@ class MedecinIntegrationTest {
         medecinService.delete(savedMedecin.getId());
 
         // then
-        Assertions.assertThatThrownBy(() -> medecinService.findOneById(savedMedecin.getId()))
+        assertThatThrownBy(() -> medecinService.findOneById(savedMedecin.getId()))
                 .isInstanceOf(MedecinNotFoundException.class);
     }
 }
