@@ -46,17 +46,12 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
-
-// Configures the JaCoCo plugin to enforce code coverage rules.
-// The `jacocoTestCoverageVerification` block is used to specify the rules for code coverage verification.
-// Inside the `violationRules` block, a rule is defined to set the minimum coverage limit.
-// The `limit` block specifies that the minimum code coverage required is 90% (0.90).
-// If the code coverage is below this threshold, the build will fail.
-/* jacocoTestCoverageVerification {
+/*
+jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.90
+                minimum = 0.90 // Set the minimum code coverage required to 90%
             }
         }
     }
@@ -65,6 +60,6 @@ jacocoTestReport {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
-        finalizedBy jacocoTestCoverageVerification // Ensure the coverage verification runs after tests
+    finalizedBy jacocoTestCoverageVerification // Ensure the coverage verification runs after tests
     ignoreFailures = true // Ajoutez cette ligne pour ignorer les échecs de tests
 }
