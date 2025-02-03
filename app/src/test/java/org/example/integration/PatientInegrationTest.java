@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 @Transactional
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@TestPropertySource()
+@TestPropertySource(locations = "classpath:applicationTest.yaml")
 class PatientIntegrationTest {
     
     @Autowired
