@@ -1,16 +1,27 @@
+server:
+  port: 12035
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/vaccinationtest
-    username: postgre
-    password: Admin
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
   sql:
     init:
       mode: always
-  server:
-    port: 8082
