@@ -77,4 +77,138 @@ public class MedecinE2ETest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Dr. Wilson"));
     }
+    @Test
+    void testUpdateMedecin() throws Exception {
+        // First create a medecin
+        String medecinJson = """
+            {
+                "name": "Dr. House",
+                "surname": "Gregory",
+                "specialite": "Diagnostic"
+            }
+            """;
+
+        String response = mockMvc.perform(post("/api/medecins")
+                .content(medecinJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse().getContentAsString();
+        
+        String id = response.split("\"id\":")[1].split(",")[0];
+
+        // Update the medecin
+        String updatedMedecinJson = """
+            {
+                "name": "Dr. House",
+                "surname": "Gregory",
+                "specialite": "Immunologie"
+            }
+            """;
+
+        mockMvc.perform(put("/api/medecins/" + id)
+                .content(updatedMedecinJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.specialite").value("Immunologie"));
+    }
+
+    @Test
+    void testDeleteMedecin() throws Exception {
+        // First create a medecin
+        String medecinJson = """
+            {
+                "name": "Dr. House",
+                "surname": "Gregory",
+                "specialite": "Diagnostic"
+            }
+            """;
+
+        String response = mockMvc.perform(post("/api/medecins")
+                .content(medecinJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse().getContentAsString();
+        
+        String id = response.split("\"id\":")[1].split(",")[0];
+
+        // Delete the medecin
+        mockMvc.perform(delete("/api/medecins/" + id))
+                .andExpect(status().isOk());
+
+        // Verify deletion
+        mockMvc.perform(get("/api/medecins/" + id))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testGetAllMedecins() throws Exception {
+        // Create first medecin
+        String medecinJson1 = """
+            {
+                "name": "Dr. House",
+                "surname": "Gregory",
+                "specialite": "Diagnostic"
+            }
+            """;
+
+        // Create second medecin
+        String medecinJson2 = """
+            {
+                "name": "Dr. Wilson",
+                "surname": "James",
+                "specialite": "Oncologie"
+            }
+            """;
+
+        mockMvc.perform(post("/api/medecins")
+                .content(medecinJson1)
+                .contentType(MediaType.APPLICATION_JSON));
+        
+        mockMvc.perform(post("/api/medecins")
+                .content(medecinJson2)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        // Get all medecins
+        mockMvc.perform(get("/api/medecins"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0]").exists())
+                .andExpect(jsonPath("$[1]").exists())
+                .andExpect(jsonPath("$[2]").doesNotExist());
+    }
+
+    @Test
+    void testCreateMedecinBadRequest() throws Exception {
+        String invalidMedecinJson = """
+            {
+                "name": "",
+                "surname": "",
+                "specialite": ""
+            }
+            """;
+
+        mockMvc.perform(post("/api/medecins")
+                .content(invalidMedecinJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+void testGetNonExistentMedecin() throws Exception {
+    mockMvc.perform(get("/api/medecins/999"))
+            .andExpect(status().isNotFound());
+}
+
+    @Test
+    void testUpdateNonExistentMedecin() throws Exception {
+        String medecinJson = """
+            {
+                "name": "Dr. House",
+                "surname": "Gregory",
+                "specialite": "Diagnostic"
+            }
+            """;
+
+        mockMvc.perform(put("/api/medecins/999")
+                .content(medecinJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }
