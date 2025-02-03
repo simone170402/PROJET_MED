@@ -22,7 +22,7 @@ import java.util.List;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @TestPropertySource(locations = "classpath:application-test.yaml")
 class MedecinIntegrationTest {
     
