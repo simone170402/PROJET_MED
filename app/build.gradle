@@ -63,3 +63,14 @@ test {
     finalizedBy jacocoTestCoverageVerification // Ensure the coverage verification runs after tests
     ignoreFailures = true // Ajoutez cette ligne pour ignorer les échecs de tests
 }
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java', 'app/src/test/java']
+        }
+        resources {
+            srcDirs = ['src/test/resources', 'app/src/test/resources']
+        }
+    }
+}
