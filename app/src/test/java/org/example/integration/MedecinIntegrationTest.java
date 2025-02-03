@@ -45,7 +45,7 @@ class MedecinIntegrationTest {
         Centre centre = new Centre();
         centre.setName("Hôpital Central");
         Centre savedCentre = centreService.createOrUpdateCentre(centre);
-
+    
         Medecin medecin = new Medecin();
         medecin.setName("Dr. House");
         medecin.setSurname("Gregory");
@@ -61,6 +61,11 @@ class MedecinIntegrationTest {
             .hasSize(1)
             .extracting("name")
             .contains("Dr. House");
+    
+        // Utiliser medecinRepository pour vérifier les données
+        Medecin foundMedecin = medecinRepository.findById(savedMedecin.getId()).orElse(null);
+        assertThat(foundMedecin).isNotNull();
+        assertThat(foundMedecin.getName()).isEqualTo("Dr. House");
     }
 
     /**
