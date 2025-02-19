@@ -1,7 +1,9 @@
 plugins {
-    id 'java'
+    id 'application'
     id 'org.springframework.boot' version '3.1.4'
     id 'io.spring.dependency-management' version '1.1.3'
+    id 'java'
+    id 'jacoco'
 }
 
 group = 'org.example'
@@ -17,16 +19,65 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-    
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'io.micrometer:micrometer-core:1.8.0'
+    implementation 'io.micrometer:micrometer-registry-simple:1.8.0'
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql:42.7.3'
     
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.mockito:mockito-core:5.10.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.10.0'
+    
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 application {
     mainClass = 'org.example.Main'
+}
+
+jacoco {
+    toolVersion = "0.8.9"
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    ignoreFailures = true
+    jvmArgs += ["-XX:+IgnoreUnrecognizedVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+LogVMOutput"]
+    testLogging {
+        showStandardStreams = true
+    }
+}
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java', 'app/src/test/java']
+        }
+        resources {
+            srcDirs = ['src/test/resources', 'app/src/test/resources']
+        }
+    }
+}
+
+jar {
+    destinationDirectory = file("$buildDir/libs")
 }
