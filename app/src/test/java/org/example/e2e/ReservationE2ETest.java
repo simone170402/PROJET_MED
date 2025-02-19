@@ -45,7 +45,7 @@ public class ReservationE2ETest {
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
 
-        // Extract the ID
+        // Use Jackson to extract the ID of the created reservation
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response);
         String id = jsonNode.get("id").asText();
@@ -57,9 +57,11 @@ public class ReservationE2ETest {
                 .andExpect(jsonPath("$.dateReservation").value("2025-02-20"));
     }
 
+
+
     @Test
-    void testGetAllReservations() throws Exception {
-        // Create a reservation first
+    void testGetReservationsByDate() throws Exception {
+        // Create a reservation
         String reservationJson = """
             {
                 "reservationStatus": "Disponible",
@@ -82,6 +84,9 @@ public class ReservationE2ETest {
                 .andExpect(jsonPath("$[0].reservationStatus").value("Disponible"));
     }
 
+    /**
+     * Teste les scénarios d'erreur de réservation.
+     */
     @Test
     void testUpdateReservation() throws Exception {
         // Create a reservation

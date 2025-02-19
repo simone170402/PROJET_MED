@@ -9,9 +9,11 @@ import org.example.Entities.Patient;
 import org.example.Entities.Reservation;
 import org.example.Exceptions.ReservationNotFoundException;
 import org.example.Repositories.ReservationRepository;
+import org.example.Repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.example.Repositories.PatientRepository;
+import io.micrometer.core.annotation.Timed;
+import org.example.Services.MetricsService;
 
 @Service
 public class ReservationService {
@@ -20,6 +22,15 @@ public class ReservationService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    private final MetricsService metricsService;
+
+    @Autowired
+    public ReservationService(ReservationRepository reservationRepository, MetricsService metricsService, PatientRepository patientRepository) {
+        this.reservationRepository = reservationRepository;
+        this.metricsService = metricsService;
+        this.patientRepository = patientRepository;
+    }
 
     public Reservation findOneById(Long id) {
         return reservationRepository.findById(id)
@@ -59,6 +70,7 @@ public class ReservationService {
         return reservationRepository.findByMedecinIdAndReservationStatus(medecinId, "Disponible");
     }
 
+    @Timed(value = "reservation.creation.time", description = "Time taken to create a reservation")
     public Reservation reserveCreneau(Reservation reservationData, Patient patientData) {
         // Save or retrieve the patient
         Patient patient = patientRepository.findByEmail(patientData.getEmail())
@@ -74,7 +86,10 @@ public class ReservationService {
         reservationData.setReservationStatus("Réservé");
     
         // Save and return the reservation
-        return reservationRepository.save(reservationData);
+        Reservation savedReservation = reservationRepository.save(reservationData);
+        // Increment reservation counter
+        metricsService.incrementReservationCount();
+        return savedReservation;
     }
 
     public List<Reservation> findByDate(String date) {
