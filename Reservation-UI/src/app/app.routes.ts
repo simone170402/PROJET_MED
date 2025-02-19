@@ -6,6 +6,7 @@ import { CentresComponent } from './centres/centres.component';
 import { MedecinsComponent } from './medecins/medecins.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AgendaComponent } from './agenda/agenda.component';
+import { FranceConnectComponent } from './auth/france-connect.component';
 
 export const routes: Routes = [
     { path: 'reservation', component: ReservationComponent },
@@ -16,5 +17,7 @@ export const routes: Routes = [
     { path: 'medecins/:centreId', component: MedecinsComponent },
     { path: 'reservation/:medecinId', component: ReservationComponent },
     { path: 'confirmation', component: ConfirmationComponent },
-    { path: 'agenda', component: AgendaComponent }
+    { path: 'agenda', component: AgendaComponent },
+    { path: 'auth/france-connect', component: FranceConnectComponent },
+    { path: 'auth/callback', component: FranceConnectComponent }
 ];
