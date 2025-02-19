@@ -1,5 +1,8 @@
 package org.example.Services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.example.Entities.Patient;
@@ -9,7 +12,6 @@ import org.example.Repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.example.Repositories.PatientRepository;
-import java.util.Date;
 
 @Service
 public class ReservationService {
@@ -29,6 +31,8 @@ public class ReservationService {
     }
 
     public Reservation save(Reservation reservation) {
+        validateReservationDate(reservation);
+        validateReservationTime(reservation);
         return reservationRepository.save(reservation);
     }
 
@@ -72,5 +76,66 @@ public class ReservationService {
         // Save and return the reservation
         return reservationRepository.save(reservationData);
     }
-    
+
+    public List<Reservation> findByDate(String date) {
+        return reservationRepository.findByDateReservation(date);
+    }
+
+    public List<Reservation> findByStatus(String status) {
+        return reservationRepository.findByReservationStatus(status);
+    }
+
+    public List<Reservation> findByDateAndStatus(String date, String status) {
+        return reservationRepository.findByDateReservationAndReservationStatus(date, status);
+    }
+
+    public Reservation cancelReservation(Long id) {
+        Reservation reservation = findOneById(id);
+        if (reservation == null) {
+            throw new ReservationNotFoundException("Reservation not found with id: " + id);
+        }
+        
+        reservation.setReservationStatus("Annulé");
+        return reservationRepository.save(reservation);
+    }
+
+    public List<Reservation> getAvailableTimeSlots(Long medecinId, String date) {
+        return reservationRepository.findByMedecinIdAndDateReservationAndReservationStatus(
+            medecinId, date, "Disponible");
+    }
+
+    public void validateReservationTime(Reservation reservation) {
+        String startTime = reservation.getDatestart();
+        if (startTime == null) {
+            throw new IllegalArgumentException("L'heure de début est requise");
+        }
+
+        // Convertir l'heure au format 24h
+        int hour = Integer.parseInt(startTime.split("T")[1].split(":")[0]);
+        
+        // Vérifier si l'heure est dans les heures de consultation (9h-17h)
+        if (hour < 9 || hour >= 17) {
+            throw new IllegalArgumentException("Les réservations ne sont possibles qu'entre 9h et 17h");
+        }
+    }
+
+    public void validateReservationDate(Reservation reservation) {
+        String dateReservation = reservation.getDateReservation();
+        if (dateReservation == null) {
+            throw new IllegalArgumentException("La date de réservation est requise");
+        }
+
+        // Vérifier si la date est dans le futur
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date reservationDate = sdf.parse(dateReservation);
+            Date today = new Date();
+            
+            if (reservationDate.before(today)) {
+                throw new IllegalArgumentException("La date de réservation doit être dans le futur");
+            }
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Format de date invalide");
+        }
+    }
 }

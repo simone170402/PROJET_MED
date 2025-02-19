@@ -12,15 +12,21 @@ repositories {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
     runtimeOnly 'org.postgresql:postgresql:42.7.3'
     runtimeOnly 'com.h2database:h2'
+    
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mockito:mockito-core:5.10.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.10.0'
+    testImplementation 'org.assertj:assertj-core:3.24.2'
 }
 
 java {
@@ -46,22 +52,16 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
-/*
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.90 // Set the minimum code coverage required to 90%
-            }
-        }
-    }
-}
-*/
+
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = true
+    }
     finalizedBy jacocoTestReport
-    finalizedBy jacocoTestCoverageVerification // Ensure the coverage verification runs after tests
-    ignoreFailures = true // Ajoutez cette ligne pour ignorer les échecs de tests
+    ignoreFailures = true
 }
 
 sourceSets {

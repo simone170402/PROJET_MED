@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.example.Repositories.PatientRepository;
@@ -145,7 +146,55 @@ public class ReservationRestController {
         }
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Reservation>> searchReservations(
+            @RequestParam(required = false) String date,
+            @RequestParam(required = false) String status) {
+        
+        List<Reservation> reservations;
+        if (date != null && status != null) {
+            reservations = reservationService.findByDateAndStatus(date, status);
+        } else if (date != null) {
+            reservations = reservationService.findByDate(date);
+        } else if (status != null) {
+            reservations = reservationService.findByStatus(status);
+        } else {
+            reservations = reservationService.findAll();
+        }
+        return ResponseEntity.ok(reservations);
+    }
 
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Reservation> updateReservationStatus(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> statusUpdate) {
+        
+        String newStatus = statusUpdate.get("reservationStatus");
+        if (newStatus == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Reservation reservation = reservationService.findOneById(id);
+        reservation.setReservationStatus(newStatus);
+        Reservation updatedReservation = reservationService.update(id, reservation);
+        return ResponseEntity.ok(updatedReservation);
+    }
+
+    @PostMapping("/cancel/{id}")
+    public ResponseEntity<Reservation> cancelReservation(@PathVariable Long id) {
+        Reservation cancelledReservation = reservationService.cancelReservation(id);
+        return ResponseEntity.ok(cancelledReservation);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(ReservationNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleReservationNotFoundException(ReservationNotFoundException e) {
+        return ResponseEntity.notFound().build();
+    }
 }
-
-
