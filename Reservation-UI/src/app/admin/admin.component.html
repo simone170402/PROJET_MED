@@ -1,0 +1,27 @@
+<div class="admin-container">
+    <h2>Gestion des Médecins</h2>
+    <form (submit)="addMedecin(); $event.preventDefault();">
+      <input type="text" [(ngModel)]="newMedecin.name" placeholder="Nom" required>
+      <input type="email" [(ngModel)]="newMedecin.email" placeholder="Email" required>
+      <input type="text" [(ngModel)]="newMedecin.speciality" placeholder="Spécialité" required>
+      <button type="submit">Ajouter Médecin</button>
+    </form>
+  
+    <h3>Liste des Médecins</h3>
+    <ul>
+      <li *ngFor="let medecin of medecins">
+        {{ medecin.name }} - {{ medecin.speciality }}
+        <button (click)="updateMedecin(medecin.id, medecin)">✏️ Modifier</button>
+      </li>
+    </ul>
+  
+    <h2>Gestion des Réservations</h2>
+    <h3>Liste des Réservations</h3>
+    <ul>
+      <li *ngFor="let reservation of reservations">
+        {{ reservation.patient.name }} - {{ reservation.date }}
+        <button (click)="deleteReservation(reservation.id)">🗑️ Supprimer</button>
+      </li>
+    </ul>
+  </div>
+  

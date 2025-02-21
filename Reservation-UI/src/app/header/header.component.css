@@ -3,6 +3,7 @@ body {
     background-color: #e9ecef;
     margin: 0;
     padding: 0;
+    color: #333;
 }
 
 .header {
@@ -15,78 +16,150 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Left Section (Logo) */
 .header-left .logo {
     height: 60px;
 }
 
-/* Conteneur centré pour le titre et la navigation */
+/* Center Section (Title + Navigation) */
 .header-center {
     display: flex;
-    flex-direction: column; /* Met en colonne */
-    align-items: center; /* Centre le titre et le menu */
-    text-align: center; /* Centre le texte */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
 }
 
 .header-center h1 {
     margin: 0;
     font-size: 28px;
     color: #e4b321;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
+/* Navigation */
 .header-center nav {
-    margin-top: 70px;
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .header-center nav a {
-    margin: 0 20px;
+    margin: 0 15px;
     text-decoration: none;
     color: #e4b321;
     font-weight: bold;
-    transition: color 0.3s;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    font-size: 16px;
 }
 
 .header-center nav a:hover,
 .header-center nav a.active {
-    color: #fff;
+    background-color: #e4b321;
+    color: #2c3e50;
     border-bottom: 2px solid #ffc107;
+    box-shadow: 0px 3px 6px rgba(255, 193, 7, 0.4);
 }
 
-/* Container for aligning the login button and user icon */
+/* Right Section (User & Login) */
 .header-right {
     display: flex;
     align-items: center;
-    border: 1px solid #fff; /* Bordure pour tout le conteneur */
-    border-radius: 25px; /* Coins arrondis du conteneur */
-    overflow: hidden; /* Cache les bords superflus */
+    border-radius: 25px;
+    background-color: #2c3e50;
+    padding: 8px 15px;
 }
 
-/* Login button styling */
-.login-button {
-    background-color: #343a40;
-    color: #ffffff;
-    padding: 10px 15px;
+/* Login Button */
+.login-button, .logout-button {
+    background-color: #ffc107;
+    color: #2c3e50;
+    padding: 8px 15px;
     text-decoration: none;
     font-weight: bold;
-    transition: background-color 0.3s;
-    border: none; /* Retire les bordures */
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
 }
 
-/* User icon styling */
+.login-button:hover, .logout-button:hover {
+    background-color: #e4b321;
+    color: #2c3e50;
+}
+
+/* User Icon */
 .user-icon {
     font-size: 24px;
     color: #ffc107;
-    background-color: #343a40;
-    padding: 10px;
-    border: none; /* Retire les bordures */
+    background-color: #2c3e50;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
 }
 
-
-/* Hover effect for login button */
-.login-button:hover {
-    background-color: #2d4373; /* Slightly darker color on hover */
-}
-
-/* Hover effect for user icon */
 .user-icon:hover {
     color: #ffffff;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 1024px) {
+    .header {
+        flex-direction: column;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .header-center {
+        margin-top: 10px;
+    }
+
+    .header-center nav {
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .header-center nav a {
+        margin: 5px 0;
+    }
+
+    .header-right {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 10px;
+    }
+
+    .header-center h1 {
+        font-size: 22px;
+    }
+
+    .header-center nav a {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .header-right {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-button, .logout-button {
+        font-size: 14px;
+        padding: 6px 12px;
+        margin-bottom: 5px;
+    }
+
+    .user-icon {
+        font-size: 20px;
+        padding: 6px;
+    }
 }

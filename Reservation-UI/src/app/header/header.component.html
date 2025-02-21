@@ -2,6 +2,7 @@
     <div class="header-left">
         <img src="./public/16359356220203_snapface.png.png" alt="Logo" class="logo">
     </div>
+    
     <div class="header-center">
         <h1>Réservation de créneaux de vaccination</h1>
         <nav>
@@ -9,10 +10,31 @@
             <a routerLink="/centres" routerLinkActive="active">Réserver un créneau</a>
             <a routerLink="/mes-rendez-vous" routerLinkActive="active">Mes rendez-vous</a>
             <a routerLink="/contact" routerLinkActive="active">Contactez-nous</a>
+
+            <!-- Super Admin -->
+            <ng-container *ngIf="role === 'SUPER_ADMIN'">
+                <a routerLink="/admin/superadmin" routerLinkActive="active">Gestion Centres/Admins</a>
+            </ng-container>
+
+            <!-- Administrateur -->
+            <ng-container *ngIf="role === 'ADMIN_CENTRE'">
+                <a routerLink="/admin" routerLinkActive="active">Gestion des Médecins</a>
+            </ng-container>
+
+            <!-- Médecin -->
+            <ng-container *ngIf="role === 'MEDECIN'">
+                <a routerLink="/medecins" routerLinkActive="active">Gérer Patients</a>
+            </ng-container>
         </nav>
     </div>
+
     <div class="header-right">
-        <a routerLink="/login" class="login-button">Espace client</a>
+        <!-- Bouton Connexion si l'utilisateur n'est pas connecté -->
+        <a *ngIf="!role" routerLink="/login" class="login-button">Espace client</a>
+
+        <!-- Bouton Déconnexion si l'utilisateur est connecté -->
+        <button *ngIf="role" (click)="logout()" class="logout-button">Déconnexion</button>
+
         <i class="far fa-user-circle user-icon"></i>
-    </div>   
+    </div>
 </header>

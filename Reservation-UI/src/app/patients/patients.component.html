@@ -1,0 +1,58 @@
+<div class="patients-container">
+  <h2>Gestion des Patients</h2>
+
+  <!-- 🔎 Recherche d'un patient -->
+  <div>
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Rechercher un patient">
+    <button (click)="searchPatient()">Rechercher</button>
+  </div>
+
+  <p *ngIf="message">{{ message }}</p>
+
+  <!-- 📝 Formulaire pour ajouter un patient -->
+  <div>
+    <h3>Ajouter un patient</h3>
+    <input type="text" [(ngModel)]="newPatient.name" placeholder="Nom">
+    <input type="text" [(ngModel)]="newPatient.surname" placeholder="Prénom">
+    <input type="text" [(ngModel)]="newPatient.phoneNumber" placeholder="Téléphone">
+    <input type="email" [(ngModel)]="newPatient.email" placeholder="Email">
+    <input type="date" [(ngModel)]="newPatient.dateOfBirth">
+    <input type="text" [(ngModel)]="newPatient.adresse" placeholder="Adresse">
+    <button (click)="addPatient()">Ajouter</button>
+  </div>
+
+  <!-- 📜 Liste des patients -->
+  <h3>Liste des patients</h3>
+  <ul>
+    <li *ngFor="let patient of patients">
+      {{ patient.name }} {{ patient.surname }} - {{ patient.email }}
+      <button (click)="selectPatient(patient)">Modifier</button>
+      <button (click)="deletePatient(patient.id)">Supprimer</button>
+    </li>
+  </ul>
+
+  <!-- Formulaire de mise à jour -->
+  <div *ngIf="selectedPatient">
+    <h3>Modifier le patient</h3>
+    <input type="text" [(ngModel)]="selectedPatient.name" placeholder="Nom">
+    <input type="text" [(ngModel)]="selectedPatient.surname" placeholder="Prénom">
+    <input type="text" [(ngModel)]="selectedPatient.phoneNumber" placeholder="Téléphone">
+    <input type="email" [(ngModel)]="selectedPatient.email" placeholder="Email">
+    <input type="date" [(ngModel)]="selectedPatient.dateOfBirth">
+    <input type="text" [(ngModel)]="selectedPatient.adresse" placeholder="Adresse">
+    <button (click)="updatePatient()">Mettre à jour</button>
+  </div>
+
+  <!-- 📜 Liste des patients -->
+  <h3>Liste des patients</h3>
+  <ul>
+    <li *ngFor="let patient of patients">
+      {{ patient.name }} {{ patient.surname }} - {{ patient.email }} - 
+      <span [ngClass]="{'vaccinated': patient.vaccinationStatus === 'Vacciné', 'not-vaccinated': patient.vaccinationStatus !== 'Vacciné'}">
+        {{ patient.vaccinationStatus }}
+      </span>
+      <button *ngIf="patient.vaccinationStatus !== 'Vacciné'" (click)="validateVaccination(patient.id)">✅ Valider</button>
+    </li>
+  </ul>
+  
+</div>

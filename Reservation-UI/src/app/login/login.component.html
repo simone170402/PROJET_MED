@@ -1,0 +1,20 @@
+<div class="login-card">
+  <h2>Log In</h2>
+  <form (ngSubmit)="login()">
+    <mat-form-field class="mat-form-field" appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" [(ngModel)]="email" name="email" required>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form-field" appearance="outline">
+      <mat-label class="textlogin">Password</mat-label>
+      <input matInput type="password" [(ngModel)]="password" name="password" required>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Login</button>
+    <div class="register-link">
+      <span>Don't have an account? <button mat-button (click)="router.navigate(['/signup'])">S'inscrire</button></span>
+    </div>
+
+  </form>
+</div>

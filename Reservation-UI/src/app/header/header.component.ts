@@ -1,22 +1,49 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
-    RouterLink,
-    RouterLinkActive,
-    FontAwesomeModule
+    CommonModule,
+    FormsModule,
+    RouterModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(faUserCircle);
+export class HeaderComponent implements OnInit, OnDestroy {
+  role: string | null = null;
+  private roleSubscription: Subscription | undefined;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    // 🔥 S'abonner aux changements du rôle
+    this.roleSubscription = this.authService.role$.subscribe(role => {
+      this.role = role;
+      console.log('✅ Rôle mis à jour :', this.role);
+    });
+
+    // Charger le rôle initial
+    this.role = this.authService.getRole();
+    console.log('🚀 Rôle initial récupéré:', this.role);
   }
 
+  logout(): void {
+    this.authService.logout();
+    this.role = null;
+    this.router.navigate(['/login']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.roleSubscription) {
+      this.roleSubscription.unsubscribe();
+    }
+  }
 }

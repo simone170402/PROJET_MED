@@ -1,0 +1,71 @@
+/* login.component.css */
+.login-card {
+    width: 700px; /* Réduire la largeur pour un look plus compact */
+    margin: 100px auto; /* Centrer verticalement */
+    padding: 30px; /* Augmenter le padding pour plus d'espace */
+    border-radius: 10px; /* Coins arrondis */
+    background-color: black; /* Fond blanc pour un look propre */
+    box-shadow: 0 4px 20px rgba(251, 247, 249, 0.1); /* Ombre douce */
+    color: #fff; /* Texte gris foncé pour un meilleur contraste */
+    text-align: center;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    font-size: 24px; /* Augmenter la taille de la police pour le titre */
+    color: #fff; /* Couleur du titre */
+  }
+
+  /* login.component.css */
+.mat-form-field {
+    width: 100%; /* Prendre toute la largeur */
+    margin-bottom: 20px; /* Espace entre les champs */
+    display: flex;
+    flex-direction: column; /* Aligne les éléments en colonne */
+    justify-content: center; 
+    align-items: center;
+  }
+  
+  .mat-form-field .mat-form-field-flex {
+    padding: 26px; /* Augmenter le padding interne pour un cadre plus grand */
+  }
+
+  .matlabel {
+    display: flex; /* Utiliser flex pour centrer le texte */
+    align-items: center; /* Aligner le texte au centre verticalement */
+
+  }
+  
+  .mat-form-field input {
+    height: 56px; /* Ajuster la hauteur des champs d'entrée */
+    font-size: 16px; /* Taille de police des entrées */
+  }
+  
+  button {
+    width: 100%; /* Bouton pleine largeur */
+    margin-top: 10px; /* Espacement entre le bouton et le formulaire */
+    background-color: #673ab7; /* Couleur violette */
+    color: white; /* Texte blanc */
+    font-size: 16px; /* Taille de la police du bouton */
+    padding: 10px; /* Espacement interne du bouton */
+    border-radius: 5px; /* Arrondi du bouton */
+    transition: background-color 0.3s; /* Animation au survol */
+  }
+  
+  button:hover {
+    background-color: #673ab7; /* Couleur au survol */
+  }
+  
+  .register-link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #fff; /* Couleur du texte du lien */
+  }
+  
+  a {
+    text-decoration: none; /* Enlever le soulignement */
+  }
+  
+  a:hover {
+    text-decoration: underline; /* Soulignement au survol */
+  }

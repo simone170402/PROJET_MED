@@ -1,5 +1,6 @@
 package org.example.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -12,7 +13,6 @@ public class UtilisateurRole {
 
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")
-    @JsonIgnore
     private Utilisateur utilisateur;
 
     @ManyToOne

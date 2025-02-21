@@ -1,3 +1,15 @@
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/reservation_vaccination
@@ -13,3 +25,4 @@ spring:
   sql:
     init:
       mode: always
+

@@ -2,6 +2,8 @@ package org.example.Controllers;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.Map;
 
 import org.example.Entities.Role;
 import org.example.Entities.Utilisateur;
@@ -9,16 +11,7 @@ import org.example.Services.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/utilisateurs")
@@ -32,44 +25,78 @@ public class UtilisateurController {
     }
 
     @GetMapping("/{id}")
-    public Utilisateur getUtilisateurById(@PathVariable Long id) {
-        return utilisateurService.getUtilisateurById(id);
+    public ResponseEntity<?> getUtilisateurById(@PathVariable Long id) {
+        Utilisateur utilisateur = utilisateurService.getUtilisateurById(id);
+        if (utilisateur == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Utilisateur non trouvé"));
+        }
+        return ResponseEntity.ok(utilisateur);
     }
 
     @PutMapping("/{id}")
-    public Utilisateur updateUtilisateur(@PathVariable Long id, @RequestBody Utilisateur utilisateur) {
+    public ResponseEntity<Utilisateur> updateUtilisateur(@PathVariable Long id, @RequestBody Utilisateur utilisateur) {
         utilisateur.setId(id);
-        return utilisateurService.createOrUpdateUtilisateur(utilisateur);
+        return ResponseEntity.ok(utilisateurService.createOrUpdateUtilisateur(utilisateur));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUtilisateur(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUtilisateur(@PathVariable Long id) {
         utilisateurService.deleteUtilisateur(id);
+        return ResponseEntity.ok(Map.of("message", "Utilisateur supprimé avec succès"));
     }
-
 
     @PostMapping("/creer")
-    public ResponseEntity<Utilisateur> createUtilisateur(@RequestParam String nom,
-                                                         @RequestParam String prenom,
-                                                         @RequestParam String email,
-                                                         @RequestParam String motDePasse,
-                                                         @RequestParam String role) {
-        Utilisateur utilisateur = utilisateurService.createUtilisateur(nom, prenom, email, motDePasse, role);
-        return new ResponseEntity<>(utilisateur, HttpStatus.CREATED);
+    public ResponseEntity<Utilisateur> createUtilisateur(@RequestBody Map<String, Object> request) {
+        String name = (String) request.get("name");
+        String email = (String) request.get("email");
+        String password = (String) request.get("password");
+        List<String> roles = (List<String>) request.get("roles");
+
+        if (name == null || email == null || password == null || roles == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Utilisateur utilisateur = utilisateurService.createUser(name, email, password, roles);
+        return ResponseEntity.status(HttpStatus.CREATED).body(utilisateur);
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<Utilisateur> getUtilisateur(@PathVariable String email) {
+    @GetMapping("/by-email")
+    public ResponseEntity<?> getUtilisateur(@RequestParam String email) {
         Utilisateur utilisateur = utilisateurService.getUtilisateurByEmail(email);
-        return new ResponseEntity<>(utilisateur, HttpStatus.OK);
+        if (utilisateur == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Utilisateur non trouvé"));
+        }
+        return ResponseEntity.ok(utilisateur);
     }
 
-    @GetMapping("/{email}/roles")
-    public ResponseEntity<Set<Role>> getRoles(@PathVariable String email) {
+    @GetMapping("/by-email/roles")
+    public ResponseEntity<?> getRolesByEmail(@RequestParam String email) {
         Utilisateur utilisateur = utilisateurService.getUtilisateurByEmail(email);
-        Set<Role> roles = utilisateurService.getRoles(utilisateur);
-        return new ResponseEntity<>(roles, HttpStatus.OK);
+        if (utilisateur == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Utilisateur non trouvé"));
+        }
+
+        Set<String> roles = utilisateur.getRole().stream().map(Role::getName).collect(Collectors.toSet());
+        return ResponseEntity.ok(Map.of("email", utilisateur.getEmail(), "roles", roles));
     }
+
+    @GetMapping("/{id}/roles")
+    public ResponseEntity<?> getUserRoles(@PathVariable Long id) {
+        Utilisateur utilisateur = utilisateurService.getUtilisateurById(id);
+        if (utilisateur == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Utilisateur non trouvé"));
+        }
+
+        Set<String> roles = utilisateur.getRole().stream().map(Role::getName).collect(Collectors.toSet());
+        return ResponseEntity.ok(Map.of("email", utilisateur.getEmail(), "roles", roles));
+    }
+
+    @GetMapping("/administrateurs")
+    public List<Utilisateur> getAllAdministrateurs() {
+        return utilisateurService.getAllUtilisateurs()
+                .stream()
+                .filter(user -> user.getRole().stream().anyMatch(role -> role.getId() == 1)) // Filtrer les admins
+                .collect(Collectors.toList());
+    }
+
 }
-
-

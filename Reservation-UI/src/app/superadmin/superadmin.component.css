@@ -1,0 +1,108 @@
+.superadmin-container {
+  max-width: 800px; /* Élargir la largeur maximale */
+  margin: 20px auto; /* Espacement autour du conteneur */
+  padding: 20px; /* Espacement interne */
+  border-radius: 10px; /* Coins arrondis */
+  background-color: #f9f9f9; /* Fond clair pour un look propre */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre douce */
+}
+
+h2 {
+  text-align: center; /* Centrer le titre */
+  color: #333; /* Couleur foncée pour le texte */
+  margin-bottom: 20px; /* Espacement sous le titre */
+}
+
+h3 {
+  color: #555; /* Couleur légèrement plus claire */
+  margin-top: 30px; /* Espacement au-dessus du sous-titre */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espacement entre les champs */
+  margin-bottom: 20px; /* Espace sous le formulaire */
+}
+
+.form-container-row {
+  display: flex;
+  justify-content: space-between; /* Répartit l'espace entre les cartes */
+  align-items: flex-start; /* Aligne les cartes en haut */
+  gap: 20px; /* Ajoute un espace entre les deux cartes */
+  flex-wrap: wrap; /* Permet l'affichage sur mobile */
+}
+
+.form-container {
+  flex: 1; /* Permet aux cartes de prendre la même largeur */
+  min-width: 300px; /* Empêche que les cartes deviennent trop petites */
+}
+
+
+.mat-form-field {
+  width: 100%; /* Prendre toute la largeur */
+}
+
+.success-snackbar {
+  background-color: #4caf50; /* Vert */
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #f44336; /* Rouge */
+  color: white;
+}
+
+input, select, button {
+  padding: 12px; /* Espacement interne */
+  font-size: 16px; /* Taille de la police */
+  border-radius: 5px; /* Coins arrondis */
+  border: 1px solid #ccc; /* Bordure légère */
+}
+
+button {
+  background-color: #007bff; /* Couleur primaire */
+  color: white; /* Texte blanc */
+  cursor: pointer; /* Curseur pointer */
+  transition: background-color 0.3s; /* Transition douce */
+}
+
+button:hover {
+  background-color: #0056b3; /* Couleur au survol */
+}
+
+table {
+  width: 100%; /* Prendre toute la largeur */
+  border-collapse: collapse; /* Fusionner les bordures */
+  margin-top: 20px; /* Espace au-dessus du tableau */
+}
+
+th, td {
+  padding: 12px; /* Espacement interne des cellules */
+  text-align: left; /* Alignement à gauche */
+  border-bottom: 1px solid #ddd; /* Bordure sous les lignes */
+}
+
+th {
+  background-color: #f1f1f1; /* Fond gris clair pour l'en-tête */
+  font-weight: bold; /* Gras pour l'en-tête */
+}
+
+tr:hover {
+  background-color: #f5f5f5; /* Couleur de survol pour les lignes */
+}
+
+.login-link {
+  margin-top: 15px;
+  font-size: 14px;
+  text-align: center; /* Centrer le lien */
+}
+
+a {
+  color: #007bff; /* Couleur du lien */
+  text-decoration: none; /* Enlever le soulignement */
+}
+
+a:hover {
+  text-decoration: underline; /* Soulignement au survol */
+}
