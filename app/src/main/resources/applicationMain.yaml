@@ -12,9 +12,9 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/reservation_vaccination
-    username: postgres
-    password: simone
+    url: jdbc:postgresql://localhost:5432/vaccinationmain
+    username: postgre
+    password: Admin
   
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -25,4 +25,9 @@ spring:
   sql:
     init:
       mode: always
+<<<<<<< HEAD:app/src/main/resources/application.yaml
 
+=======
+  server:
+    port: 8081
+>>>>>>> f9b86cc1aed5bf9f2ffb1a7a04445dde0f8c9a78:app/src/main/resources/applicationMain.yaml
