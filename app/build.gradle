@@ -1,47 +1,47 @@
 plugins {
     id 'application'
     id 'org.springframework.boot' version '3.1.4'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'io.spring.dependency-management' version '1.1.3'
     id 'java'
     id 'jacoco'
 }
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-<<<<<<< HEAD
-
-    // This dependency is used by the application.
-    implementation libs.guava
-    // Dépendances Spring Boot
-=======
-    implementation 'com.google.guava:guava:31.1-jre'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
->>>>>>> f9b86cc1aed5bf9f2ffb1a7a04445dde0f8c9a78
+    // Spring Boot Starters
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-json'
 
+    // Monitoring et observabilité
+    implementation 'io.micrometer:micrometer-core:1.11.4'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.4'
+
+    // Outils supplémentaires
+    implementation 'com.google.guava:guava:31.1-jre'
+
     // Base de données
     runtimeOnly 'org.postgresql:postgresql:42.7.3'
-<<<<<<< HEAD
+    runtimeOnly 'com.h2database:h2'
 
     // Spring Security et JWT
     implementation 'org.springframework.security:spring-security-crypto'
     implementation 'org.springframework.security:spring-security-core:6.1.2'
     implementation 'org.springframework.security:spring-security-web:6.1.2'
     implementation 'org.springframework.security:spring-security-config:6.1.2'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.0' // optionnel
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0' // optionnel
-
-    // JWT (JSON Web Token)
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
@@ -53,18 +53,12 @@ dependencies {
 
     // Tests
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-
-// Apply a specific Java toolchain to ease working on different environments.
-=======
-    runtimeOnly 'com.h2database:h2'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.mockito:mockito-core:5.10.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.10.0'
 }
 
->>>>>>> f9b86cc1aed5bf9f2ffb1a7a04445dde0f8c9a78
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -88,22 +82,15 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
-/*
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.90 // Set the minimum code coverage required to 90%
-            }
-        }
-    }
-}
-*/
+
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
-    finalizedBy jacocoTestCoverageVerification // Ensure the coverage verification runs after tests
-    ignoreFailures = true // Ajoutez cette ligne pour ignorer les échecs de tests
+    ignoreFailures = true
+    jvmArgs += ["-XX:+IgnoreUnrecognizedVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+LogVMOutput"]
+    testLogging {
+        showStandardStreams = true
+    }
 }
 
 sourceSets {
@@ -115,4 +102,8 @@ sourceSets {
             srcDirs = ['src/test/resources', 'app/src/test/resources']
         }
     }
+}
+
+jar {
+    destinationDirectory = file("$buildDir/libs")
 }

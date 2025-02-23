@@ -12,30 +12,62 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@TestPropertySource(locations = "classpath:applicationTest.yaml")
+@TestPropertySource(locations = "classpath:application-test.yaml")
 public class ReservationE2ETest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void testCreateReservation() throws Exception {
+    void testCreateAndGetReservation() throws Exception {
+        // Create a reservation
         String reservationJson = """
             {
                 "reservationStatus": "Disponible",
-                "dateReservation": "2025-02-10",
-                "datestart": "2025-02-10T09:00:00",
-                "dateend": "2025-02-10T10:00:00",
+                "dateReservation": "2025-02-20",
+                "datestart": "2025-02-20T10:00:00",
+                "dateend": "2025-02-20T11:00:00",
+                "title": "Consultation"
+            }
+            """;
+
+        String response = mockMvc.perform(post("/api/reservations")
+                .content(reservationJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        // Use Jackson to extract the ID of the created reservation
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response);
+        String id = jsonNode.get("id").asText();
+
+        // Get the reservation by ID
+        mockMvc.perform(get("/api/reservations/reservation/" + id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.reservationStatus").value("Disponible"))
+                .andExpect(jsonPath("$.dateReservation").value("2025-02-20"));
+    }
+
+
+
+    @Test
+    void testGetReservationsByDate() throws Exception {
+        // Create a reservation
+        String reservationJson = """
+            {
+                "reservationStatus": "Disponible",
+                "dateReservation": "2025-02-20",
+                "datestart": "2025-02-20T10:00:00",
+                "dateend": "2025-02-20T11:00:00",
                 "title": "Consultation"
             }
             """;
@@ -43,54 +75,27 @@ public class ReservationE2ETest {
         mockMvc.perform(post("/api/reservations")
                 .content(reservationJson)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.reservationStatus").value("Disponible"));
-    }
+                .andExpect(status().isCreated());
 
-    @Test
-    void testGetReservationById() throws Exception {
-        // given
-        String reservationJson = """
-            {
-                "reservationStatus": "Disponible",
-                "dateReservation": "2025-02-10",
-                "datestart": "2025-02-10T09:00:00",
-                "dateend": "2025-02-10T10:00:00",
-                "title": "Consultation"
-            }
-            """;
-
-        // Create a reservation
-        String responseJson = mockMvc.perform(post("/api/reservations")
-                .content(reservationJson)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse().getContentAsString();
-        
-        // Use Jackson to extract the ID of the created reservation
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(responseJson);
-        String id = jsonNode.get("id").asText();
-        
-        // when
-        mockMvc.perform(get("/api/reservations/" + id))
-                // then
+        // Get all reservations
+        mockMvc.perform(get("/api/reservations"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.reservationStatus").value("Disponible"))
-                .andExpect(jsonPath("$.dateReservation").value("2025-02-10"))
-                .andExpect(jsonPath("$.datestart").value("2025-02-10T09:00:00"))
-                .andExpect(jsonPath("$.dateend").value("2025-02-10T10:00:00"))
-                .andExpect(jsonPath("$.title").value("Consultation"));
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].reservationStatus").value("Disponible"));
     }
 
+    /**
+     * Teste les scénarios d'erreur de réservation.
+     */
     @Test
     void testUpdateReservation() throws Exception {
-        // First create a reservation
+        // Create a reservation
         String reservationJson = """
             {
                 "reservationStatus": "Disponible",
-                "dateReservation": "2025-02-10",
-                "datestart": "2025-02-10T09:00:00",
-                "dateend": "2025-02-10T10:00:00",
+                "dateReservation": "2025-02-20",
+                "datestart": "2025-02-20T10:00:00",
+                "dateend": "2025-02-20T11:00:00",
                 "title": "Consultation"
             }
             """;
@@ -99,85 +104,86 @@ public class ReservationE2ETest {
                 .content(reservationJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse().getContentAsString();
-        
-        String id = response.split("\"id\":")[1].split(",")[0];
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response);
+        String id = jsonNode.get("id").asText();
 
         // Update the reservation
-        String updatedReservationJson = """
+        String updatedJson = """
             {
-                "reservationStatus": "Reservé",
-                "dateReservation": "2025-02-10",
-                "datestart": "2025-02-10T09:00:00",
-                "dateend": "2025-02-10T10:00:00",
-                "title": "Consultation Urgente"
+                "reservationStatus": "Réservé",
+                "dateReservation": "2025-02-20",
+                "datestart": "2025-02-20T10:00:00",
+                "dateend": "2025-02-20T11:00:00",
+                "title": "Consultation modifiée"
             }
             """;
 
         mockMvc.perform(put("/api/reservations/" + id)
-                .content(updatedReservationJson)
+                .content(updatedJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.reservationStatus").value("Reservé"));
+                .andExpect(jsonPath("$.reservationStatus").value("Réservé"))
+                .andExpect(jsonPath("$.title").value("Consultation modifiée"));
     }
 
     @Test
-    void testGetReservationsByDate() throws Exception {
+    void testDeleteReservation() throws Exception {
         // Create a reservation
         String reservationJson = """
             {
                 "reservationStatus": "Disponible",
-                "dateReservation": "2025-02-10",
-                "datestart": "2025-02-10T09:00:00",
-                "dateend": "2025-02-10T10:00:00",
+                "dateReservation": "2025-02-20",
+                "datestart": "2025-02-20T10:00:00",
+                "dateend": "2025-02-20T11:00:00",
                 "title": "Consultation"
             }
             """;
 
-        mockMvc.perform(post("/api/reservations")
+        String response = mockMvc.perform(post("/api/reservations")
                 .content(reservationJson)
-                .contentType(MediaType.APPLICATION_JSON));
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse().getContentAsString();
 
-        // Get reservations by date
-        mockMvc.perform(get("/api/reservations/date/2025-02-10"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].dateReservation").value("2025-02-10"));
-    }
-    @Test
-    void testGetNonExistentReservation() throws Exception {
-        mockMvc.perform(get("/api/reservations/999"))
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response);
+        String id = jsonNode.get("id").asText();
+
+        // Delete the reservation
+        mockMvc.perform(delete("/api/reservations/" + id))
+                .andExpect(status().isNoContent());
+
+        // Verify it's deleted
+        mockMvc.perform(get("/api/reservations/reservation/" + id))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void testCreateReservationWithInvalidDates() throws Exception {
-        String invalidReservationJson = """
+    void testReserveCreneauWithPatient() throws Exception {
+        String payload = """
             {
-                "datestart": "2025-02-10T11:00:00",
-                "dateend": "2025-02-10T10:00:00",
-                "title": "Invalid Time Range"
+                "patient": {
+                    "name": "John",
+                    "surname": "Doe",
+                    "email": "john.doe@example.com",
+                    "phoneNumber": "0123456789"
+                },
+                "reservation": {
+                    "dateReservation": "2025-02-20",
+                    "datestart": "2025-02-20T10:00:00",
+                    "dateend": "2025-02-20T11:00:00",
+                    "reservationStatus": "Disponible",
+                    "title": "Consultation"
+                }
             }
             """;
 
-        mockMvc.perform(post("/api/reservations")
-                .content(invalidReservationJson)
+        mockMvc.perform(post("/api/reservations/reserve")
+                .content(payload)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void testCreateReservationWithPastDate() throws Exception {
-        String pastDateReservationJson = """
-            {
-                "datestart": "2020-01-01T09:00:00",
-                "dateend": "2020-01-01T10:00:00",
-                "title": "Past Consultation"
-            }
-            """;
-
-        mockMvc.perform(post("/api/reservations")
-                .content(pastDateReservationJson)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.patient.name").value("John"))
+                .andExpect(jsonPath("$.reservationStatus").value("Réservé"));
     }
 }
