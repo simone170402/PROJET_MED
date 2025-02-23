@@ -30,6 +30,15 @@ public class CentreService {
         return centreRepository.findById(id);
     }
 
+    /**
+     * Crée ou met à jour un centre
+     * @param centre Le centre à créer ou mettre à jour
+     * @return Le centre sauvegardé
+     */
+    public Centre createOrUpdateCentre(Centre centre) {
+        return centreRepository.save(centre);
+    }
+
     public Centre save(Centre centre) {
         return centreRepository.save(centre);
     }
