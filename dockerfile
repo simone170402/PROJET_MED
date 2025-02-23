@@ -1,5 +1,5 @@
 # Utiliser une image de base avec JDK 21 pour la construction du backend
-FROM eclipse-temurin:21-jdk-jammy AS backend-build
+FROM eclipse-temurin:21-jdk AS backend-build
 
 # Définir le répertoire de travail pour le backend
 WORKDIR /app
@@ -32,11 +32,11 @@ WORKDIR /frontend
 COPY Reservation-UI/ ./
 
 # Installer les dépendances et construire l'application frontend
-RUN npm install
+RUN npm install --legacy-peer-deps
 RUN npm run build
 
 # Utiliser une image de base plus légère pour l'exécution
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:21-jre
 
 # Définir le répertoire de travail
 WORKDIR /app
