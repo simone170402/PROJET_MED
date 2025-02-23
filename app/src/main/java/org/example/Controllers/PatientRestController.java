@@ -56,6 +56,17 @@ public class PatientRestController {
         patientService.delete(id);
     }
 
+    @PutMapping("/{id}/validate")
+    public ResponseEntity<Patient> validateVaccination(@PathVariable Long id) {
+        Patient patient = patientService.findOneById(id);
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        patient.setVaccinationStatus("Vacciné");
+        patientService.save(patient);
+        return ResponseEntity.ok(patient);
+    }
+
     // Gérer les exceptions pour les patients non trouvés
     @ExceptionHandler(PatientNotFoundException.class)
     public ResponseEntity<String> handle(PatientNotFoundException ex) {

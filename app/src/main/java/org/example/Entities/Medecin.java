@@ -2,7 +2,10 @@ package org.example.Entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Medecin extends Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +28,7 @@ public class Medecin extends Utilisateur {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "centre_id")
-    @JsonIgnore
+    @JoinColumn(name = "centre_id", nullable = true)
     private Centre centre;
 
     @OneToMany

@@ -1,0 +1,61 @@
+/* signup.component.css */
+.signup-card {
+    max-width: 700px;
+    margin: 100px auto; /* Centrer verticalement */
+    padding: 30px; /* Augmenter le padding pour plus d'espace */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(251, 247, 249, 0.1); /* Ombre douce */
+    background-color: black; /* Fond blanc pour un look propre */
+    color: #fff; /* Texte gris foncé */
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px; /* Taille de police du titre */
+    color: #fff; /* Couleur du titre */
+}
+
+.custom-form-field {
+    width: 100%; /* Prendre toute la largeur */
+    margin-bottom: 20px; /* Espacement entre les champs */
+}
+
+.custom-form-field .mat-form-field-flex {
+    padding: 26px; /* Augmenter le padding interne pour un cadre plus grand */
+}
+
+.custom-form-field input {
+    height: 56px; /* Ajuster la hauteur des champs d'entrée */
+    font-size: 16px; /* Taille de police des entrées */
+}
+
+button {
+    width: 100%; /* Bouton pleine largeur */
+    margin-top: 10px; /* Espacement entre le bouton et le formulaire */
+    background-color: #673ab7; /* Couleur violette */
+    color: white; /* Texte blanc */
+    font-size: 16px; /* Taille de la police du bouton */
+    padding: 10px; /* Espacement interne du bouton */
+    border-radius: 5px; /* Arrondi du bouton */
+    transition: background-color 0.3s; /* Animation au survol */
+  }
+  
+  button:hover {
+    background-color: #673ab7; /* Couleur au survol */
+  }
+
+.login-link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #fff; /* Couleur du texte du lien */
+}
+
+a {
+    color: #673ab7; /* Couleur du lien */
+    text-decoration: none; /* Enlever le soulignement */
+}
+
+a:hover {
+    text-decoration: underline; /* Soulignement au survol */
+}

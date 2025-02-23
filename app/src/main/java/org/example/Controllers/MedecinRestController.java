@@ -55,8 +55,6 @@ public class MedecinRestController {
         return medecins;
     }
 
-
-
     @GetMapping("/medecin/{id}")
     public Medecin getMedecinById(@PathVariable Long id) {
         return medecinService.findOneById(id);

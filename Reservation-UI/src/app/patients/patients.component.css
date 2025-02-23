@@ -1,0 +1,10 @@
+.vaccinated {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .not-vaccinated {
+    color: red;
+    font-weight: bold;
+  }
+  

@@ -1,0 +1,195 @@
+<div class="superadmin-container">
+  <h2>Gestion des Centres</h2>
+
+  <!-- Conteneur flex pour afficher les formulaires côte à côte -->
+  <div class="form-container-row">
+  <!-- Formulaire d'ajout de centre -->
+  <mat-card class="form-container">
+    <mat-card-title>Ajouter un Centre</mat-card-title>
+    <mat-card-content>
+      <form (submit)="addCentre(); $event.preventDefault();" class="form-group">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Nom du Centre</mat-label>
+          <input matInput [(ngModel)]="newCentre.name" name="name" required>
+        </mat-form-field>
+  
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Ville</mat-label>
+          <input matInput [(ngModel)]="newCentre.city" name="city" required>
+        </mat-form-field>
+  
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Adresse</mat-label>
+          <input matInput [(ngModel)]="newCentre.address" name="address" required>
+        </mat-form-field>
+  
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Téléphone</mat-label>
+          <input matInput [(ngModel)]="newCentre.phoneNumber" name="phoneNumber" required>
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" type="submit" class="full-width">Ajouter Centre</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="form-container">
+    <mat-card-title>Modifier un Centre</mat-card-title>
+    <mat-card-content>
+      <form (submit)="updateCentre(); $event.preventDefault();" class="form-group">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Nom du Centre</mat-label>
+          <input matInput [(ngModel)]="updatedCentre.name" name="name" required>
+        </mat-form-field>
+  
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Ville</mat-label>
+          <input matInput [(ngModel)]="updatedCentre.city" name="city" required>
+        </mat-form-field>
+  
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Adresse</mat-label>
+          <input matInput [(ngModel)]="updatedCentre.address" name="address" required>
+        </mat-form-field>
+  
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Téléphone</mat-label>
+          <input matInput [(ngModel)]="updatedCentre.phoneNumber" name="phoneNumber" required>
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" type="submit" class="full-width">Mettre à jour le Centre</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  </div>
+
+  
+  <h3>Liste des Centres</h3>
+  
+  <table mat-table [dataSource]="centres" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nom </th>
+      <td mat-cell *matCellDef="let centre"> {{ centre.name }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef> Ville </th>
+      <td mat-cell *matCellDef="let centre"> {{ centre.city }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let centre">
+        <button mat-icon-button color="accent" (click)="selectCentreForUpdate(centre)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        
+        <button mat-icon-button color="warn" (click)="deleteCentre(centre.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="['name', 'city', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'city', 'actions'];"></tr>
+  </table>
+  
+  <ng-template #noCentres>
+    <p>Aucun centre trouvé.</p>
+  </ng-template>
+  
+
+  <!-- Gestion des Administrateurs -->
+  <h2>Gestion des Administrateurs</h2>
+
+  <div class="admin-container">
+    <mat-card class="form-container">
+      <mat-card-title>Ajouter un Administrateur</mat-card-title>
+      <mat-card-content>
+        <form (submit)="addAdmin(); $event.preventDefault();" class="form-group">
+          <mat-form-field class="full-width">
+            <mat-label>Nom</mat-label>
+            <input matInput [(ngModel)]="newAdmin.name" name="name" required>
+          </mat-form-field>
+  
+          <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="newAdmin.email" name="email" required>
+          </mat-form-field>
+  
+          <mat-form-field class="full-width">
+            <mat-label>Centre</mat-label>
+            <mat-select [(ngModel)]="newAdmin.centreId" name="centreId" required>
+              <mat-option *ngFor="let centre of centres" [value]="centre.id">
+                {{ centre.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <button mat-raised-button color="primary" type="submit">Ajouter Admin</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  
+    <mat-card class="form-container">
+      <mat-card-title>Modifier un Administrateur</mat-card-title>
+      <mat-card-content>
+        <form (submit)="updateAdmin(); $event.preventDefault();" class="form-group">
+          <mat-form-field class="full-width">
+            <mat-label>Nom</mat-label>
+            <input matInput [(ngModel)]="updatedAdmin.name" name="name" required>
+          </mat-form-field>
+    
+          <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="updatedAdmin.email" name="email" required>
+          </mat-form-field>
+    
+          <mat-form-field class="full-width">
+            <mat-label>Centre</mat-label>
+            <mat-select [(ngModel)]="updatedAdmin.centreId" name="centreId" required>
+              <mat-option *ngFor="let centre of centres" [value]="centre.id">
+                {{ centre.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+          <button mat-raised-button color="primary" type="submit">Mettre à jour</button>
+        </form>
+      </mat-card-content>
+    </mat-card>    
+  </div>  
+
+  <h3>Liste des Administrateurs</h3>
+
+  <table mat-table [dataSource]="administrateurs" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nom </th>
+      <td mat-cell *matCellDef="let admin"> {{ admin.name }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let admin"> {{ admin.email }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let admin">
+        <button mat-icon-button color="accent" (click)="selectAdminForUpdate(admin)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteAdmin(admin.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="['name', 'email', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'email', 'actions'];"></tr>
+  </table>
+  
+
+  <ng-template #noAdmins>
+    <p>Aucun administrateur trouvé.</p>
+  </ng-template>
+</div>
