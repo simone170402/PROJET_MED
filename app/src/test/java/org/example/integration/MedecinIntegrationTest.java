@@ -44,7 +44,7 @@ class MedecinIntegrationTest {
         // given
         Centre centre = new Centre();
         centre.setName("Hôpital Central");
-        Centre savedCentre = centreService.createOrUpdateCentre(centre);
+        Centre savedCentre = centreService.save(centre);
     
         Medecin medecin = new Medecin();
         medecin.setName("Dr. House");
