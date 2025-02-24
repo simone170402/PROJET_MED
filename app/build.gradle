@@ -24,8 +24,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-json'
 
     // Monitoring et observabilité
-    implementation 'io.micrometer:micrometer-core:1.11.4'
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.4'
+    implementation 'io.micrometer:micrometer-core'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 
     // Outils supplémentaires
     implementation 'com.google.guava:guava:31.1-jre'

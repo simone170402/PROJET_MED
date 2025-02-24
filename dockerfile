@@ -48,7 +48,7 @@ COPY --from=backend-build /app/build/libs/*.jar app.jar
 COPY --from=frontend-build /frontend/build /app/public
 
 # Exposer le port sur lequel l'application écoute
-EXPOSE 8084
+EXPOSE 8080
 
 # Définir la commande pour exécuter l'application
 ENTRYPOINT ["java", "-jar", "app.jar"]
