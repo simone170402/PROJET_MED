@@ -12,22 +12,37 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/vaccinationmain
       - SPRING_DATASOURCE_USERNAME=postgre
       - SPRING_DATASOURCE_PASSWORD=Admin
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-      - SPRING_JPA_SHOW_SQL=true
-      - SPRING_SQL_INIT_MODE=always
+      - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   db:
-    image: postgres:16
+    image: postgres:16-alpine
     environment:
       - POSTGRES_DB=vaccinationmain
       - POSTGRES_USER=postgre
       - POSTGRES_PASSWORD=Admin
+      - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgre -d vaccinationmain"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
 
 volumes:
   postgres_data:
+    name: med-postgres-data
