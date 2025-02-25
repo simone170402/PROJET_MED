@@ -18,7 +18,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-json'
-<<<<<<< HEAD
 
     // Monitoring et observabilité
     implementation 'io.micrometer:micrometer-core'
@@ -26,11 +25,9 @@ dependencies {
 
     // Outils supplémentaires
     implementation 'com.google.guava:guava:31.1-jre'
-=======
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
->>>>>>> f7d8e515ed5c5b74b8132e03095b9c19da1f1684
-
     // Base de données
     runtimeOnly 'org.postgresql:postgresql:42.7.3'
     runtimeOnly 'com.h2database:h2'
