@@ -10,7 +10,6 @@ import org.example.Entities.Patient;
 import org.example.Entities.Reservation;
 import org.example.Exceptions.ReservationNotFoundException;
 import org.example.Services.ReservationService;
-import org.example.Repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +29,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @RestController
 @RequestMapping("/api/reservations")
-@CrossOrigin(origins = "*")
 public class ReservationRestController {
-    
     @Autowired
     private ReservationService reservationService;
-    
+
     @Autowired
     private PatientRepository patientRepository;
 
@@ -103,8 +100,8 @@ public class ReservationRestController {
             patient.setSurname((String) patientMap.get("surname"));
             patient.setPhoneNumber((String) patientMap.get("phoneNumber"));
             patient.setEmail((String) patientMap.get("email"));
-            patient.setDateOfBirth((String) patientMap.get("dateOfBirth"));  
-            patient.setAdresse((String) patientMap.get("adresse")); 
+            patient.setDateOfBirth((String) patientMap.get("dateOfBirth"));  // Here the date is a String
+            patient.setAdresse((String) patientMap.get("adresse")); // Added "adresse"
 
             // Check if patient already exists
             Optional<Patient> existingPatient = patientRepository.findByEmail(patient.getEmail());
@@ -122,9 +119,9 @@ public class ReservationRestController {
 
             // Extract reservation details
             Reservation reservation = new Reservation();
-            reservation.setDateReservation((String) reservationMap.get("dateReservation"));  
-            reservation.setDatestart((String) reservationMap.get("datestart"));  
-            reservation.setDateend((String) reservationMap.get("dateend"));  
+            reservation.setDateReservation((String) reservationMap.get("dateReservation"));  // Date as String
+            reservation.setDatestart((String) reservationMap.get("datestart"));  // Start time as String
+            reservation.setDateend((String) reservationMap.get("dateend"));  // End time as String
             reservation.setTitle((String) reservationMap.get("title"));
 
             // Set centre and medecin for the reservation
@@ -148,55 +145,7 @@ public class ReservationRestController {
         }
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<Reservation>> searchReservations(
-            @RequestParam(required = false) String date,
-            @RequestParam(required = false) String status) {
-        
-        List<Reservation> reservations;
-        if (date != null && status != null) {
-            reservations = reservationService.findByDateAndStatus(date, status);
-        } else if (date != null) {
-            reservations = reservationService.findByDate(date);
-        } else if (status != null) {
-            reservations = reservationService.findByStatus(status);
-        } else {
-            reservations = reservationService.findAll();
-        }
-        return ResponseEntity.ok(reservations);
-    }
 
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Reservation> updateReservationStatus(
-            @PathVariable Long id,
-            @RequestBody Map<String, String> statusUpdate) {
-        
-        String newStatus = statusUpdate.get("reservationStatus");
-        if (newStatus == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Reservation reservation = reservationService.findOneById(id);
-        reservation.setReservationStatus(newStatus);
-        Reservation updatedReservation = reservationService.update(id, reservation);
-        return ResponseEntity.ok(updatedReservation);
-    }
-
-    @PostMapping("/cancel/{id}")
-    public ResponseEntity<Reservation> cancelReservation(@PathVariable Long id) {
-        Reservation cancelledReservation = reservationService.cancelReservation(id);
-        return ResponseEntity.ok(cancelledReservation);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
-    @ExceptionHandler(ReservationNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> handleReservationNotFoundException(ReservationNotFoundException e) {
-        return ResponseEntity.notFound().build();
-    }
 }
+
+

@@ -1,23 +1,18 @@
 # Utiliser une image de base avec JDK 21 pour la construction du backend
-FROM eclipse-temurin:21-jdk AS backend-build
+FROM openjdk:21-jdk-slim-buster AS backend-build
 
 # Définir le répertoire de travail pour le backend
 WORKDIR /app
 
-# Copier les fichiers de configuration Gradle
-COPY app/build.gradle build.gradle
-COPY settings.gradle ./
-COPY gradlew ./
-COPY gradle gradle/
-
-# Donner les permissions d'exécution au gradlew
-RUN chmod +x gradlew
+# Copier les fichiers de configuration Gradle et le fichier build.gradle
+COPY app/build.gradle settings.gradle gradlew /app/
+COPY gradle /app/gradle
 
 # Télécharger les dépendances sans construire le projet
 RUN ./gradlew dependencies
 
 # Copier le reste du code source du backend
-COPY app/src src/
+COPY app/src /app/src
 
 # Construire l'application backend
 RUN ./gradlew clean build
@@ -28,6 +23,7 @@ FROM node:18 AS frontend-build
 # Définir le répertoire de travail pour le frontend
 WORKDIR /frontend
 
+<<<<<<< HEAD
 # Copier package.json et package-lock.json
 COPY Reservation-UI/package*.json ./
 
@@ -56,10 +52,17 @@ RUN ./fix-styles.sh
 RUN echo "declare module '@angular/common/locales/fr';" > src/types.d.ts
 
 # Construire l'application frontend en mode production
+=======
+# Copier les fichiers du frontend
+COPY Reservation-UI /frontend
+
+# Installer les dépendances et construire l'application frontend
+RUN npm install
+>>>>>>> f7d8e515ed5c5b74b8132e03095b9c19da1f1684
 RUN npm run build
 
 # Utiliser une image de base plus légère pour l'exécution
-FROM eclipse-temurin:21-jre
+FROM openjdk:21-jre-slim-buster
 
 # Définir le répertoire de travail
 WORKDIR /app

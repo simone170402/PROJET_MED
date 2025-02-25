@@ -6,22 +6,19 @@ plugins {
     id 'jacoco'
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    // Spring Boot Starters
+    // Dépendances Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-json'
+<<<<<<< HEAD
 
     // Monitoring et observabilité
     implementation 'io.micrometer:micrometer-core'
@@ -29,12 +26,16 @@ dependencies {
 
     // Outils supplémentaires
     implementation 'com.google.guava:guava:31.1-jre'
+=======
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+>>>>>>> f7d8e515ed5c5b74b8132e03095b9c19da1f1684
 
     // Base de données
     runtimeOnly 'org.postgresql:postgresql:42.7.3'
     runtimeOnly 'com.h2database:h2'
 
-    // Spring Security et JWT
+    // Sécurité et JWT
     implementation 'org.springframework.security:spring-security-crypto'
     implementation 'org.springframework.security:spring-security-core:6.1.2'
     implementation 'org.springframework.security:spring-security-web:6.1.2'
@@ -46,9 +47,12 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     implementation 'org.mindrot:jbcrypt:0.4'
 
-    // Spring Web (pour les annotations manquantes)
+    // Spring Web (pour annotations @CrossOrigin, @RequestParam, etc.)
     implementation 'org.springframework:spring-web'
     implementation 'org.springframework:spring-webmvc'
+
+    // Outils supplémentaires
+    implementation 'com.google.guava:guava:31.1-jre'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
@@ -89,11 +93,7 @@ jacocoTestReport {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
-    ignoreFailures = true
-    jvmArgs += ["-XX:+IgnoreUnrecognizedVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+LogVMOutput"]
-    testLogging {
-        showStandardStreams = true
-    }
+    ignoreFailures = true // Ignore les échecs de test pour éviter d'arrêter la build
 }
 
 sourceSets {
@@ -105,8 +105,4 @@ sourceSets {
             srcDirs = ['src/test/resources', 'app/src/test/resources']
         }
     }
-}
-
-jar {
-    destinationDirectory = file("$buildDir/libs")
 }
