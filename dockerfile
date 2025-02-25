@@ -28,11 +28,34 @@ FROM node:18 AS frontend-build
 # Définir le répertoire de travail pour le frontend
 WORKDIR /frontend
 
-# Copier les fichiers du frontend
+# Copier package.json et package-lock.json
+COPY Reservation-UI/package*.json ./
+
+# Installer les dépendances
+RUN npm install --legacy-peer-deps
+
+# Copier le reste des fichiers du frontend
 COPY Reservation-UI/ ./
 
-# Installer les dépendances et construire l'application frontend
-RUN npm install --legacy-peer-deps
+# Supprimer la configuration SSR
+RUN rm -rf src/server.ts server.ts
+
+# Créer un script pour corriger les styleUrls
+RUN echo '#!/bin/sh\n\
+for file in src/app/**/*.component.ts; do\n\
+  if [ -f "$file" ]; then\n\
+    sed -i "s/styleUrls: \x27\([^[\x27]*\)\x27/styleUrls: [\x27\1\x27]/" "$file"\n\
+    sed -i "s/styleUrls: \"\([^[\"]*\)\"/styleUrls: [\"\1\"]/" "$file"\n\
+  fi\n\
+done' > fix-styles.sh && chmod +x fix-styles.sh
+
+# Exécuter le script
+RUN ./fix-styles.sh
+
+# Ajouter la déclaration de type pour @angular/common/locales/fr
+RUN echo "declare module '@angular/common/locales/fr';" > src/types.d.ts
+
+# Construire l'application frontend en mode production
 RUN npm run build
 
 # Utiliser une image de base plus légère pour l'exécution
@@ -45,7 +68,7 @@ WORKDIR /app
 COPY --from=backend-build /app/build/libs/*.jar app.jar
 
 # Copier les fichiers construits du frontend
-COPY --from=frontend-build /frontend/build /app/public
+COPY --from=frontend-build /frontend/dist/reservation-ui/browser /app/public
 
 # Exposer le port sur lequel l'application écoute
 EXPOSE 8080
