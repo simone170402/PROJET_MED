@@ -56,13 +56,13 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: '18.19.1'
         cache: 'npm'
         cache-dependency-path: Reservation-UI/package-lock.json
 
     - name: Install Dependencies
       working-directory: Reservation-UI
-      run: npm ci
+      run: npm ci --legacy-peer-deps
 
     - name: Build Frontend
       working-directory: Reservation-UI
@@ -70,10 +70,10 @@ jobs:
 
     - name: Run Frontend Tests
       working-directory: Reservation-UI
-      run: npm test -- --watchAll=false
+      run: npm test -- --watchAll=false --browsers ChromeHeadless
 
     - name: Upload Frontend Build
       uses: actions/upload-artifact@v4
       with:
         name: frontend-build
-        path: Reservation-UI/build
+        path: Reservation-UI/dist
