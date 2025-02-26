@@ -1,6 +1,10 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 .yaml
+
 # Ignore Gradle build output directory
 build
 ./app/bin
+
+# Ignore Node.js dependencies
+node_modules
