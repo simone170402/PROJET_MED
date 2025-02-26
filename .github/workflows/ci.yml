@@ -2,9 +2,9 @@ name: Java CI
 
 on:
   push:
-    branches: [ testsLoic ]
+    branches: [ testsLoic, main ]
   pull_request:
-    branches: [ testsLoic ]
+    branches: [ testsLoic, main ]
 
 jobs:
   build:
