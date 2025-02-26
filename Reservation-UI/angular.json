@@ -67,12 +67,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "Reservation-UI:build:development"
+          },
           "configurations": {
             "production": {
-              "buildTarget": "Reservation-UI:build:production"
+              "browserTarget": "Reservation-UI:build:production"
             },
             "development": {
-              "buildTarget": "Reservation-UI:build:development",
+              "browserTarget": "Reservation-UI:build:development",
               "proxyConfig": "proxy.conf.json"
             }
           },
