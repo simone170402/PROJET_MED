@@ -6,6 +6,9 @@ plugins {
     id 'jacoco'
 }
 
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
 repositories {
     mavenCentral()
 }
@@ -61,6 +64,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.mockito:mockito-core:5.10.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.10.0'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 java {

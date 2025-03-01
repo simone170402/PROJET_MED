@@ -46,7 +46,7 @@ WORKDIR /app
 COPY --from=backend-build /app/build/libs/*.jar app.jar
 
 # Copier les fichiers construits du frontend
-COPY --from=frontend-build /frontend/dist/reservation-ui/browser /app/public
+COPY --from=frontend-build /frontend/dist/reservation-ui /app/public
 
 # Exposer les ports pour le backend et le frontend
 EXPOSE 8080
