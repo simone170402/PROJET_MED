@@ -12,7 +12,7 @@ import { AuthService } from '../services/auth.service';
     CommonModule,
   ],
   templateUrl: './accueil.component.html',
-  styleUrl: './accueil.component.css'
+  styleUrls: ['./accueil.component.css']
 })
 export class AccueilComponent implements OnInit {
 
@@ -26,4 +26,3 @@ export class AccueilComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 }
-

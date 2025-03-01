@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   templateUrl: './centres.component.html',
-  styleUrl: './centres.component.css'
+  styleUrls: ['./centres.component.css']
 })
 
 export class CentresComponent implements OnInit {
@@ -66,7 +66,4 @@ export class CentresComponent implements OnInit {
   capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
-  
-  
-  
 }

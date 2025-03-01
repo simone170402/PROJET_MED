@@ -15,11 +15,9 @@ import { AuthService } from './services/auth.service';
     
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 
 export class AppComponent {
   title = 'Reservation-UI';
 }
-  
-
