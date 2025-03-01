@@ -1,5 +1,5 @@
-# Utiliser une image de base avec JDK 21 pour la construction du backend
-FROM openjdk:21-jdk-slim-buster AS backend-build
+# Utiliser une image de base avec JDK pour la construction du backend
+FROM eclipse-temurin:21-jdk AS backend-build
 
 # Définir le répertoire de travail pour le backend
 WORKDIR /app
@@ -18,20 +18,28 @@ COPY app/src /app/src
 RUN ./gradlew clean build
 
 # Utiliser une image de base pour la construction du frontend
-FROM node:18 AS frontend-build
+FROM node:18-slim AS frontend-build
 
 # Définir le répertoire de travail pour le frontend
 WORKDIR /frontend
 
-# Copier les fichiers du frontend
-COPY Reservation-UI /frontend
+# Copier package.json et package-lock.json d'abord
+COPY Reservation-UI/package*.json ./
 
-# Installer les dépendances et construire l'application frontend
-RUN npm install
-RUN npm run build
+# Installer typescript 5.4 avant npm install
+RUN npm install typescript@5.4.0 --save-dev
+
+# Installer les dépendances avec --legacy-peer-deps
+RUN npm install --legacy-peer-deps
+
+# Copier le reste des fichiers du frontend
+COPY Reservation-UI .
+
+# Construire l'application frontend
+RUN npm run build --configuration=production
 
 # Utiliser une image de base plus légère pour l'exécution
-FROM openjdk:21-jre-slim-buster
+FROM eclipse-temurin:21-jre
 
 # Définir le répertoire de travail
 WORKDIR /app
@@ -40,10 +48,11 @@ WORKDIR /app
 COPY --from=backend-build /app/build/libs/*.jar app.jar
 
 # Copier les fichiers construits du frontend
-COPY --from=frontend-build /frontend/build /app/public
+COPY --from=frontend-build /frontend/dist/reservation-ui/browser /app/public
 
-# Exposer le port sur lequel l'application écoute
+# Exposer les ports pour le backend et le frontend
 EXPOSE 8080
+EXPOSE 4200
 
 # Définir la commande pour exécuter l'application
 ENTRYPOINT ["java", "-jar", "app.jar"]
