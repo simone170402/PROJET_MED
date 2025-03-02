@@ -13,7 +13,7 @@ logging:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/vaccinationmain
-    username: postgre
+    username: postgres
     password: Admin
   
   jpa:
