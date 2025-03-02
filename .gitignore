@@ -9,4 +9,3 @@ build
 # Fichiers de configuration sensibles
 .env
 **/application-secret.properties
-**/application.properties
