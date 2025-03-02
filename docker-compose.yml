@@ -7,7 +7,7 @@ services:
       - "8080:8080"
       - "4200:4200"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/vaccinationmain
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/vaccinationmain
       - SPRING_DATASOURCE_USERNAME=postgre
       - SPRING_DATASOURCE_PASSWORD=Admin
       - JWT_SECRET=${JWT_SECRET}
@@ -30,7 +30,6 @@ services:
       - POSTGRES_DB=vaccinationmain
       - POSTGRES_USER=postgre
       - POSTGRES_PASSWORD=Admin
-      #- POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:

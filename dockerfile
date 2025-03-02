@@ -27,7 +27,7 @@ WORKDIR /frontend
 COPY Reservation-UI/package*.json ./
 
 # Installer les dépendances
-RUN npm install --legacy-peer-deps
+RUN npm install --legacy-peer-dep
 RUN npm install @angular/ssr@18.2.8 --save --force
 
 # Copier le reste des fichiers du frontend
