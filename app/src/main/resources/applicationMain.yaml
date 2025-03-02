@@ -12,8 +12,8 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/vaccinationmain
-    username: postgre
+    url: jdbc:postgresql://localhost:5432/reservationVaccinationmain
+    username: postgres
     password: Admin
   
   jpa:
@@ -26,4 +26,4 @@ spring:
     init:
       mode: always
   server:
-    port: 8081
+    port: 8080

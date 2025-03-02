@@ -27,7 +27,7 @@ WORKDIR /frontend
 COPY Reservation-UI/package*.json ./
 
 # Installer typescript 5.4 avant npm install
-RUN npm install typescript@5.4.0 --save-dev
+RUN npm install typescript@5.4.0 @fortawesome/fontawesome-free
 
 # Installer les dépendances avec --legacy-peer-deps
 RUN npm install --legacy-peer-deps
