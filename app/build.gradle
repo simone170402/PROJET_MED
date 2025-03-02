@@ -32,8 +32,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     // Base de données
-    runtimeOnly 'org.postgresql:postgresql:42.7.3'
-    runtimeOnly 'com.h2database:h2'
+    implementation 'org.postgresql:postgresql:42.7.3'
+    
+    // Test avec H2
+    testImplementation 'com.h2database:h2'
 
     // Sécurité et JWT
     implementation 'org.springframework.security:spring-security-crypto'
@@ -43,8 +45,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.0'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     implementation 'org.mindrot:jbcrypt:0.4'
 
     // Spring Web (pour annotations @CrossOrigin, @RequestParam, etc.)
