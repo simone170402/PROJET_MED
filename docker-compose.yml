@@ -7,7 +7,7 @@ services:
       - "8080:8080"
       - "4200:4200"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/vaccinationmain
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/reservationVaccinationMain
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=Admin
       - JWT_SECRET=${JWT_SECRET}
@@ -21,14 +21,14 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=vaccinationmain
+      - POSTGRES_DB=reservationVaccinationMain
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Admin
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./app/src/main/resources/data-main.sql:/docker-entrypoint-initdb.d/01-data.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d vaccinationmain"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d reservationVaccinationMain"]
       interval: 10s
       timeout: 5s
       retries: 5
