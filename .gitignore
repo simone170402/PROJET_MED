@@ -9,3 +9,6 @@ build
 # Fichiers de configuration sensibles
 .env
 **/application-secret.properties
+
+Reservation-UI/node_modules/
+node_modules/
