@@ -33,28 +33,51 @@
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/@fortawesome/fontawesome-free/js/all.min.js"
-            ]
+            ],
+            "optimization": {
+              "scripts": true,
+              "styles": {
+                "minify": true,
+                "inlineCritical": false
+              },
+              "fonts": true
+            }
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "3mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "400kb",
+                  "maximumError": "800kb"
                 }
               ],
               "outputHashing": "all"
             },
             "development": {
+              "buildOptimizer": false,
               "optimization": false,
+              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "namedChunks": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -63,11 +86,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Reservation-UI:build:production"
+              "buildTarget": "Reservation-UI:build:production"
             },
             "development": {
-              "browserTarget": "Reservation-UI:build:development",
-              "proxyConfig": "proxy.conf.json"
+              "buildTarget": "Reservation-UI:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Reservation-UI:build"
+            "buildTarget": "Reservation-UI:build"
           }
         },
         "test": {
@@ -100,6 +122,6 @@
     }
   },
   "cli": {
-    "analytics": "e6ebf02b-48a6-4641-b437-333de73a6a56"
+    "analytics": false
   }
 }

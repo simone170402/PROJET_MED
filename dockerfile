@@ -26,8 +26,14 @@ WORKDIR /frontend
 # Copier package.json et package-lock.json d'abord
 COPY Reservation-UI/package*.json ./
 
+#d'abord, nettoyons le cache 
+RUN npm cache clean --force
+
+#Désinstallation de la version actuelle de typescript 
+#RUN npm uninstall typescript@5.3.3 --legacy-peer-deps
+
 # Installer typescript 5.4 avant npm install
-RUN npm install typescript@5.4.0 @fortawesome/fontawesome-free
+RUN npm install typescript@5.4.2 @fortawesome/fontawesome-free --legacy-peer-deps
 
 # Installer les dépendances avec --legacy-peer-deps
 RUN npm install --legacy-peer-deps
@@ -36,7 +42,7 @@ RUN npm install --legacy-peer-deps
 COPY Reservation-UI .
 
 # Construire l'application frontend
-RUN npm run build --configuration=production
+RUN npm run build --configuration=development
 
 # Utiliser une image de base plus légère pour l'exécution
 FROM eclipse-temurin:21-jre
@@ -48,7 +54,7 @@ WORKDIR /app
 COPY --from=backend-build /app/build/libs/*.jar app.jar
 
 # Copier les fichiers construits du frontend
-COPY --from=frontend-build /frontend/dist/reservation-ui/browser /app/public
+COPY --from=frontend-build /frontend/dist/reservation-ui /app/public
 
 # Exposer les ports pour le backend et le frontend
 EXPOSE 8080

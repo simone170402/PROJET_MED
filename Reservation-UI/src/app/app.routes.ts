@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AccueilComponent } from './accueil/accueil.component';
-import path from 'path';
 import { ReservationComponent } from './reservation/reservation.component';
 import { CentresComponent } from './centres/centres.component';
 import { MedecinsComponent } from './medecins/medecins.component';
@@ -27,16 +26,14 @@ export const routes: Routes = [
     { path: 'agenda', component: AgendaComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent },
-    { path:  'reservation', component: ReservationComponent },
-
-
+    { path: 'reservation', component: ReservationComponent },
 
     // **Super Admin - Gestion des centres et des admins**
     {
         path: 'admin/superadmin',
         component: SuperAdminComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['SUPER_ADMIN'] } // Vérifie bien ce rôle
+        data: { roles: ['SUPER_ADMIN'] }
     },
 
     // **Admin Centre - Gestion des médecins et réservations**
