@@ -178,3 +178,17 @@ ng serve
 ## Technologies utilisées
 - **Frontend**: Angular, Angular Material, FullCalendar
 - **Backend**: java , springboot
+
+## Problèmes connus
+
+### 1. Problèmes d'affichage avec Angular Material
+Il existe des problèmes d'affichage dans l'interface utilisateur lors de l'utilisation des composants Angular Material. Cela peut inclure des éléments qui ne s'affichent pas correctement, des styles qui ne s'appliquent pas ou des erreurs de mise en page. 
+
+
+### 2. Déconnexion de l'utilisateur lors des modifications côté front
+Lorsqu'une modification est effectuée dans l'interface utilisateur, il arrive que l'utilisateur soit déconnecté de l'application. Cela nécessite un redémarrage du frontend pour rétablir l'accès à l'interface utilisateur. 
+
+
+
+### 3. Problèmes avec Jackson côté back
+Des problèmes ont été rencontrés en utilisant Jackson pour la sérialisation et la désérialisation des objets côté backend. Cela peut inclure des erreurs lors de la conversion des objets Java en JSON, ou vice versa. 
