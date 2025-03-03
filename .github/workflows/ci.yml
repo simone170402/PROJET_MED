@@ -1,14 +1,14 @@
-name: Java CI
+name: CI/CD Pipeline PROJET_MED
 
 on:
   push:
-    branches: [ testsLoic ]
+    branches: [ testsLoic, develop, Develop, revert-9-testsLoic, main ]
   pull_request:
-    branches: [ testsLoic ]
+    branches: [ testsLoic, develop, Develop, revert-9-testsLoic, main ]
 
 jobs:
-  build:
-
+  backend:
+    name: Backend Build and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -44,3 +44,36 @@ jobs:
       with:
         name: jacoco-report
         path: build/reports/jacoco/test/html
+
+  frontend:
+    name: Frontend Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.19.1'
+        cache: 'npm'
+        cache-dependency-path: Reservation-UI/package-lock.json
+
+    - name: Install Dependencies
+      working-directory: Reservation-UI
+      run: npm ci --legacy-peer-deps
+
+    - name: Build Frontend
+      working-directory: Reservation-UI
+      run: npm run build
+
+    - name: Run Frontend Tests
+      working-directory: Reservation-UI
+      run: npm test -- --watchAll=false --browsers ChromeHeadless
+
+    - name: Upload Frontend Build
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-build
+        path: Reservation-UI/dist
