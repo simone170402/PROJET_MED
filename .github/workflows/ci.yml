@@ -2,9 +2,9 @@ name: CI/CD Pipeline PROJET_MED
 
 on:
   push:
-    branches: [ testsLoic, develop, Develop, revert-9-testsLoic, main ]
+    branches: [ testsLoic, develop, Develop, revert-9-testsLoic, mainLoic, main ]
   pull_request:
-    branches: [ testsLoic, develop, Develop, revert-9-testsLoic, main ]
+    branches: [ testsLoic, develop, Develop, revert-9-testsLoic, mainLoic, main ]
 
 jobs:
   backend:
