@@ -46,7 +46,7 @@ public class AdministrateurService {
         admin.setPassword(password); // Ajouter un encodage BCrypt dans une prochaine version
 
         // Attribution du rôle ADMIN_CENTRE
-        Optional<Role> adminRole = roleRepository.findById(2L); // Rôle ADMIN_CENTRE
+        Optional<Role> adminRole = roleRepository.findById(1L); // ID correct pour ADMIN_CENTRE
         adminRole.ifPresent(role -> admin.getRole().add(role));
 
         // Attribution du centre

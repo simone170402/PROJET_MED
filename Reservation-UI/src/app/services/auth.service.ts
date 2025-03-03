@@ -19,6 +19,7 @@ export class AuthService {
    constructor(private http: HttpClient) {
      this.currentUserSubject = new BehaviorSubject<any>(this.getUserFromStorage());
      this.currentUser = this.currentUserSubject.asObservable();
+     this.restoreSession(); //  Restaurer la session au chargement
    }
  
    // Connexion utilisateur (Basic Auth)
@@ -29,43 +30,52 @@ export class AuthService {
         'Content-Type': 'application/json'
     });
 
-    console.log("Envoi du header Authorization:", headers.get('Authorization'));
-
     return this.http.post(`${this.baseUrl}/login`, {}, { headers }).pipe(
         map((response: any) => {
-            console.log(" Réponse complète de l'API :", response);
-            
             if (response && response.token && response.user) {
-                console.log('Token reçu:', response.token);
-                
-                //  Extraire correctement le rôle
                 let roleStocke = "PATIENT"; // Valeur par défaut
-                if (response.user.role && Array.isArray(response.user.role) && response.user.role.length > 0) {
-                    roleStocke = response.user.role[0].name; // Récupère le nom du premier rôle
+                let centreId = null; // ID du centre par défaut
+
+                // Vérifiez si les rôles existent et sont un tableau
+                if (response.user.utilisateurRoles && Array.isArray(response.user.utilisateurRoles)) {
+                    roleStocke = response.user.utilisateurRoles[0].role.name; // Récupère le nom du premier rôle
                 }
 
-                console.log(' Rôle extrait :', roleStocke);
+                if (response.user.centreId) {
+                    centreId = response.user.centreId; // Assurez-vous que centreId est dans la réponse
+                }
 
-                // Stocker l'utilisateur
+                // Stocker l'utilisateur avec l'ID du centre
                 this.storeUser({
                     token: response.token,
-                    role: roleStocke // Stocke "SUPER_ADMIN"
+                    role: roleStocke,
+                    centreId: centreId // Stocke l'ID du centre
                 });
 
                 // Mettre à jour le BehaviorSubject
                 this.roleSubject.next(roleStocke);
             } else {
-                console.error(" Problème : `user` ou `role` absent de la réponse !");
+                console.error("Problème : `user` ou `role` absent de la réponse !");
             }
 
             return response;
         }),
         catchError(error => {
-            console.error(" Erreur de connexion :", error);
+            console.error("Erreur de connexion :", error);
             return throwError(() => new Error(error.message || "Erreur inconnue"));
         })
-    );    
+    );
 }
+
+restoreSession(): void {
+  const storedUser = this.getUserFromStorage();
+  if (storedUser) {
+    console.log(" Session restaurée avec succès !");
+    this.currentUserSubject.next(storedUser);
+    this.roleSubject.next(storedUser.role);
+  }
+}
+
 
 
    // Stockage utilisateur
@@ -80,18 +90,18 @@ export class AuthService {
 
    private storeUser(user: any): void {
     if (!user.token) {
-      console.error(" Erreur : Aucun token trouvé !");
-      return;
+        console.error(" Erreur : Aucun token trouvé !");
+        return;
     }
-  
+
     localStorage.setItem('user', JSON.stringify({
-      token: user.token,
-      role: user.role || "PATIENT"  // Ajoute un rôle par défaut si inexistant
+        token: user.token,
+        role: user.role || "PATIENT",  // Ajoute un rôle par défaut si inexistant
+        centreId: user.centreId || null // Stocke l'ID du centre
     }));
-  
-    console.log(" Utilisateur stocké :", JSON.parse(localStorage.getItem('user')!));
+
     this.roleSubject.next(user.role);  // Mettre à jour le BehaviorSubject
-  }
+}
   
 
  
@@ -110,6 +120,7 @@ export class AuthService {
      return 'PATIENT';
    }
  
+  
    hasRole(allowedRoles: string[]): boolean {
      return allowedRoles.includes(this.getRole());
    }
@@ -189,33 +200,59 @@ export class AuthService {
   }
 
   updateAdmin(id: number, admin: any): Observable<any> {
-    return this.http.put(`http://localhost:8080/api/administrateurs/${id}`, admin, {
+    return this.http.put(`${this.apiUrl}/administrateurs/${id}`, admin, {
       headers: this.getAuthHeaders()
     });
   }
+  
   
   deleteAdmin(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/administrateurs/${id}`, { headers: this.getAuthHeaders() });
   }
 
-  // GESTION DES MEDECINS (CRU)
-  getMedecinsByCentre(centreId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/centres/${centreId}/medecins`, { headers: this.getAuthHeaders() });
+   // GESTION DES MÉDECINS (CRUD)
+   getAllMedecins(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/medecins`, { headers: this.getAuthHeaders() });
   }
+
+  getMedecinsByCentre(centreId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/medecins/centre/${centreId}`, { headers: this.getAuthHeaders() });
+  }
+
   addMedecin(medecin: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/medecins`, medecin, { headers: this.getAuthHeaders() });
   }
+
   updateMedecin(id: number, medecin: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/medecins/${id}`, medecin, { headers: this.getAuthHeaders() });
   }
 
-  // GESTION DES RESERVATIONS (RD)
-  getReservationsByCentre(centreId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/reservations?centreId=${centreId}`, { headers: this.getAuthHeaders() });
+  deleteMedecin(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/medecins/${id}`, { headers: this.getAuthHeaders() });
   }
+
+  // GESTION DES RÉSERVATIONS (CRUD)
+  getAllReservations(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/reservations`, { headers: this.getAuthHeaders() });
+  }
+
+  getReservationsByMedecin(medecinId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/reservations/medecin/${medecinId}`, { headers: this.getAuthHeaders() });
+  }
+
+  addReservation(reservation: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reservations`, reservation, { headers: this.getAuthHeaders() });
+  }
+
+  updateReservation(id: number, reservation: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/reservations/${id}`, reservation, { headers: this.getAuthHeaders() });
+  }
+
   deleteReservation(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/reservations/${id}`, { headers: this.getAuthHeaders() });
   }
+
+  
 
   //  GESTION DES HEADERS
   public getAuthHeaders(): HttpHeaders {

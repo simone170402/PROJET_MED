@@ -1,27 +1,240 @@
 <div class="admin-container">
-    <h2>Gestion des Médecins</h2>
-    <form (submit)="addMedecin(); $event.preventDefault();">
-      <input type="text" [(ngModel)]="newMedecin.name" placeholder="Nom" required>
-      <input type="email" [(ngModel)]="newMedecin.email" placeholder="Email" required>
-      <input type="text" [(ngModel)]="newMedecin.speciality" placeholder="Spécialité" required>
-      <button type="submit">Ajouter Médecin</button>
-    </form>
-  
-    <h3>Liste des Médecins</h3>
-    <ul>
-      <li *ngFor="let medecin of medecins">
-        {{ medecin.name }} - {{ medecin.speciality }}
-        <button (click)="updateMedecin(medecin.id, medecin)">✏️ Modifier</button>
-      </li>
-    </ul>
-  
-    <h2>Gestion des Réservations</h2>
-    <h3>Liste des Réservations</h3>
-    <ul>
-      <li *ngFor="let reservation of reservations">
-        {{ reservation.patient.name }} - {{ reservation.date }}
-        <button (click)="deleteReservation(reservation.id)">🗑️ Supprimer</button>
-      </li>
-    </ul>
+  <h2>Gestion des Médecins</h2>
+
+  <!-- Formulaire d'ajout d'un médecin -->
+  <div class="form-row">
+  <mat-card class="form-container">
+    <mat-card-title>Ajouter un Médecin</mat-card-title>
+    <mat-card-content>
+      <form (submit)="addMedecin(); $event.preventDefault();">
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input matInput [(ngModel)]="newMedecin.name" name="name" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="newMedecin.email" name="email" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Spécialité</mat-label>
+          <input matInput [(ngModel)]="newMedecin.speciality" name="speciality" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Centre</mat-label>
+          <mat-select [(ngModel)]="newMedecin.centreId" name="centreId" required>
+            <mat-option *ngFor="let centre of centres" [value]="centre.id">
+              {{ centre.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Ajouter</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <!-- Formulaire de mise à jour d'un médecin -->
+  <mat-card class="form-container" *ngIf="updatedMedecin">
+    <mat-card-title>Mettre à Jour un Médecin</mat-card-title>
+    <mat-card-content>
+      <form (submit)="updateMedecin(); $event.preventDefault();">
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input matInput [(ngModel)]="updatedMedecin.name" name="name" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="updatedMedecin.email" name="email" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Spécialité</mat-label>
+          <input matInput [(ngModel)]="updatedMedecin.speciality" name="speciality" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Centre</mat-label>
+          <mat-select [(ngModel)]="updatedMedecin.centreId" name="centreId" required>
+            <mat-option *ngFor="let centre of centres" [value]="centre.id">
+              {{ centre.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Mettre à Jour</button>
+        <button mat-button (click)="clearSelectedMedecin()">Annuler</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
   </div>
-  
+
+  <!-- Liste des médecins -->
+  <h3>Liste des Médecins et leurs Centres</h3>
+<table mat-table [dataSource]="medecins" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Nom </th>
+    <td mat-cell *matCellDef="let medecin"> {{ medecin.name }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="surname">
+    <th mat-header-cell *matHeaderCellDef> Surname </th>
+    <td mat-cell *matCellDef="let medecin"> {{ medecin.surname }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef> Email </th>
+    <td mat-cell *matCellDef="let medecin"> {{ medecin.email }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef> Téléphone </th>
+    <td mat-cell *matCellDef="let medecin"> {{ medecin.phoneNumber }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="centre">
+    <th mat-header-cell *matHeaderCellDef> Centre </th>
+    <td mat-cell *matCellDef="let medecin"> {{ medecin.centreName || 'Non Assigné' }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let medecin">
+      <div class="actions-container">
+        <button mat-button class="edit-btn" (click)="selectMedecinForUpdate(medecin)">
+          <mat-icon></mat-icon>
+          edit
+        </button>
+        <button mat-button class="delete-btn" (click)="deleteMedecin(medecin.id)">
+          <mat-icon></mat-icon>
+          delete
+        </button>
+      </div>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="['name', 'email', 'phone', 'centre', 'actions']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['name', 'email', 'phone', 'centre', 'actions'];"></tr>
+</table>
+
+  <!-- Gestion des Réservations -->
+  <h2>Gestion des Réservations</h2>
+
+  <!-- Formulaire d'ajout d'une réservation -->
+  <div class="form-row">
+  <mat-card class="form-container">
+    <mat-card-title>Ajouter une Réservation</mat-card-title>
+    <mat-card-content>
+      <form (submit)="addReservation(); $event.preventDefault();">
+        <mat-form-field>
+          <mat-label>Date de Réservation</mat-label>
+          <input matInput [(ngModel)]="newReservation.dateReservation" name="dateReservation" required type="date">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Médecin</mat-label>
+          <mat-select [(ngModel)]="newReservation.medecinId" name="medecinId" required>
+            <mat-option *ngFor="let medecin of medecins" [value]="medecin.id">
+              {{ medecin.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Patient</mat-label>
+          <mat-select [(ngModel)]="newReservation.patientId" name="patientId" required>
+            <mat-option *ngFor="let patient of patients" [value]="patient.id">
+              {{ patient.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Centre</mat-label>
+          <mat-select [(ngModel)]="newReservation.centreId" name="centreId" required>
+            <mat-option *ngFor="let centre of centres" [value]="centre.id">
+              {{ centre.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Ajouter</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <!-- Formulaire de mise à jour d'une réservation -->
+  <mat-card class="form-container" *ngIf="updatedReservation">
+    <mat-card-title>Mettre à Jour une Réservation</mat-card-title>
+    <mat-card-content>
+      <form (submit)="updateReservation(); $event.preventDefault();">
+        <mat-form-field>
+          <mat-label>Date de Réservation</mat-label>
+          <input matInput [(ngModel)]="updatedReservation.dateReservation" name="dateReservation" required type="date">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Médecin</mat-label>
+          <mat-select [(ngModel)]="updatedReservation.medecinId" name="medecinId" required>
+            <mat-option *ngFor="let medecin of medecins" [value]="medecin.id">
+              {{ medecin.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Centre</mat-label>
+          <mat-select [(ngModel)]="updatedReservation.centreId" name="centreId" required>
+            <mat-option *ngFor="let centre of centres" [value]="centre.id">
+              {{ centre.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Mettre à Jour</button>
+        <button mat-button (click)="clearSelectedReservation()">Annuler</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  </div>
+
+  <!-- Liste des Réservations -->
+  <h3>Liste des Réservations</h3>
+  <table mat-table [dataSource]="reservations" class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let reservation"> {{ reservation.dateReservation }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="medecin">
+      <th mat-header-cell *matHeaderCellDef> Médecin </th>
+      <td mat-cell *matCellDef="let reservation"> {{ reservation.medecin.name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="centre">
+      <th mat-header-cell *matHeaderCellDef> Centre </th>
+      <td mat-cell *matCellDef="let reservation"> {{ reservation.centre.name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let reservation">
+        <div class="actions-container">
+        <button mat-icon class="edit-btn" color="accent" (click)="selectReservationForUpdate(reservation)">
+          <mat-icon></mat-icon>
+          edit
+        </button>
+        <button mat-icon class="delete-btn" color="warn" (click)="deleteReservation(reservation.id)">
+          <mat-icon></mat-icon>
+          delete
+        </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['date', 'medecin', 'centre', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['date', 'medecin', 'centre', 'actions'];"></tr>
+  </table>
+</div>

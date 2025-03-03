@@ -20,6 +20,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     // Recherche des patients dont le nom commence par une certaine chaîne
     List<Patient> findByNameStartingWith(String name);
     List<Patient> findByCentre(Centre centre);
+    List<Patient> findByCentreId(Long centreId);
     
 }
 

@@ -14,12 +14,14 @@ import org.example.Repositories.UtilisateurRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
+
 
 
 @Service
 public class MedecinService {
     private Map<Long, Medecin> medecinMap = new HashMap<>();
-    private Long currentId = 1L;
+    private Long currentId = 2L;
     private final MedecinRepository medecinRepository;
     private final UtilisateurRoleRepository utilisateurRoleRepository;
 
@@ -57,27 +59,41 @@ public class MedecinService {
     }
 
     public Medecin save(Medecin medecin) {
-        medecin.setId(currentId);
-        medecinMap.put(currentId, medecin);
-        currentId++;
-        return medecin;
+        return medecinRepository.save(medecin);
     }
+    
 
     public Medecin update(Long id, Medecin medecin) {
-        if (!medecinMap.containsKey(id)) {
-            throw new MedecinNotFoundException("Medecin with id " + id + " not found.");
-        }
-        medecin.setId(id);
-        medecinMap.put(id, medecin);
-        return medecin;
+        Medecin existingMedecin = medecinRepository.findById(id)
+            .orElseThrow(() -> new MedecinNotFoundException("Medecin with id " + id + " not found."));
+    
+        existingMedecin.setName(medecin.getName());
+        existingMedecin.setSurname(medecin.getSurname());
+        existingMedecin.setPhoneNumber(medecin.getPhoneNumber());
+        existingMedecin.setCentre(medecin.getCentre());
+    
+        return medecinRepository.save(existingMedecin);
     }
+    
 
     public void delete(Long id) {
-        if (!medecinMap.containsKey(id)) {
+        if (!medecinRepository.existsById(id)) {
             throw new MedecinNotFoundException("Medecin with id " + id + " not found.");
         }
-        medecinMap.remove(id);
+        medecinRepository.deleteById(id);
     }
+
+    public void deleteMedecin(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("L'ID ne peut pas être null");
+        }
+    
+        Medecin medecin = medecinRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Médecin non trouvé"));
+    
+        medecinRepository.delete(medecin);
+    }
+    
 }
 
 

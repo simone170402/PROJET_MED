@@ -26,6 +26,14 @@ public class Patient {
     private String vaccinationStatus;
     private String adresse;
 
+
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "medecin_id", nullable = true)
+    private Medecin medecin;
+
+
     @ManyToOne
     @JoinColumn(name = "centre_id", nullable = true)
     private Centre centre;
@@ -102,5 +110,9 @@ public class Patient {
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
+
+
+    public Medecin getMedecin() { return medecin; }
+    public void setMedecin(Medecin medecin) { this.medecin = medecin; }
 
 }

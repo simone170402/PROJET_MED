@@ -24,15 +24,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // 🔥 S'abonner aux changements du rôle
+    //  S'abonner aux changements du rôle
     this.roleSubscription = this.authService.role$.subscribe(role => {
       this.role = role;
-      console.log('✅ Rôle mis à jour :', this.role);
+      console.log(' Rôle mis à jour :', this.role);
     });
 
     // Charger le rôle initial
     this.role = this.authService.getRole();
-    console.log('🚀 Rôle initial récupéré:', this.role);
+    console.log(' Rôle initial récupéré:', this.role);
   }
 
   logout(): void {

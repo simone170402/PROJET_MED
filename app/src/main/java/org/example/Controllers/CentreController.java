@@ -62,40 +62,36 @@ public class CentreController {
 
 
     @PutMapping("/{id}")
-public ResponseEntity<Centre> updateCentre(@PathVariable Long id, @RequestBody Centre centre) {
-    Optional<Centre> existingCentreOpt = centreRepository.findById(id);
-    
-    if (existingCentreOpt.isEmpty()) {
-        return ResponseEntity.notFound().build();
-    }
-
-    Centre existingCentre = existingCentreOpt.get();
-
-    // Mise à jour des champs basiques
-    existingCentre.setName(centre.getName());
-    existingCentre.setCity(centre.getCity());
-    existingCentre.setAddress(centre.getAddress());
-    existingCentre.setPhoneNumber(centre.getPhoneNumber());
-
-    //  Correction de la mise à jour des médecins
-    if (centre.getMedecins() != null && !centre.getMedecins().isEmpty()) {
-        List<Medecin> medecinsToUpdate = new ArrayList<>();
-        for (Medecin medecin : centre.getMedecins()) {
-            if (medecin.getId() != null) { // Vérifier que l'ID est bien présent
-                medecinRepository.findById(medecin.getId()).ifPresent(medecinsToUpdate::add);
-            }
+    public ResponseEntity<Centre> updateCentre(@PathVariable Long id, @RequestBody Centre centre) {
+        Optional<Centre> existingCentreOpt = centreRepository.findById(id);
+        
+        if (existingCentreOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        existingCentre.setMedecins(medecinsToUpdate);
-    } else {
-        existingCentre.setMedecins(new ArrayList<>()); // Si aucun médecin n'est envoyé, on vide la liste
+
+        Centre existingCentre = existingCentreOpt.get();
+
+        // Mise à jour des champs basiques
+        existingCentre.setName(centre.getName());
+        existingCentre.setCity(centre.getCity());
+        existingCentre.setAddress(centre.getAddress());
+        existingCentre.setPhoneNumber(centre.getPhoneNumber());
+
+        //  Correction de la mise à jour des médecins
+        if (centre.getMedecins() != null && !centre.getMedecins().isEmpty()) {
+            List<Medecin> medecinsToUpdate = new ArrayList<>();
+            for (Medecin medecin : centre.getMedecins()) {
+                if (medecin.getId() != null) { // Vérifier que l'ID est bien présent
+                    medecinRepository.findById(medecin.getId()).ifPresent(medecinsToUpdate::add);
+                }
+            }
+            existingCentre.setMedecins(medecinsToUpdate);
+        } else {
+            existingCentre.setMedecins(new ArrayList<>()); // Si aucun médecin n'est envoyé, on vide la liste
+        }
+
+        return ResponseEntity.ok(centreRepository.save(existingCentre));
     }
-
-    return ResponseEntity.ok(centreRepository.save(existingCentre));
-}
-
-
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCentre(@PathVariable Long id) {

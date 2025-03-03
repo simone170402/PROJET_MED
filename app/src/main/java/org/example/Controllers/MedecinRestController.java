@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.example.Entities.Medecin;
+import org.example.Entities.Utilisateur;
 import org.example.Exceptions.MedecinNotFoundException;
 import org.example.Services.MedecinService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.example.Repositories.MedecinRepository;
+import org.example.Repositories.UtilisateurRepository;
 
 
 @RestController
@@ -29,12 +35,38 @@ import org.example.Repositories.MedecinRepository;
 public class MedecinRestController {
     private final MedecinService medecinService;
     private final MedecinRepository medecinRepository;
+    private final UtilisateurRepository utilisateurRepository;
 
     @Autowired
-    public MedecinRestController(MedecinService medecinService, MedecinRepository medecinRepository) {
+    public MedecinRestController(MedecinService medecinService, MedecinRepository medecinRepository, UtilisateurRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
         this.medecinService = medecinService;
         this.medecinRepository = medecinRepository;
     }
+
+    @GetMapping
+    public List<Utilisateur> getAllMedecins() {
+        List<Object[]> results = utilisateurRepository.findMedecinsRaw();
+
+        List<Utilisateur> medecins = results.stream().map(row -> {
+            Utilisateur medecin = new Utilisateur();
+            medecin.setId(((Number) row[0]).longValue());
+            medecin.setName((String) row[1]);
+            medecin.setEmail((String) row[2]);
+            medecin.setPhoneNumber((String) row[3]);
+            medecin.setCity((String) row[4]);
+            medecin.setAddress((String) row[5]);
+            return medecin;
+        }).collect(Collectors.toList());
+
+        System.out.println("Nombre de médecins trouvés : " + medecins.size());
+        medecins.forEach(medecin -> 
+            System.out.println("Médecin : " + medecin.getName() + " - " + medecin.getEmail())
+        );
+
+        return medecins;
+    }
+
 
     @GetMapping("/centre/{centreId}")
     public List<Map<String, Object>> getMedecinsByCentre(@PathVariable Long centreId) {
@@ -55,28 +87,30 @@ public class MedecinRestController {
         return medecins;
     }
 
-    @GetMapping("/medecin/{id}")
+    @GetMapping("/{id}")
     public Medecin getMedecinById(@PathVariable Long id) {
         return medecinService.findOneById(id);
     }
 
 
-    @PostMapping("/medecins")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Medecin createMedecin(@RequestBody Medecin medecin) {
         return medecinService.save(medecin);
     }
 
-    @PutMapping("/medecin/{id}")
+
+    @PutMapping("/{id}")
     public Medecin updateMedecin(@PathVariable Long id, @RequestBody Medecin medecin) {
         return medecinService.update(id, medecin);
     }
 
-    @DeleteMapping("/medecin/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteMedecin(@PathVariable Long id) {
-        medecinService.delete(id);
-    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMedecin(@PathVariable Long id) {
+        medecinService.deleteMedecin(id);
+        return ResponseEntity.noContent().build();
+}
+
 
     @ExceptionHandler(MedecinNotFoundException.class)
     public ResponseEntity<String> handle(MedecinNotFoundException ex) {

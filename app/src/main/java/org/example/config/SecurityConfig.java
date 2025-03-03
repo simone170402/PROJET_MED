@@ -92,7 +92,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/patients/**").permitAll()
                 .requestMatchers("/api/reservations/reserve").permitAll()
                 .requestMatchers("/api/reservations/**").permitAll()
-                .requestMatchers("/api/admintrateurs/**").permitAll()
+                .requestMatchers("/api/administrateurs/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -51,6 +51,13 @@ public class ReservationRestController {
         return ResponseEntity.ok(reservations);
     }
 
+    @GetMapping("/centre/{centreId}")
+    public ResponseEntity<List<Reservation>> getReservationsByCentre(@PathVariable Long centreId) {
+        List<Reservation> reservations = reservationService.getReservationsByCentre(centreId);
+        return ResponseEntity.ok(reservations);
+    }
+
+
     @GetMapping("/reservation/{id}")
     public ResponseEntity<Reservation> getReservationById(@PathVariable Long id) {
         Reservation reservation = reservationService.findOneById(id);

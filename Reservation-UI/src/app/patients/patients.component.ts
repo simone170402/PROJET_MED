@@ -3,28 +3,46 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-patients',
   standalone: true,
-  imports:[FormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    MatTableModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCardModule,
+    MatSelectModule
+  ],
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.css']
 })
 export class PatientsComponent implements OnInit {
   patients: any[] = [];
+  centres: any[] = [];
+  searchName: string = '';
   selectedPatient: any = null;
-  newPatient: any = { name: '', surname: '', phoneNumber: '', email: '', dateOfBirth: '', adresse: '' };
-  searchQuery: string = '';
-  message: string = '';
+  newPatient: any = {
+    name: '', surname: '', phoneNumber: '', email: '', dateOfBirth: '',
+    adresse: '', centreId: '', vaccinationStatus: 'Non Vacciné'
+  };
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.getAllPatients();
   }
 
-  // Récupérer tous les patients
   getAllPatients() {
     this.http.get<any[]>('http://localhost:8080/api/patients', {
       headers: this.authService.getAuthHeaders()
@@ -34,77 +52,52 @@ export class PatientsComponent implements OnInit {
     );
   }
 
-  //  Rechercher un patient par nom
-  searchPatient() {
-    if (this.searchQuery.trim() === '') return;
-    
-    this.http.get<any[]>(`http://localhost:8080/api/patients/search?name=${this.searchQuery}`, {
-      headers: this.authService.getAuthHeaders()
-    }).subscribe(
-      data => {
-        this.patients = data;
-        this.message = data.length ? '' : 'Aucun patient trouvé.';
-      },
-      error => console.error('Erreur lors de la recherche', error)
-    );
-  }
-
-  //  Ajouter un patient
   addPatient() {
     this.http.post('http://localhost:8080/api/patients', this.newPatient, {
       headers: this.authService.getAuthHeaders()
-    }).subscribe(
-      () => {
-        this.message = 'Patient ajouté avec succès';
+    }).subscribe(() => {
+      this.showMessage('Patient ajouté avec succès');
+      this.getAllPatients();
+      this.resetForm();
+    });
+  }
+
+  deletePatient(id: number) {
+    if (confirm('Voulez-vous vraiment supprimer ce patient ?')) {
+      this.http.delete(`http://localhost:8080/api/patients/${id}`, {
+        headers: this.authService.getAuthHeaders()
+      }).subscribe(() => {
+        this.showMessage('Patient supprimé');
         this.getAllPatients();
-        this.newPatient = { name: '', surname: '', phoneNumber: '', email: '', dateOfBirth: '', adresse: '' };
-      },
-      error => console.error('Erreur lors de l\'ajout', error)
-    );
+      });
+    }
   }
 
-  //  Sélectionner un patient pour mise à jour
-  selectPatient(patient: any) {
-    this.selectedPatient = { ...patient };
+  selectPatientForUpdate(patient: any): void {
+    this.selectedPatient = { ...patient }; // Pré-remplit le formulaire de modification
   }
 
-  //  Mettre à jour un patient
   updatePatient() {
     this.http.put(`http://localhost:8080/api/patients/${this.selectedPatient.id}`, this.selectedPatient, {
       headers: this.authService.getAuthHeaders()
-    }).subscribe(
-      () => {
-        this.message = 'Patient mis à jour avec succès';
-        this.getAllPatients();
-        this.selectedPatient = null;
-      },
-      error => console.error('Erreur lors de la mise à jour', error)
-    );
+    }).subscribe(() => {
+      this.showMessage('Patient mis à jour');
+      this.getAllPatients();
+      this.selectedPatient = null; // Réinitialise la sélection
+    });
   }
 
-  // Supprimer un patient
-  deletePatient(id: number) {
-    this.http.delete(`http://localhost:8080/api/patients/${id}`, {
-      headers: this.authService.getAuthHeaders()
-    }).subscribe(
-      () => {
-        this.message = 'Patient supprimé';
-        this.getAllPatients();
-      },
-      error => console.error('Erreur lors de la suppression', error)
-    );
+  changeVaccinationStatus(patient: any) {
+    patient.vaccinationStatus = patient.vaccinationStatus === 'Vacciné' ? 'Non Vacciné' : 'Vacciné';
+    this.updatePatient();
   }
 
-  //  Valider la vaccination d'un patient
-  validateVaccination(id: number) {
-    this.http.put(`http://localhost:8080/api/patients/${id}/validate`, {}, {
-      headers: this.authService.getAuthHeaders()
-    }).subscribe(
-      () => {
-        this.message = 'Vaccination validée avec succès';
-        this.getAllPatients();
-      },
-      error => console.error('Erreur lors de la validation', error)
-    );
+  showMessage(message: string) {
+    this.snackBar.open(message, 'Fermer', { duration: 3000 });
+  }
+
+  resetForm() {
+    this.newPatient = { name: '', surname: '', phoneNumber: '', email: '', dateOfBirth: '', adresse: '', centreId: '', vaccinationStatus: 'Non Vacciné' };
+    this.selectedPatient = null; // Réinitialise la sélection
   }
 }

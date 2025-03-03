@@ -15,7 +15,7 @@ import { PatientsComponent } from './patients/patients.component';
 
 export const routes: Routes = [
     // **Redirection par défaut vers la page de login**
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: '', redirectTo: '/accueil', pathMatch: 'full' },
 
     // **Routes accessibles à tous**
     { path: 'accueil', component: AccueilComponent },
@@ -56,5 +56,5 @@ export const routes: Routes = [
     },
 
     // **Gestion des erreurs - Redirection vers login en cas de mauvaise route**
-    { path: '**', redirectTo: '/login', pathMatch: 'full' }
+    { path: '**', redirectTo: '/accueil', pathMatch: 'full' }
 ];

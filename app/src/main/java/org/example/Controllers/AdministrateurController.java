@@ -1,5 +1,6 @@
 package org.example.Controllers;
 
+import org.example.Entities.Administrateur;
 import org.example.Entities.Role;
 import org.example.Entities.Utilisateur;
 import org.example.Repositories.UtilisateurRepository;
@@ -25,16 +26,29 @@ public class AdministrateurController {
 
     @GetMapping
     public List<Utilisateur> getAllAdministrateurs() {
-        return utilisateurRepository.findAll().stream()
-                .filter(user -> user.getRole().stream()
-                        .anyMatch(role -> role.getId() == 1)) //  Récupère les admins de centre uniquement
-                .toList();
+        List<Object[]> results = utilisateurRepository.findAdministrateursRaw();
+
+        List<Utilisateur> admins = results.stream().map(row -> {
+            Utilisateur admin = new Utilisateur();
+            admin.setId(((Number) row[0]).longValue());
+            admin.setName((String) row[1]);
+            admin.setEmail((String) row[2]);
+            return admin;
+        }).collect(Collectors.toList());
+
+        System.out.println("Nombre d'administrateurs trouvés : " + admins.size());
+        admins.forEach(admin -> 
+            System.out.println("Admin : " + admin.getName() + " - " + admin.getEmail())
+        );
+
+        return admins;
     }
 
+    
 
     @PostMapping
     public ResponseEntity<Utilisateur> createAdministrateur(@RequestBody Utilisateur utilisateur) {
-        Optional<Role> adminRole = roleRepository.findById(2L);
+        Optional<Role> adminRole = roleRepository.findById(1L);
         if (adminRole.isPresent()) {
             utilisateur.getRole().add(adminRole.get());
             Utilisateur savedUser = utilisateurRepository.save(utilisateur);
@@ -45,8 +59,24 @@ public class AdministrateurController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAdministrateur(@PathVariable Long id) {
-        if (utilisateurRepository.existsById(id)) {
-            utilisateurRepository.deleteById(id);
+        Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findById(id);
+
+        if (utilisateurOptional.isPresent()) {
+            Utilisateur utilisateur = utilisateurOptional.get();
+
+            // Supprimer toutes les relations avant suppression
+            utilisateur.removeRoles(); // Nettoie les rôles et utilisateurRoles
+            utilisateurRepository.save(utilisateur); // Sauvegarde les changements
+            
+            if (utilisateur instanceof Administrateur) {
+                Administrateur admin = (Administrateur) utilisateur;
+                admin.setCentre(null);
+                utilisateurRepository.save(admin);
+            }
+
+            // Supprimer l'utilisateur
+            utilisateurRepository.delete(utilisateur);
+
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
@@ -62,10 +92,13 @@ public class AdministrateurController {
             admin.setName(utilisateur.getName());
             admin.setEmail(utilisateur.getEmail());
 
-            //  Convertir la liste en Set pour correspondre à setRole(Set<Role>)
+            // Supprimer les anciens rôles pour éviter les doublons
+            admin.getRole().clear();
+
+            //Filtrer uniquement les rôles ADMIN_CENTRE
             Set<Role> adminRoles = utilisateur.getRole().stream()
-                    .filter(role -> role.getId() == 1) // On ne garde que ADMIN_CENTRE
-                    .collect(Collectors.toSet());  // 💡 Convertir en Set<Role>
+                    .filter(role -> role.getId() == 1) 
+                    .collect(Collectors.toSet());  
 
             admin.setRole(adminRoles);
 
@@ -73,5 +106,6 @@ public class AdministrateurController {
         }
         return ResponseEntity.notFound().build();
     }
+
 
 }

@@ -8,13 +8,12 @@ import { importProvidersFrom } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import * as fr from '@angular/common/locales/fr';
 
-registerLocaleData(fr.default);
+registerLocaleData(fr.default); // Assure-toi que cela est bien importé
 
 bootstrapApplication(AppComponent, {
-  ...appConfig, // Garde la configuration existante
+  ...appConfig,
   providers: [
-    provideAnimations(), // Ajoute les animations Angular Material
-    provideRouter(routes), // Configure le routeur Angular
-    ...(appConfig.providers || []) //  Garde les providers existants dans `appConfig`
+    provideAnimations(),
+    ...(appConfig.providers || [])
   ],
 }).catch((err) => console.error(err));

@@ -66,10 +66,10 @@ public class AuthController {
 
             System.out.println("Tentative de connexion pour : " + email);
 
-            Utilisateur user = utilisateurRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-
-            System.out.println("Mot de passe en base : " + user.getPassword());
+            Utilisateur user = utilisateurRepository.findByEmailWithRoles(email);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Identifiants incorrects"));
+            }
 
             // Comparaison correcte avec BCrypt
             if (!BCrypt.checkpw(password, user.getPassword())) {
@@ -77,11 +77,16 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Identifiants incorrects"));
             }
 
+            // Retrieve roles properly
+            List<String> roles = user.getUtilisateurRoles().stream()
+                .map(ur -> ur.getRole().getName())
+                .collect(Collectors.toList());
+
             String token = jwtUtils.generateToken(user);
 
             return ResponseEntity.ok(Map.of(
                 "token", token,
-                "roles", user.getRole().stream().map(Role::getName).collect(Collectors.toList()),
+                "roles", roles,
                 "user", user
             ));
         } catch (IllegalArgumentException e) {

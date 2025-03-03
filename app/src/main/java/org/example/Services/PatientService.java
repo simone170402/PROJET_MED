@@ -25,6 +25,10 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
+    public List<Patient> getPatientsByCentre(Long centreId) {
+        return patientRepository.findByCentreId(centreId);
+    }
+
     public Patient savePatient(Patient patient) {
         // Vérifier si un patient avec le même email existe
         Optional<Patient> existingPatientOpt = patientRepository.findByEmail(patient.getEmail());

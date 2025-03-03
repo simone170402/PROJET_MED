@@ -24,6 +24,11 @@ public class ReservationService {
             .orElseThrow(() -> new ReservationNotFoundException("Reservation with id " + id + " not found."));
     }
 
+    // Méthode pour récupérer les réservations par centre
+    public List<Reservation> getReservationsByCentre(Long centreId) {
+        return reservationRepository.findByCentreId(centreId);
+    }
+
     public List<Reservation> findAll() {
         return reservationRepository.findAll();
     }

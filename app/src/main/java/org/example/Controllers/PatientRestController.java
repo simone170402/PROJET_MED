@@ -38,6 +38,11 @@ public class PatientRestController {
         return patientService.findOneById(id);
     }
 
+    @GetMapping("/centre/{centreId}")
+    public List<Patient> getPatientsByCentre(@PathVariable Long centreId) {
+        return patientService.getPatientsByCentre(centreId);
+    }
+
     @PostMapping
     public Patient createPatient(@RequestBody Patient patient) {
         return patientService.savePatient(patient);

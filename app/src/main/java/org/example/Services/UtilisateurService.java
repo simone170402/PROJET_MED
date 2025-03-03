@@ -47,10 +47,15 @@ public class UtilisateurService {
         }
     
         Set<Role> roles = roleNames.stream()
-            .map(roleName -> roleRepository.findByName(roleName.toUpperCase())
-            .orElseThrow(() -> new RuntimeException("Erreur : Le rôle " + roleName + " n'existe pas.")))
-            .collect(Collectors.toSet());
-    
+        .map(roleName -> {
+            Optional<Role> roleOpt = roleRepository.findByName(roleName.toUpperCase());
+            if (roleOpt.isEmpty()) {
+                logger.error(" ERREUR : Le rôle '{}' n'existe pas en base !", roleName);
+            }
+            return roleOpt.orElseThrow(() -> new RuntimeException("Erreur : Le rôle " + roleName + " n'existe pas."));
+        })
+        .collect(Collectors.toSet());  
+        
         Utilisateur user = new Utilisateur();
         user.setName(name);
         user.setEmail(email);
@@ -67,27 +72,38 @@ public class UtilisateurService {
      */
     public ResponseEntity<?> authenticateUser(String email, String password) {
         logger.info("Tentative de connexion pour : {}", email);
-
-        Optional<Utilisateur> userOpt = utilisateurRepository.findByEmail(email);
-        if (userOpt.isEmpty()) {
+    
+        Utilisateur user = utilisateurRepository.findByEmailWithRoles(email);
+        if (user == null) {  
             logger.warn("Échec : Utilisateur introuvable !");
             return ResponseEntity.status(401).body(Map.of("error", "Identifiants incorrects"));
         }
-
-        Utilisateur user = userOpt.get();
-        String storedPassword = user.getPassword();
-        logger.info("Mot de passe en base : {}", storedPassword);
-
-        if (!passwordEncoder.matches(password, storedPassword)) {
+    
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             logger.warn("Mot de passe incorrect !");
             return ResponseEntity.status(401).body(Map.of("error", "Mot de passe incorrect"));
         }
-
-        List<String> roles = user.getRole().stream().map(Role::getName).collect(Collectors.toList());
+    
+        //  Récupération sécurisée des rôles
+        List<String> roles = (user.getUtilisateurRoles() != null) ? 
+            user.getUtilisateurRoles().stream()
+                .map(ur -> ur.getRole().getName())
+                .collect(Collectors.toList())
+            : new ArrayList<>();
+    
+        //  Vérifier que les rôles sont bien récupérés
+        logger.info("Utilisateur '{}' a les rôles suivants : {}", email, roles);
+    
         String token = jwtUtils.generateToken(user);
-
-        return ResponseEntity.ok(Map.of("token", token, "roles", roles, "user", user));
+    
+        return ResponseEntity.ok(Map.of(
+            "token", token,
+            "roles", roles,
+            "user", user
+        ));
     }
+    
+    
 
     /**
      * Vérifie et rehash les mots de passe si nécessaire

@@ -23,13 +23,16 @@ export class LoginComponent {
 
   login() {
     this.authService.login(this.email, this.password).subscribe(
-      response => {
-        localStorage.setItem('token', response.token);
-        this.router.navigate(['/accueil']);
-      },
-      error => {
-        console.error('Erreur de connexion', error);
-      }
+        response => {
+            localStorage.setItem('token', response.token);
+            // Récupérer le rôle et le stocker si nécessaire
+            const userRole = response.user.utilisateurRoles[0]?.role.name || "PATIENT"; // Assurez-vous que cela soit sécurisé
+            localStorage.setItem('userRole', userRole); // Optionnel : stockez le rôle dans le localStorage
+            this.router.navigate(['/accueil']);
+        },
+        error => {
+            console.error('Erreur de connexion', error);
+        }
     );
-  }
+}
 }

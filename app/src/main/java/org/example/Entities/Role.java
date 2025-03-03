@@ -1,14 +1,8 @@
 package org.example.Entities;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 
 import java.util.HashSet;
 import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 @Entity
 public class Role {
@@ -16,36 +10,18 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "role")
-    @JsonBackReference // Empêche la boucle infinie
-    private Set<Utilisateur> utilisateur = new HashSet<>();
+    @ManyToMany(mappedBy = "roles")
+    private Set<Utilisateur> utilisateurs = new HashSet<>();
+
     // Getters et Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Utilisateur> getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Set<Utilisateur> utilisateur) {
-        this.utilisateur = utilisateur;
-    }
+    public Set<Utilisateur> getUtilisateurs() { return utilisateurs; }
+    public void setUtilisateurs(Set<Utilisateur> utilisateurs) { this.utilisateurs = utilisateurs; }
 }
-

@@ -13,6 +13,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatFabButton } from '@angular/material/button';
+import {ChangeDetectionStrategy, signal} from '@angular/core';
 
 
 @Component({
@@ -29,7 +31,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatDialogModule,
     MatSnackBarModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatFabButton
   ],
   templateUrl: './superadmin.component.html',
   styleUrls: ['./superadmin.component.css']
@@ -43,7 +46,6 @@ export class SuperAdminComponent implements OnInit {
   newAdmin = { name: '', email: '', password: '', centreId: null };
   errorMessage: string = '';
   
-
   constructor(private http: HttpClient, private authService: AuthService, private snackBar: MatSnackBar) {}
   showMessage(message: string) {
     this.snackBar.open(message, 'Fermer', { duration: 3000 });

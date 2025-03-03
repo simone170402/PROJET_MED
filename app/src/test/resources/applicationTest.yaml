@@ -4,13 +4,16 @@ spring:
     driver-class-name: org.h2.Driver
     username: projetmed
     password: projetmed
+
   jpa:
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
+
   sql:
     init:
       mode: always
+
   server:
-    port: 8083
+    port: 8083  # Pour éviter les conflits avec l'environnement de prod
