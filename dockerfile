@@ -33,10 +33,16 @@ RUN npm cache clean --force
 #RUN npm uninstall typescript@5.3.3 --legacy-peer-deps
 
 # Installer typescript 5.4 avant npm install
-RUN npm install typescript@5.4.2 @fortawesome/fontawesome-free --legacy-peer-deps
+RUN npm cache clean --force
+RUN npm install --legacy-peer-deps @angular-devkit/build-angular
 
 # Installer les dépendances avec --legacy-peer-deps
 RUN npm install --legacy-peer-deps
+RUN npm install rimraf@latest --legacy-peer-deps
+RUN npm install glob@latest --legacy-peer-deps
+RUN npm uninstall critters --legacy-peer-deps
+RUN npm install beasties --legacy-peer-deps
+RUN npm install --save typescript@5.4.2 @fortawesome/fontawesome-free --legacy-peer-deps
 
 # Copier le reste des fichiers du frontend
 COPY Reservation-UI .
