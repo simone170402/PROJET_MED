@@ -9,6 +9,20 @@ Les utilisateurs peuvent se connecter et accéder à différentes ressources en 
 
 ---
 
+## Lancement du back-end
+
+- Dans un terminal, exécuter la commande suivante : 
+```bash
+git clone <URL_DU_REPO>
+```
+
+- Ouvrir pgAdmin
+- créer la base de données de l'application ("reservationVaccinationMain")
+- identifiez et arrêter le processus qui tourne sur le port 8080
+- dans le fichier application-prod.yaml, remplacer le `username` et `password` par les vôtres 
+- Utiliser l'extension "Spring Boot Dashboard" de votre IDE pour lancer le projet ou utiliser les commandes
+  `.\gradlew build` puis `.\gradlew bootRun`. 
+
 ##  **Utilisateurs et Rôles**
 Voici les comptes test pour l'authentification :
 
@@ -37,7 +51,7 @@ Dans les tests, utilisez `password123`, qui sera automatiquement comparé avec l
 - **Password:** `password123`
 6. Cliquer sur **Send**.
 
-#### **Réponse attendue (JSON)**
+### **Réponse attendue (JSON)**
 Si les identifiants sont corrects, vous recevrez :
 ```json
 {
@@ -95,34 +109,53 @@ Si les identifiants sont corrects, vous recevrez :
 }
 }
 ```
+# ReservationUI - Frontend
 
-#### **Dépendances essentielles**
+## Description
+ReservationUI est une application web permettant de gérer les réservations. Elle inclut des interfaces de connexion et un backend fonctionnel pour traiter les données.
+
+## Fonctionnalités
+- Interface utilisateur intuitive pour les réservations.
+- Authentification des utilisateurs.
+- Gestion des réservations via un backend fonctionnel.
+
+## Lancement du Frontend
+
+Dans un nouveau terminal, exécutez les commandes suivantes : 
+```bash
+cd Reservation-UI
+npm install --legacy-peer-deps
+
+```
+
+## **Dépendances essentielles**
+Dans le même terminal, exécutez les commandes suivantes : 
 
 ### Angular
 
 - **@angular/core**: ^18.2.0  
   ```bash
-  npm install @angular/core@^18.2.0
+  npm install @angular/core@^18.2.0 --legacy-peer-deps
   ```
 
 - **@angular/common**: ^18.2.0  
   ```bash
-  npm install @angular/common@^18.2.0
+  npm install @angular/common@^18.2.0 --legacy-peer-deps
   ```
 
 - **@angular/forms**: ^18.2.0  
   ```bash
-  npm install @angular/forms@^18.2.0
+  npm install @angular/forms@^18.2.0 --legacy-peer-deps
   ```
 
 - **@angular/router**: ^18.2.0  
   ```bash
-  npm install @angular/router@^18.2.0
+  npm install @angular/router@^18.2.0 --legacy-peer-deps
   ```
 
 - **@angular/material**: ^18.2.0  
   ```bash
-  npm install @angular/material@^18.2.0
+  npm install @angular/material@^18.2.0 --legacy-peer-deps
   ```
 
 ### Node.js
@@ -134,61 +167,49 @@ Si les identifiants sont corrects, vous recevrez :
 
 - **@fullcalendar/angular**: ^6.1.16  
   ```bash
-  npm install @fullcalendar/angular@^6.1.16
+  npm install @fullcalendar/angular@^6.1.16 --legacy-peer-deps
   ```
 
 - **@fullcalendar/core**: ^6.1.15  
   ```bash
-  npm install @fullcalendar/core@^6.1.15
+  npm install @fullcalendar/core@^6.1.15 --legacy-peer-deps
   ```
 
 - **@fullcalendar/daygrid**: ^6.1.15  
   ```bash
-  npm install @fullcalendar/daygrid@^6.1.15
+  npm install @fullcalendar/daygrid@^6.1.15 --legacy-peer-deps
   ```
 
 - **@fullcalendar/timegrid**: ^6.1.15  
   ```bash
-  npm install @fullcalendar/timegrid@^6.1.15
+  npm install @fullcalendar/timegrid@^6.1.15 --legacy-peer-deps
   ```
-# ReservationUI - Frontend
+  
+- **@fortawesome/fontawesome**
+  ```bash
+  npm install @fortawesome/fontawesome-free --save --legacy-peer-deps
+  ```
 
-## Description
-ReservationUI est une application web permettant de gérer les réservations. Elle inclut des interfaces de connexion et un backend fonctionnel pour traiter les données.
-
-## Fonctionnalités
-- Interface utilisateur intuitive pour les réservations.
-- Authentification des utilisateurs.
-- Gestion des réservations via un backend fonctionnel.
-
-#### Installation
-Clonez le projet et installez les dépendances nécessaires :
-```bash
-git clone <URL_DU_REPO>
-cd Reservation-UI
-npm install
-
-```
 ## Démarrage de l'application
 Pour démarrer l'application, exécutez :
 ```bash
 ng serve
 ```
 
-## Technologies utilisées
+# Technologies utilisées
 - **Frontend**: Angular, Angular Material, FullCalendar
 - **Backend**: java , springboot
 
-## Problèmes connus
+# Problèmes connus
 
-### 1. Problèmes d'affichage avec Angular Material
+## 1. Problèmes d'affichage avec Angular Material
 Il existe des problèmes d'affichage dans l'interface utilisateur lors de l'utilisation des composants Angular Material. Cela peut inclure des éléments qui ne s'affichent pas correctement, des styles qui ne s'appliquent pas ou des erreurs de mise en page. 
 
 
-### 2. Déconnexion de l'utilisateur lors des modifications côté front
+## 2. Déconnexion de l'utilisateur lors des modifications côté front
 Lorsqu'une modification est effectuée dans l'interface utilisateur, il arrive que l'utilisateur soit déconnecté de l'application. Cela nécessite un redémarrage du frontend pour rétablir l'accès à l'interface utilisateur. 
 
 
 
-### 3. Problèmes avec Jackson côté back
+## 3. Problèmes avec Jackson côté back
 Des problèmes ont été rencontrés en utilisant Jackson pour la sérialisation et la désérialisation des objets côté backend. Cela peut inclure des erreurs lors de la conversion des objets Java en JSON, ou vice versa. 
