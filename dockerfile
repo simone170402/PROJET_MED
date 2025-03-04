@@ -17,8 +17,8 @@ COPY app/src /app/src
 # Construire l'application backend
 RUN ./gradlew clean build
 
-# Utiliser une image de base pour la construction du frontend
-FROM node:18-slim AS frontend-build
+# Utiliser une image de base pour la construction du frontend avec la version spécifiée de Node.js
+FROM node:18.19-slim AS frontend-build
 
 # Définir le répertoire de travail pour le frontend
 WORKDIR /frontend
@@ -26,23 +26,30 @@ WORKDIR /frontend
 # Copier package.json et package-lock.json d'abord
 COPY Reservation-UI/package*.json ./
 
-#d'abord, nettoyons le cache 
+# Nettoyer le cache npm
 RUN npm cache clean --force
-#RUN npm install --legacy-peer-deps @angular-devkit/build-angular
 
-# Installer les dépendances avec --legacy-peer-deps
-RUN npm install --legacy-peer-deps
-# RUN npm install rimraf@latest --legacy-peer-deps
-# RUN npm install glob@latest --legacy-peer-deps
-# RUN npm uninstall critters --legacy-peer-deps
-# RUN npm install beasties --legacy-peer-deps
-RUN npm install --save typescript@5.4.2 @fortawesome/fontawesome-free --legacy-peer-deps
+# Installer les dépendances Angular spécifiées dans le README
+RUN npm install --legacy-peer-deps \
+    @angular/core@^18.2.0 \
+    @angular/common@^18.2.0 \
+    @angular/forms@^18.2.0 \
+    @angular/router@^18.2.0 \
+    @angular/material@^18.2.0 \
+    @fullcalendar/angular@^6.1.16 \
+    @fullcalendar/core@^6.1.15 \
+    @fullcalendar/daygrid@^6.1.15 \
+    @fullcalendar/timegrid@^6.1.15 \
+    @fortawesome/fontawesome-free \
+    typescript@5.4.2
+
+
 
 # Copier le reste des fichiers du frontend
 COPY Reservation-UI .
 
 # Construire l'application frontend
-RUN npm run build --configuration=development
+RUN npm run build --configuration=production
 
 # Utiliser une image de base plus légère pour l'exécution
 FROM eclipse-temurin:21-jre
@@ -56,9 +63,8 @@ COPY --from=backend-build /app/build/libs/*.jar app.jar
 # Copier les fichiers construits du frontend
 COPY --from=frontend-build /frontend/dist/reservation-ui /app/public
 
-# Exposer les ports pour le backend et le frontend
+# Exposer le port pour l'API backend et le frontend
 EXPOSE 8080
 EXPOSE 4200
-
 # Définir la commande pour exécuter l'application
 ENTRYPOINT ["java", "-jar", "app.jar"]
